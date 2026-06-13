@@ -1,5 +1,5 @@
 <div class="comment" id="comment-{{ row.comment.pk }}">
-  <div class="comment-meta"><span class="author">{{ row.comment.author }}</span> · {{ row.comment.created_at|date:"M j, Y" }}</div>
+  <div class="comment-meta"><span class="author"><a href="{% url 'profile' row.comment.author.username %}">{{ row.comment.author }}</a></span> · {{ row.comment.created_at|date:"M j, Y" }}</div>
   <div class="comment-body">{{ row.comment.body|linebreaks }}</div>
   {% if row.comment.video_url %}<p class="video-link"><a href="{{ row.comment.video_url }}" target="_blank" rel="noopener">▶ video</a></p>{% endif %}
   <div class="engage">

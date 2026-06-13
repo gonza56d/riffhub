@@ -8,7 +8,7 @@ require it, so we log the user in immediately on sign-up.
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import get_user_model, login
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -16,6 +16,9 @@ from django.views.decorators.http import require_POST
 
 from accounts.forms import SignUpForm
 from accounts.models import EmailConfirmation
+from catalog.models import GuitarModel
+from forum.models import Comment, Post
+from moderation.models import Silence
 
 AUTH_BACKEND = "django.contrib.auth.backends.ModelBackend"
 
@@ -85,3 +88,39 @@ def resend_confirmation(request):
         else:
             messages.success(request, "Confirmation e-mail re-sent.")
     return redirect(request.META.get("HTTP_REFERER") or "forum:index")
+
+
+def profile(request, username):
+    """Public profile: standing (level, reputation, role badges), the public
+    silence flag (if any), and recent DB contributions + forum activity."""
+    profile_user = get_object_or_404(get_user_model(), username=username)
+    posts = (
+        Post.objects.filter(author=profile_user, is_removed=False)
+        .select_related("subtopic__topic")
+        .order_by("-created_at")[:10]
+    )
+    guitars = (
+        GuitarModel.objects.published()
+        .filter(submitted_by=profile_user)
+        .select_related("brand")
+        .order_by("-published_at")[:10]
+    )
+    return render(
+        request,
+        "accounts/profile.html",
+        {
+            "profile_user": profile_user,
+            "level": profile_user.level,
+            "posts": posts,
+            "post_count": Post.objects.filter(author=profile_user, is_removed=False).count(),
+            "comment_count": Comment.objects.filter(
+                author=profile_user, is_removed=False
+            ).count(),
+            "guitars": guitars,
+            "public_silence": Silence.objects.filter(
+                target=profile_user, is_public_flag=True
+            ).first(),
+            "is_self": request.user.is_authenticated
+            and request.user.pk == profile_user.pk,
+        },
+    )

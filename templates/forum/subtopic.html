@@ -44,7 +44,7 @@
   <li class="post-row">
     <a class="post-link" href="{% url 'forum:post' post.pk %}">{{ post.title }}</a>
     <div class="post-row-meta">
-      by {{ post.author }} · {{ post.created_at|date:"M j, Y" }} ·
+      by <a href="{% url 'profile' post.author.username %}">{{ post.author }}</a> · {{ post.created_at|date:"M j, Y" }} ·
       {{ post.num_comments }} comment{{ post.num_comments|pluralize }}
       {% if is_market %} · <span class="price">{{ post.price }} {{ post.currency }}</span>{% endif %}
     </div>

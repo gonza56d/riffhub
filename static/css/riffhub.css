@@ -425,3 +425,27 @@ button.vote:hover { border-color: var(--walnut); }
 .mod-entry { padding: 8px 0; border-top: 1px solid var(--rule-2); }
 .mod-entry:first-child { border-top: 0; }
 @media (max-width: 800px) { .mod-grid { grid-template-columns: 1fr; } }
+
+/* --- User profile ---------------------------------------------------------*/
+.profile-head { border-bottom: 2px solid var(--walnut); padding-bottom: 14px; margin: 20px 0 18px; }
+.profile-head h1 { margin: 0 0 8px; color: var(--walnut); }
+.profile-head .you { font-size: 1rem; color: var(--ink-soft); font-family: var(--body); }
+.profile-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+.chip.level { background: var(--walnut); color: var(--paper); border-color: var(--walnut); }
+.chip.role { background: var(--amber); color: var(--paper); border-color: var(--amber-2); }
+.chip.role.founder { background: var(--amber-2); }
+.profile-flag {
+  background: #f4d9d2; border: 1px solid #a3331f; color: #7a2417;
+  border-radius: var(--radius); padding: 10px 14px; margin-bottom: 16px; font-weight: bold;
+}
+.profile-stats { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 20px; }
+.stat {
+  background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 12px 18px; text-align: center; min-width: 96px;
+}
+.stat .num { display: block; font-family: var(--slab); font-size: 1.6rem; color: var(--walnut); }
+.stat .lbl { font-size: .78rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .05em; }
+.profile-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding-bottom: 60px; }
+.profile-row { padding: 6px 0; border-top: 1px solid var(--rule-2); }
+.profile-row:first-child { border-top: 0; }
+@media (max-width: 800px) { .profile-cols { grid-template-columns: 1fr; } }

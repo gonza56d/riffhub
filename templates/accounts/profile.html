@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ profile_user.username }} · riffhub{% endblock %}
+
+{% block content %}
+<section class="profile">
+  <div class="profile-head">
+    <h1>{{ profile_user.username }}{% if is_self %} <span class="you">(you)</span>{% endif %}</h1>
+    <div class="profile-badges">
+      <span class="chip level">{{ level.label }}</span>
+      {% if profile_user.is_riffhub_creator %}<span class="chip role">Riffhub Creator</span>{% endif %}
+      {% if profile_user.is_community_moderator %}<span class="chip role">Community Moderator</span>{% endif %}
+      {% if profile_user.is_founder %}<span class="chip role founder">Community Founder</span>{% endif %}
+    </div>
+    <p class="muted">Joined {{ profile_user.date_joined|date:"M Y" }}</p>
+  </div>
+
+  {% if public_silence %}
+  <div class="profile-flag">⛔ This user is permanently silenced and can no longer post, comment, or send DMs.</div>
+  {% endif %}
+  {% if not profile_user.is_active %}
+  <div class="profile-flag">This account is banned.</div>
+  {% endif %}
+
+  <div class="profile-stats">
+    <div class="stat"><span class="num">{{ profile_user.reputation_score }}</span><span class="lbl">reputation</span></div>
+    <div class="stat"><span class="num">{{ profile_user.accepted_submissions_count }}</span><span class="lbl">contributions</span></div>
+    <div class="stat"><span class="num">{{ post_count }}</span><span class="lbl">posts</span></div>
+    <div class="stat"><span class="num">{{ comment_count }}</span><span class="lbl">comments</span></div>
+  </div>
+
+  <div class="profile-cols">
+    <section class="panel">
+      <h2>Contributions to the database</h2>
+      {% for g in guitars %}
+      <div class="profile-row"><a href="{% url 'catalog:detail' g.pk %}">{{ g.brand }} {{ g.name }}</a></div>
+      {% empty %}<p class="muted">No published guitar contributions yet.</p>{% endfor %}
+    </section>
+    <section class="panel">
+      <h2>Recent forum posts</h2>
+      {% for p in posts %}
+      <div class="profile-row"><a href="{% url 'forum:post' p.pk %}">{{ p.title }}</a> <span class="muted">in {{ p.subtopic.topic.name }} / {{ p.subtopic.name }}</span></div>
+      {% empty %}<p class="muted">No posts yet.</p>{% endfor %}
+    </section>
+  </div>
+</section>
+{% endblock %}
