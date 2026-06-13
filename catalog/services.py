@@ -11,6 +11,7 @@ from django.utils import timezone
 from accounts.models import Level
 from accounts.services import recompute_standing
 from catalog.constants import REP_ACCEPTED_SUBMISSION, PublicationStatus, VoteValue
+from catalog.models import Brand, Bridge, GuitarModel, Nut, Pickup, Tuner
 from catalog.models.review import ReviewVote
 from core.models import SiteConfiguration
 
@@ -88,6 +89,30 @@ def evaluate_submission(entry) -> bool:
     # score can still recover. Explicit rejection goes through
     # ``reject_submission`` (e.g. a moderator, or a strong negative consensus).
     return False
+
+
+def sweep_pending_submissions() -> dict:
+    """Re-evaluate every UNDER_REVISION entry across all collab-db types.
+
+    Intended for a scheduled task: walks the six catalog types (``Brand``,
+    ``Bridge``, ``Pickup``, ``Tuner``, ``Nut``, ``GuitarModel``), and runs
+    :func:`evaluate_submission` on each entry still awaiting review. Each call
+    is wrapped in its own ``try/except`` so one bad entry can't abort the sweep.
+
+    Returns a tally ``{"evaluated": n, "published": p}`` where ``published``
+    counts the entries :func:`evaluate_submission` cleared this run.
+    """
+    evaluated = published = 0
+    for model in (Brand, Bridge, Pickup, Tuner, Nut, GuitarModel):
+        for entry in model.objects.under_revision():
+            evaluated += 1
+            try:
+                if evaluate_submission(entry):
+                    published += 1
+            except Exception:
+                continue
+
+    return {"evaluated": evaluated, "published": published}
 
 
 def reject_submission(entry, *, by=None) -> None:

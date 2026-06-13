@@ -134,7 +134,7 @@ Free speech is the default (rudeness/insults aren't moderated); these tools targ
 
 ## Still to build / nice-to-have
 
-All six core domains (catalog, collab workflow, accounts/levels, forum, moderation), their UIs, **user profile pages**, the **Creator topic/subtopic management UI** (`/forum/manage/`), and **direct messages** (`messaging` app, `/messages/` — canonical 1:1 conversations, unread badges via a context processor, silenced/banned users blocked from sending, "Send a message" from profiles) are built and verified. The only remaining spec nice-to-have is **scheduling** the proposal/submission evaluation (currently per-vote / on demand). Moderation of DM content (a report flow) is a possible future add.
+All six core domains (catalog, collab workflow, accounts/levels, forum, moderation), their UIs, **user profile pages**, the **Creator topic/subtopic management UI** (`/forum/manage/`), and **direct messages** (`messaging` app, `/messages/` — canonical 1:1 conversations, unread badges via a context processor, silenced/banned users blocked from sending, "Send a message" from profiles) are built and verified. **Scheduled evaluation** is now in too: `forum.services.sweep_due_proposals()` + `catalog.services.sweep_pending_submissions()`, driven by a `evaluate_pending` management command and an opt-in `scheduler` Compose service (`docker compose --profile scheduler up`, interval `EVAL_INTERVAL_SECONDS`, default hourly) that resolves proposals whose voting window has closed and publishes submissions that have cleared the bar. Every spec feature and nice-to-have is built; the only open idea left is moderation of DM content (a report flow).
 
 ## Direct messages (`messaging`)
 

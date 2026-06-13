@@ -444,3 +444,38 @@ def _materialise_proposal(proposal) -> None:
             topic=proposal.parent_topic,
             name=proposal.proposed_name,
         )
+
+
+def sweep_due_proposals() -> dict:
+    """Evaluate every OPEN proposal whose voting window has elapsed.
+
+    Intended for a scheduled task: finds all ``TopicProposal`` and
+    ``SubtopicProposal`` rows that are still ``OPEN`` but whose ``closes_at`` is
+    now in the past, and runs :func:`evaluate_proposal` on each. Each call is
+    wrapped in its own ``try/except`` so one malformed proposal can't abort the
+    rest of the sweep.
+
+    Returns a tally ``{"evaluated": n, "accepted": a, "rejected": r}`` where the
+    accepted/rejected counts reflect each proposal's status *after* evaluation.
+    """
+    now = timezone.now()
+    due = [
+        *TopicProposal.objects.filter(status=ProposalStatus.OPEN, closes_at__lte=now),
+        *SubtopicProposal.objects.filter(
+            status=ProposalStatus.OPEN, closes_at__lte=now
+        ),
+    ]
+
+    evaluated = accepted = rejected = 0
+    for proposal in due:
+        evaluated += 1
+        try:
+            evaluate_proposal(proposal)
+        except Exception:
+            continue
+        if proposal.status == ProposalStatus.ACCEPTED:
+            accepted += 1
+        elif proposal.status == ProposalStatus.REJECTED:
+            rejected += 1
+
+    return {"evaluated": evaluated, "accepted": accepted, "rejected": rejected}
