@@ -10,9 +10,15 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db.models import Q
 from django.utils import timezone
 
+from accounts.models import Level
 from moderation.services import can_participate
 
-from messaging.models import Conversation, DirectMessage
+from messaging.models import (
+    Conversation,
+    DirectMessage,
+    DirectMessageReport,
+    ReportStatus,
+)
 
 
 def get_conversation(a, b) -> Conversation:
@@ -103,3 +109,71 @@ def inbox_rows(user) -> list[dict]:
             }
         )
     return rows
+
+
+def report_message(reporter, message, reason) -> DirectMessageReport:
+    """File a report flagging ``message`` for moderator review.
+
+    Only a participant in the message's conversation may report, and never
+    their own message. Reporting the same message twice while a prior report is
+    still ``OPEN`` is a no-op that returns the existing report.
+
+    Raises ``PermissionDenied`` if ``reporter`` is not a participant or is the
+    sender, and ``ValidationError`` if ``reason`` is blank/whitespace-only.
+    """
+    if not message.conversation.involves(reporter) or reporter == message.sender:
+        raise PermissionDenied("You can't report this message.")
+    if not (reason or "").strip():
+        raise ValidationError("A report needs a reason.")
+
+    existing = DirectMessageReport.objects.filter(
+        reporter=reporter,
+        message=message,
+        status=ReportStatus.OPEN,
+    ).first()
+    if existing is not None:
+        return existing
+
+    return DirectMessageReport.objects.create(
+        reporter=reporter,
+        message=message,
+        reason=reason,
+        status=ReportStatus.OPEN,
+    )
+
+
+def open_reports():
+    """Return all unresolved reports (newest first) for the moderation queue."""
+    return DirectMessageReport.objects.filter(
+        status=ReportStatus.OPEN
+    ).select_related(
+        "message__sender", "message__conversation", "reporter"
+    ).order_by("-created_at")
+
+
+def _require_moderator(user) -> None:
+    """Raise ``PermissionDenied`` unless ``user`` is at least a moderator."""
+    if not (
+        getattr(user, "is_authenticated", False)
+        and user.is_at_least(Level.MODERATOR)
+    ):
+        raise PermissionDenied("Moderator privileges are required.")
+
+
+def dismiss_report(moderator, report) -> None:
+    """Close ``report`` as dismissed, recording who handled it and when."""
+    _require_moderator(moderator)
+    report.status = ReportStatus.DISMISSED
+    report.handled_by = moderator
+    report.handled_at = timezone.now()
+    report.save(update_fields=["status", "handled_by", "handled_at", "updated_at"])
+
+
+def remove_reported_message(moderator, report, reason="") -> None:
+    """Soft-remove the reported message and mark ``report`` as actioned."""
+    _require_moderator(moderator)
+    report.message.mark_removed(by=moderator, reason=reason)
+    report.status = ReportStatus.ACTIONED
+    report.handled_by = moderator
+    report.handled_at = timezone.now()
+    report.save(update_fields=["status", "handled_by", "handled_at", "updated_at"])

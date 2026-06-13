@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from messaging.models import Conversation, DirectMessage
+from messaging.models import Conversation, DirectMessage, DirectMessageReport
 
 
 @admin.register(Conversation)
@@ -18,3 +18,11 @@ class DirectMessageAdmin(admin.ModelAdmin):
     raw_id_fields = ["conversation", "sender"]
     readonly_fields = ["created_at", "updated_at"]
     search_fields = ["sender__username", "body"]
+
+
+@admin.register(DirectMessageReport)
+class DirectMessageReportAdmin(admin.ModelAdmin):
+    list_display = ["reporter", "message", "status", "handled_by", "created_at"]
+    list_filter = ["status"]
+    raw_id_fields = ["reporter", "message", "handled_by"]
+    readonly_fields = ["created_at", "updated_at"]

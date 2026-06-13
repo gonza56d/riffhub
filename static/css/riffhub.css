@@ -530,3 +530,51 @@ button.vote:hover { border-color: var(--walnut); }
 /* Profile message button */
 .profile-actions { margin: 12px 0 0; }
 .profile-actions .btn-primary { display: inline-block; }
+
+/* --- DM reporting & moderation -------------------------------------------*/
+/* Per-message report affordance */
+.dm-report { display: block; margin-top: 4px; }
+.dm-report-link {
+  background: none; border: 0; cursor: pointer; padding: 0;
+  font-family: var(--slab); font-size: .74rem; color: var(--ink-soft);
+}
+.dm-report-link:hover { color: #a3331f; }
+.dm-report-form { display: inline-flex; gap: 6px; align-items: center; margin-top: 6px; }
+.dm-report-form input[type=text] {
+  font-family: var(--body); font-size: .85rem; padding: 3px 7px;
+  background: var(--paper-3); border: 1px solid var(--rule); border-radius: 5px;
+}
+.dm-report-form button.danger {
+  font-family: var(--slab); cursor: pointer; background: #a3331f; color: var(--paper);
+  border: 0; border-radius: 5px; padding: 4px 10px; font-size: .8rem;
+}
+
+/* Reported confirmation chip */
+.dm-reported { display: inline-block; margin-top: 4px; font-size: .74rem; color: var(--good); font-style: italic; }
+
+/* Removed message bubble */
+.dm-msg.removed {
+  justify-self: start; max-width: 72%; color: var(--ink-soft);
+  background: var(--paper-2); border: 1px dashed var(--rule); border-left: 3px solid #a3331f;
+}
+
+/* Moderation dashboard → DM reports link */
+.mod-queue-link { margin: 8px 0 0; }
+.mod-queue-link a { font-family: var(--slab); color: var(--amber-2); }
+.mod-queue-link a:hover { color: var(--amber); }
+
+/* DM reports queue rows */
+.dm-report-row { padding: 14px 0; }
+.dm-report-body {
+  margin: 0 0 8px; padding: 10px 14px; background: var(--paper-3);
+  border: 1px solid var(--rule); border-left: 3px solid var(--amber);
+  border-radius: var(--radius); line-height: 1.6; color: var(--ink);
+}
+.dm-report-meta { font-style: normal; font-size: .85rem; margin-bottom: 6px; }
+.dm-report-reason { font-size: .92rem; margin-bottom: 10px; }
+.dm-report-reason strong { color: var(--walnut); }
+.dm-report-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.dm-report-actions input[type=text] {
+  font-family: var(--body); font-size: .85rem; padding: 3px 7px;
+  background: var(--paper-3); border: 1px solid var(--rule); border-radius: 5px;
+}

@@ -9,13 +9,16 @@ auth, and choose what HTML (or status) to return.
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
+from accounts.models import Level
 from moderation.services import can_participate
 
+from messaging import services
+from messaging.models import DirectMessage, DirectMessageReport
 from messaging.services import (
     get_conversation,
     inbox_rows,
@@ -66,3 +69,45 @@ def send(request, username):
     except ValidationError:
         return HttpResponse(status=400)
     return render(request, "messaging/_message.html", {"message": message})
+
+
+@login_required
+@require_POST
+def report(request, message_id):
+    message = get_object_or_404(DirectMessage, pk=message_id)
+    reason = request.POST.get("reason", "")
+    try:
+        services.report_message(request.user, message, reason)
+    except PermissionDenied:
+        return HttpResponse(status=403)
+    except ValidationError:
+        return HttpResponse(status=400)
+    return render(request, "messaging/_reported.html", {})
+
+
+@login_required
+def reports(request):
+    if not request.user.is_at_least(Level.MODERATOR):
+        return HttpResponseForbidden()
+    return render(
+        request,
+        "messaging/reports.html",
+        {"reports": services.open_reports()},
+    )
+
+
+@login_required
+@require_POST
+def resolve_report(request, report_id, action):
+    if not request.user.is_at_least(Level.MODERATOR):
+        return HttpResponseForbidden()
+    report = get_object_or_404(DirectMessageReport, pk=report_id)
+    if action == "dismiss":
+        services.dismiss_report(request.user, report)
+    elif action == "remove":
+        services.remove_reported_message(
+            request.user, report, request.POST.get("reason", "")
+        )
+    else:
+        raise Http404
+    return redirect("messaging:reports")

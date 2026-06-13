@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}DM reports · riffhub{% endblock %}
+
+{% block content %}
+<div class="forum-head">
+  <h1>🚩 DM reports</h1>
+  <p class="lede">Reported direct messages awaiting review. Moderators may read reported DM content as a privacy exception. Warn, silence, or ban a sender from their profile.</p>
+</div>
+
+<section class="panel">
+  {% for report in reports %}
+  <div class="mod-entry dm-report-row">
+    <blockquote class="dm-report-body">{{ report.message.body|linebreaksbr }}</blockquote>
+    <div class="muted dm-report-meta">
+      from <a href="{% url 'profile' report.message.sender.username %}">{{ report.message.sender.username }}</a>
+      · reported by {{ report.reporter.username }}
+      · {{ report.handled_at|default:report.message.created_at|date:"M j, Y, g:i a" }}
+    </div>
+    <div class="dm-report-reason"><strong>Reason:</strong> {{ report.reason }}</div>
+    <div class="dm-report-actions">
+      <form class="mod-inline" method="post" action="{% url 'messaging:resolve_report' report.pk 'dismiss' %}">{% csrf_token %}<button type="submit" class="link-btn">dismiss</button></form>
+      <form class="mod-inline" method="post" action="{% url 'messaging:resolve_report' report.pk 'remove' %}">{% csrf_token %}<input type="text" name="reason" placeholder="removal reason"><button type="submit" class="danger">remove message</button></form>
+    </div>
+  </div>
+  {% empty %}
+  <p class="muted">No open reports.</p>
+  {% endfor %}
+</section>
+{% endblock %}

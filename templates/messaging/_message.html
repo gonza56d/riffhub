@@ -1,4 +1,19 @@
+{% if message.is_removed %}
+<div class="dm-msg removed"><em>[removed by a moderator]</em></div>
+{% else %}
 <div class="dm-msg {% if message.sender == user %}own{% else %}other{% endif %}">
   <div class="dm-msg-body">{{ message.body|linebreaksbr }}</div>
   <div class="dm-msg-time">{{ message.created_at|date:"M j, g:i a" }}</div>
+  {% if message.sender != user %}
+  <span class="dm-report" x-data="{ open: false }">
+    <button type="button" class="dm-report-link" @click="open = !open">report</button>
+    <form class="dm-report-form" x-show="open" x-cloak
+          hx-post="{% url 'messaging:report' message.pk %}"
+          hx-target="closest .dm-report" hx-swap="outerHTML">
+      <input type="text" name="reason" placeholder="reason" required>
+      <button type="submit" class="danger">report</button>
+    </form>
+  </span>
+  {% endif %}
 </div>
+{% endif %}

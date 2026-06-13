@@ -10,7 +10,7 @@ the larger — so ``(a, b)`` and ``(b, a)`` resolve to the same conversation.
 from django.conf import settings
 from django.db import models
 
-from core.models import TimeStampedModel
+from core.models import Moderatable, TimeStampedModel
 
 
 class Conversation(TimeStampedModel):
@@ -59,8 +59,13 @@ class Conversation(TimeStampedModel):
         return user.pk in (self.user_low_id, self.user_high_id)
 
 
-class DirectMessage(TimeStampedModel):
-    """A single message posted into a conversation by one of its participants."""
+class DirectMessage(TimeStampedModel, Moderatable):
+    """A single message posted into a conversation by one of its participants.
+
+    Inherits :class:`~core.models.Moderatable` so a moderator can soft-remove a
+    reported message (hidden from the thread but kept, with who/why/when, for an
+    auditable and reversible action).
+    """
 
     conversation = models.ForeignKey(
         Conversation,
@@ -80,3 +85,50 @@ class DirectMessage(TimeStampedModel):
 
     def __str__(self) -> str:
         return f"Message from {self.sender} in conversation #{self.conversation_id}"
+
+
+class ReportStatus(models.TextChoices):
+    """Lifecycle of a direct-message report as a moderator handles it."""
+
+    OPEN = "open", "Open"
+    DISMISSED = "dismissed", "Dismissed"
+    ACTIONED = "actioned", "Actioned"
+
+
+class DirectMessageReport(TimeStampedModel):
+    """A user's report flagging a direct message for moderator review."""
+
+    reporter = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="dm_reports",
+    )
+    message = models.ForeignKey(
+        "messaging.DirectMessage",
+        on_delete=models.CASCADE,
+        related_name="reports",
+    )
+    reason = models.TextField()
+    status = models.CharField(
+        max_length=20,
+        choices=ReportStatus.choices,
+        default=ReportStatus.OPEN,
+        db_index=True,
+    )
+    handled_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+    handled_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:
+        return (
+            f"Report by {self.reporter} on message #{self.message_id} "
+            f"({self.get_status_display()})"
+        )
