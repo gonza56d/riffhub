@@ -6,4 +6,10 @@
     {% include "forum/_vote.html" with v=row.vote %}
     {% include "forum/_reactions.html" with r=row.react %}
   </div>
+  {% if row.comment.is_removed %}
+  <p class="removed-badge">[removed by moderator]{% if is_moderator %}
+    <form class="mod-inline" method="post" action="{% url 'moderation:restore_content' 'comment' row.comment.pk %}">{% csrf_token %}<button class="link-btn">restore</button></form>{% endif %}</p>
+  {% elif is_moderator %}
+  <form class="mod-inline" method="post" action="{% url 'moderation:remove_content' 'comment' row.comment.pk %}">{% csrf_token %}<input type="text" name="reason" placeholder="reason"><button class="danger">remove</button></form>
+  {% endif %}
 </div>

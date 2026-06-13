@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
-from core.models import TimeStampedModel
+from core.models import Moderatable, TimeStampedModel
 
 from forum.constants import CURRENCY_MAX_LENGTH
 
@@ -73,7 +73,7 @@ class Subtopic(models.Model):
         super().save(*args, **kwargs)
 
 
-class Post(TimeStampedModel):
+class Post(TimeStampedModel, Moderatable):
     """A thread inside a subtopic: has a title and a body.
 
     In the Gear Market a post is a listing, so ``price``/``currency`` are
@@ -131,7 +131,7 @@ class Post(TimeStampedModel):
             )
 
 
-class Comment(TimeStampedModel):
+class Comment(TimeStampedModel, Moderatable):
     """A reply on a :class:`Post`. Body only — no title, no price.
 
     Lowball offers in the Gear Market are just regular comments (PRODUCT.md).

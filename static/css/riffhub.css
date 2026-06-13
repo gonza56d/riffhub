@@ -401,3 +401,27 @@ button.vote:hover { border-color: var(--walnut); }
   font-family: var(--slab); font-size: .85rem; cursor: pointer;
   background: var(--walnut); color: var(--paper); border: 0; border-radius: 5px; padding: 5px 12px;
 }
+
+/* --- Moderation -----------------------------------------------------------*/
+.mod-panel { border-left: 4px solid #a3331f; }
+.mod-panel h2 { color: #a3331f; }
+.mod-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
+.mod-row form, .mod-user form { display: inline-flex; gap: 6px; align-items: center; margin: 0; }
+.mod-user { border-top: 1px solid var(--rule-2); padding-top: 10px; margin-top: 10px; }
+.mod-panel input[type=text], .mod-panel select {
+  font-family: var(--body); padding: 5px 8px; background: var(--paper-3);
+  border: 1px solid var(--rule); border-radius: 5px;
+}
+.mod-panel button, .mod-inline button {
+  font-family: var(--slab); cursor: pointer; background: var(--walnut); color: var(--paper);
+  border: 0; border-radius: 5px; padding: 5px 11px; font-size: .85rem;
+}
+.mod-panel button.danger, .mod-inline button.danger { background: #a3331f; }
+.mod-inline { display: inline-flex; gap: 6px; align-items: center; margin: 6px 0 0; }
+.mod-inline input[type=text] { padding: 3px 7px; background: var(--paper-3); border: 1px solid var(--rule); border-radius: 5px; }
+.link-btn { background: none; border: 0; color: var(--amber-2); cursor: pointer; padding: 0; font-family: var(--slab); }
+.removed-badge { color: #a3331f; font-style: italic; font-size: .85rem; }
+.mod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.mod-entry { padding: 8px 0; border-top: 1px solid var(--rule-2); }
+.mod-entry:first-child { border-top: 0; }
+@media (max-width: 800px) { .mod-grid { grid-template-columns: 1fr; } }

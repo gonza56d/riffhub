@@ -21,6 +21,34 @@
   </div>
 </article>
 
+{% if is_moderator %}
+<section class="panel mod-panel">
+  <h2>🛡 Moderation</h2>
+  {% if post.is_removed %}
+    <p class="muted">This post is removed{% if post.removal_reason %} — “{{ post.removal_reason }}”{% endif %}.</p>
+    <form method="post" action="{% url 'moderation:restore_content' 'post' post.pk %}">{% csrf_token %}<button class="btn-primary">Restore post</button></form>
+  {% else %}
+    <form class="mod-row" method="post" action="{% url 'moderation:move_post' post.pk %}">{% csrf_token %}
+      <label>Move to
+        <select name="subtopic">{% for s in move_targets %}<option value="{{ s.pk }}">{{ s.topic.name }} / {{ s.name }}</option>{% endfor %}</select>
+      </label>
+      <input type="text" name="reason" placeholder="reason (optional)">
+      <button>Move</button>
+    </form>
+    <form class="mod-row" method="post" action="{% url 'moderation:remove_content' 'post' post.pk %}">{% csrf_token %}
+      <input type="text" name="reason" placeholder="reason">
+      <button class="danger">Remove post</button>
+    </form>
+  {% endif %}
+  <div class="mod-row mod-user">
+    <span>Author <strong>{{ post.author }}</strong>:</span>
+    <form method="post" action="{% url 'moderation:warn_user' post.author.pk %}">{% csrf_token %}<input type="text" name="reason" placeholder="reason"><button>Warn</button></form>
+    <form method="post" action="{% url 'moderation:silence_user' post.author.pk %}">{% csrf_token %}<input type="text" name="reason" placeholder="reason"><button>Silence</button></form>
+    <form method="post" action="{% url 'moderation:ban_user' post.author.pk %}">{% csrf_token %}<input type="text" name="reason" placeholder="reason"><button class="danger">Ban</button></form>
+  </div>
+</section>
+{% endif %}
+
 <section class="comments-section">
   <h2>{{ comment_rows|length }} comment{{ comment_rows|length|pluralize }}</h2>
   <div id="comments">

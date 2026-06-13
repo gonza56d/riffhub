@@ -15,6 +15,8 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
+from accounts.models import Level
+
 from forum import services
 from forum.constants import DEFAULT_CURRENCY, MARKET_DISCLAIMER_TEXT, VoteValue
 from forum.models import Attachment, Comment, Post, Reaction, Subtopic, Topic, Vote
@@ -92,7 +94,8 @@ def index(request):
 def subtopic_detail(request, pk):
     subtopic = get_object_or_404(Subtopic.objects.select_related("topic"), pk=pk)
     posts = (
-        subtopic.posts.select_related("author")
+        subtopic.posts.filter(is_removed=False)
+        .select_related("author")
         .annotate(num_comments=Count("comments"))
     )
     disclaimer_ok = request.user.is_authenticated and services.has_accepted_market_disclaimer(
@@ -117,10 +120,13 @@ def post_detail(request, pk):
     post = get_object_or_404(
         Post.objects.select_related("author", "subtopic__topic"), pk=pk
     )
-    comment_rows = [
-        _comment_row(c, request.user)
-        for c in post.comments.select_related("author")
-    ]
+    is_mod = request.user.is_authenticated and request.user.is_at_least(Level.MODERATOR)
+    if post.is_removed and not is_mod:
+        raise Http404("This post has been removed.")
+    comments = post.comments.select_related("author")
+    if not is_mod:
+        comments = comments.filter(is_removed=False)
+    comment_rows = [_comment_row(c, request.user) for c in comments]
     ct = ContentType.objects.get_for_model(Post)
     attachments = Attachment.objects.filter(content_type=ct, object_id=post.pk)
     return render(
@@ -135,6 +141,7 @@ def post_detail(request, pk):
             "post_react": _react_ctx(post, request.user, "post"),
             "attachments": attachments,
             "is_market": post.subtopic.topic.is_market,
+            "move_targets": Subtopic.objects.select_related("topic") if is_mod else None,
         },
     )
 
@@ -174,7 +181,10 @@ def comment_create(request, pk):
     body = (request.POST.get("body") or "").strip()
     if not body:
         return HttpResponse("A comment can't be empty.", status=400)
-    comment = services.create_comment(post=post, author=request.user, body=body)
+    try:
+        comment = services.create_comment(post=post, author=request.user, body=body)
+    except PermissionDenied as exc:
+        return HttpResponse(str(exc) or "You can't comment right now.", status=403)
     return render(
         request, "forum/_comment.html", {"row": _comment_row(comment, request.user)}
     )
@@ -208,6 +218,9 @@ def post_create(request, pk):
         post = services.create_post(
             subtopic=subtopic, author=request.user, title=title, body=body, **extra
         )
+    except PermissionDenied as exc:
+        messages.error(request, str(exc) or "You can't post right now.")
+        return redirect("forum:subtopic", pk=pk)
     except ValidationError as exc:
         messages.error(request, "; ".join(exc.messages))
         return redirect("forum:subtopic", pk=pk)

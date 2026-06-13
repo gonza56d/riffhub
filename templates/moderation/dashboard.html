@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Moderation · riffhub{% endblock %}
+
+{% block content %}
+<div class="forum-head">
+  <h1>🛡 Moderation</h1>
+  <p class="lede">Active silences &amp; bans, and the recent moderation log.</p>
+</div>
+
+<div class="mod-grid">
+  <section class="panel">
+    <h2>Active silences</h2>
+    {% for s in active_silences %}
+    <div class="mod-entry">
+      <strong>{{ s.target }}</strong> — silence #{{ s.sequence }},
+      {% if s.is_permanent %}permanent{% if s.is_public_flag %} · publicly flagged{% endif %}{% else %}until {{ s.ends_at|date:"M j, Y" }}{% endif %}
+      <div class="muted">{{ s.reason }}</div>
+    </div>
+    {% empty %}<p class="muted">No active silences.</p>{% endfor %}
+  </section>
+
+  <section class="panel">
+    <h2>Active bans</h2>
+    {% for b in active_bans %}
+    <div class="mod-entry">
+      <strong>{{ b.target }}</strong>
+      <form class="mod-inline" method="post" action="{% url 'moderation:lift_ban_user' b.target.pk %}">{% csrf_token %}<button class="link-btn">lift ban</button></form>
+      <div class="muted">{{ b.reason }}</div>
+    </div>
+    {% empty %}<p class="muted">No active bans.</p>{% endfor %}
+  </section>
+</div>
+
+<section class="panel">
+  <h2>Recent content actions</h2>
+  {% for a in actions %}
+  <div class="mod-entry">
+    <span class="chip">{{ a.get_action_display }}</span>
+    by {{ a.moderator|default:"—" }} · {{ a.created_at|date:"M j, Y, g:i a" }}
+    {% if a.reason %}<div class="muted">{{ a.reason }}</div>{% endif %}
+    {% if a.detail.from %}<div class="muted">{{ a.detail.from }} → {{ a.detail.to }}</div>{% endif %}
+  </div>
+  {% empty %}<p class="muted">No actions yet.</p>{% endfor %}
+</section>
+
+<section class="panel">
+  <h2>Recent warnings</h2>
+  {% for w in warnings %}
+  <div class="mod-entry"><strong>{{ w.target }}</strong> · {{ w.created_at|date:"M j, Y" }}<div class="muted">{{ w.reason }}</div></div>
+  {% empty %}<p class="muted">No warnings yet.</p>{% endfor %}
+</section>
+{% endblock %}

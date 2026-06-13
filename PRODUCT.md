@@ -125,9 +125,16 @@ Reputation weights (starting values, could move to SiteConfiguration): post +2, 
 
 Hierarchy `Topic → Subtopic → Post(title+body) → Comment(body)`. Generic `Vote` (up/down mutually exclusive, no self-vote, re-cast toggles off; positives and negatives counted **separately**), generic `Reaction` (one of each emoji per user per target, no self-react, toggle), generic `Attachment` (ImageField + Pillow validation: ≤ 5 MiB, ≤ 4096², JPEG/PNG/GIF/WEBP). Videos are external `video_url`s only. **Gear Market**: an `is_market` topic requiring a `MarketDisclaimerAcceptance`; market posts carry `price` + `currency` (enforced in `Post.clean`). Community `TopicProposal`/`SubtopicProposal` + `ProposalVote` (Collaborators+ may propose, any member votes; `evaluate_proposal` accepts on ≥ pass-ratio after the window, then materialises the real topic/subtopic). Every action bumps `activity_count` on the subtopic + its topic (default ordering is by activity). All rules live in `forum.services`; `manage.py seed_forum` loads the predefined topics/subtopics.
 
-## Still to build (backend)
+## Moderation (`moderation`)
 
-`moderation` app (warnings, silences 1w/1m/permanent, bans, content moves) — not yet started. A few cross-cutting wirings remain for when views land: calling `evaluate_proposal`/`evaluate_submission` on a schedule or on each vote, and content-move tooling for moderators.
+Free speech is the default (rudeness/insults aren't moderated); these tools target *unrelated/illegal* content and threats.
+- **Content:** moderators *move* a mis-filed (but acceptable) post to another subtopic, or *soft-remove* off-topic content — hidden from public views, kept for audit, restorable. A `core.Moderatable` mixin adds the soft-delete fields to `Post`/`Comment`; public forum views hide removed content (moderators still see it, marked `[removed]`).
+- **Users:** `warn`; `silence` — counted & escalating (**1 week → 1 month → permanent + publicly flagged**), and a silenced user can't post/comment (enforced in `forum.services.create_post`/`create_comment` via `can_participate`); `ban` — deactivates the account (`is_active=False`), with the rules that moderators **cannot** ban Creators and **only** Creators can ban Moderators.
+- Everything is audited (`Warning` / `Silence` / `Ban` / `ContentAction`). Inline moderator controls live on post/comment pages (gated via the `is_moderator` context processor) and a `/moderation/` dashboard shows active silences/bans + the recent log. All rules live in `moderation.services`.
+
+## Still to build / nice-to-have
+
+All six core domains (catalog, collab workflow, accounts/levels, forum, moderation) and their UIs are built and verified. Remaining nice-to-haves: direct messages (DMs — the silence rule already anticipates them); a dedicated Creator UI for forum topic/subtopic CRUD (today via admin + community proposals); scheduling proposal/submission evaluation (currently evaluated per-vote); and user profile pages (reputation, level, public silence flags).
 
 ## Frontend (decided & live)
 

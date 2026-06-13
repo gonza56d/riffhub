@@ -1,7 +1,9 @@
 from decimal import Decimal
 
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
+from django.utils import timezone
 
 
 class TimeStampedModel(models.Model):
@@ -12,6 +14,45 @@ class TimeStampedModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class Moderatable(models.Model):
+    """Abstract mixin for content a moderator can soft-remove.
+
+    Removed content is hidden from public views but kept (with who/why/when) so
+    the action is auditable and reversible — distinct from a *move*, which only
+    recategorises (PRODUCT.md: off-topic content is removed, mis-filed is moved).
+    """
+
+    is_removed = models.BooleanField(default=False, db_index=True)
+    removed_at = models.DateTimeField(null=True, blank=True)
+    removed_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+    removal_reason = models.CharField(max_length=255, blank=True)
+
+    class Meta:
+        abstract = True
+
+    def mark_removed(self, by, reason: str = "", *, save: bool = True) -> None:
+        self.is_removed = True
+        self.removed_at = timezone.now()
+        self.removed_by = by
+        self.removal_reason = reason
+        if save:
+            self.save(update_fields=["is_removed", "removed_at", "removed_by", "removal_reason"])
+
+    def restore(self, *, save: bool = True) -> None:
+        self.is_removed = False
+        self.removed_at = None
+        self.removed_by = None
+        self.removal_reason = ""
+        if save:
+            self.save(update_fields=["is_removed", "removed_at", "removed_by", "removal_reason"])
 
 
 class SiteConfiguration(TimeStampedModel):

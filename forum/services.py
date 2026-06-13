@@ -25,6 +25,7 @@ from django.utils import timezone
 
 from accounts.models import Level
 from core.models import SiteConfiguration
+from moderation.services import can_participate
 
 from forum.constants import (
     ACTIVITY_INCREMENT,
@@ -88,6 +89,8 @@ def create_post(*, subtopic, author, title: str, body: str, **extra) -> Post:
     ``currency``. ``full_clean`` runs ``Post.clean`` so the price/market
     coupling is enforced here too, not just in the admin.
     """
+    if not can_participate(author):
+        raise PermissionDenied("You can't post while silenced or banned.")
     post = Post(subtopic=subtopic, author=author, title=title, body=body, **extra)
     post.full_clean()
     post.save()
@@ -99,6 +102,8 @@ def create_post(*, subtopic, author, title: str, body: str, **extra) -> Post:
 @transaction.atomic
 def create_comment(*, post, author, body: str, **extra) -> Comment:
     """Create a comment and register activity on its subtopic/topic."""
+    if not can_participate(author):
+        raise PermissionDenied("You can't comment while silenced or banned.")
     comment = Comment(post=post, author=author, body=body, **extra)
     comment.full_clean()
     comment.save()

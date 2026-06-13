@@ -6,5 +6,6 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("accounts.urls")),
     path("forum/", include("forum.urls")),
+    path("moderation/", include("moderation.urls")),
     path("", include("catalog.urls")),
 ]
