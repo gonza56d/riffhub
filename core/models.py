@@ -130,6 +130,15 @@ class SiteConfiguration(TimeStampedModel):
     # --- Singleton plumbing ------------------------------------------------
     def save(self, *args, **kwargs):
         self.pk = 1
+        # Forcing pk=1 turns a fresh instance's INSERT into an UPDATE; carry the
+        # existing row's created_at so the UPDATE doesn't write NULL over the
+        # auto_now_add column (saving a second instance must update the one row).
+        if self.created_at is None:
+            self.created_at = (
+                type(self).objects.filter(pk=1)
+                .values_list("created_at", flat=True)
+                .first()
+            )
         super().save(*args, **kwargs)
 
     @classmethod

@@ -10,7 +10,7 @@ and choose what HTML to send back.
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.db.models import Count
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -259,10 +259,12 @@ def topic_create(request):
         messages.error(request, "; ".join(f"{f}: {e.as_text()}" for f, e in form.errors.items()))
     else:
         try:
-            topic = form.save()
-            messages.success(request, f"Created topic “{topic.name}”.")
+            with transaction.atomic():
+                topic = form.save()
         except IntegrityError:
             messages.error(request, "A topic with a conflicting name already exists.")
+        else:
+            messages.success(request, f"Created topic “{topic.name}”.")
     return redirect("forum:manage_topics")
 
 
@@ -299,10 +301,12 @@ def subtopic_create(request, pk):
         messages.error(request, "Subtopic name is required.")
     else:
         try:
-            Subtopic.objects.create(topic=topic, name=name)
-            messages.success(request, f"Added “{name}” to {topic.name}.")
+            with transaction.atomic():
+                Subtopic.objects.create(topic=topic, name=name)
         except IntegrityError:
             messages.error(request, f"“{name}” already exists under {topic.name}.")
+        else:
+            messages.success(request, f"Added “{name}” to {topic.name}.")
     return redirect("forum:manage_topics")
 
 
@@ -313,11 +317,13 @@ def subtopic_edit(request, pk):
         form = SubtopicForm(request.POST, instance=subtopic)
         if form.is_valid():
             try:
-                form.save()
-                messages.success(request, "Subtopic updated.")
-                return redirect("forum:manage_topics")
+                with transaction.atomic():
+                    form.save()
             except IntegrityError:
                 messages.error(request, "That name already exists under the chosen topic.")
+            else:
+                messages.success(request, "Subtopic updated.")
+                return redirect("forum:manage_topics")
     else:
         form = SubtopicForm(instance=subtopic)
     return render(
