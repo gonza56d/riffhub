@@ -26,6 +26,13 @@
     </div>
   </header>
 
+  {% if user.is_authenticated and not user.email_confirmed %}
+  <div class="wrap confirm-banner">
+    <span>📧 Confirm your e-mail to contribute gear &amp; guitars to the database.</span>
+    <form method="post" action="{% url 'resend_confirmation' %}">{% csrf_token %}<button type="submit">Resend link</button></form>
+  </div>
+  {% endif %}
+
   {% if messages %}
   <div class="wrap messages">
     {% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}

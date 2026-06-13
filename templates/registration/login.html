@@ -18,6 +18,6 @@
     <input type="hidden" name="next" value="{{ request.GET.next }}">
     <button type="submit" class="btn-primary">Sign in</button>
   </form>
-  <p class="auth-note">No self-serve sign-up yet — accounts are created in the admin for now.</p>
+  <p class="auth-note">New here? <a href="{% url 'signup' %}">Create an account</a>.</p>
 </section>
 {% endblock %}

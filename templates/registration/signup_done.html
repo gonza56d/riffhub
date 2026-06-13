@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Confirm your e-mail · riffhub{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+  <h1>You're in 🎸</h1>
+  <p>Welcome to riffhub! We've sent a confirmation link to <strong>{{ email }}</strong>.
+     Click it to unlock contributions to the gear database — you can browse and use
+     the forum right away.</p>
+  {% if confirmation_link %}
+  <div class="dev-link">
+    <p class="auth-note">Dev mode (no real mail is sent) — use this link to confirm:</p>
+    <a href="{{ confirmation_link }}">{{ confirmation_link }}</a>
+  </div>
+  {% endif %}
+  <p class="auth-note"><a href="{% url 'forum:index' %}">Go to the forum →</a></p>
+</section>
+{% endblock %}

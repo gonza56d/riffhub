@@ -88,6 +88,15 @@ AUTH_USER_MODEL = "accounts.User"
 LOGIN_REDIRECT_URL = "/forum/"
 LOGOUT_REDIRECT_URL = "/forum/"
 
+# --- Email ------------------------------------------------------------------
+# Dev prints e-mails to the runserver console; production overrides via env.
+EMAIL_BACKEND = env(
+    "EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
+)
+DEFAULT_FROM_EMAIL = env(
+    "DEFAULT_FROM_EMAIL", default="riffhub <no-reply@riffhub.local>"
+)
+
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},

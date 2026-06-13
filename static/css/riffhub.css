@@ -381,3 +381,23 @@ button.vote:hover { border-color: var(--walnut); }
 
 .disclaimer p { color: var(--ink-soft); }
 .muted { color: var(--ink-soft); font-style: italic; }
+
+/* --- Auth: field errors/help + confirm banner -----------------------------*/
+.field-error { display: block; color: #a3331f; font-size: .82rem; margin-top: 4px; }
+.field-help { color: var(--ink-soft); font-size: .78rem; margin-top: 4px; }
+.field-help ul { margin: 4px 0 0; padding-left: 18px; }
+.dev-link {
+  margin: 14px 0; padding: 12px; background: var(--paper-3);
+  border: 1px dashed var(--rule); border-radius: var(--radius); word-break: break-all;
+}
+.confirm-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  flex-wrap: wrap; margin-top: 12px; padding: 9px 14px;
+  background: #f6e7c4; border: 1px solid var(--amber); border-radius: var(--radius);
+  color: var(--walnut); font-size: .9rem;
+}
+.confirm-banner form { margin: 0; }
+.confirm-banner button {
+  font-family: var(--slab); font-size: .85rem; cursor: pointer;
+  background: var(--walnut); color: var(--paper); border: 0; border-radius: 5px; padding: 5px 12px;
+}

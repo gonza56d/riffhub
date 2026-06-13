@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Create an account · riffhub{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+  <h1>Create an account</h1>
+  <form method="post" action="{% url 'signup' %}">
+    {% csrf_token %}
+    {% for field in form %}
+    <label>{{ field.label }}
+      {{ field }}
+      {% if field.help_text %}<div class="field-help">{{ field.help_text|safe }}</div>{% endif %}
+      {% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    {% endfor %}
+    {% for error in form.non_field_errors %}<p class="auth-error">{{ error }}</p>{% endfor %}
+    <button type="submit" class="btn-primary">Sign up</button>
+  </form>
+  <p class="auth-note">Already have an account? <a href="{% url 'login' %}">Sign in</a>.</p>
+</section>
+{% endblock %}
