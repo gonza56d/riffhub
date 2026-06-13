@@ -1,0 +1,24 @@
+<div class="review-vote" id="review-vote-{{ v.kind }}-{{ v.obj.pk }}">
+  <span class="votebox">
+    {% if v.can_vote %}
+    <button type="button" class="vote up{% if v.up_active %} active{% endif %}"
+            hx-post="{% url 'catalog:review_vote' v.kind v.obj.pk 'up' %}"
+            hx-target="#review-vote-{{ v.kind }}-{{ v.obj.pk }}" hx-swap="outerHTML">▲ +1</button>
+    <button type="button" class="vote down{% if v.down_active %} active{% endif %}"
+            hx-post="{% url 'catalog:review_vote' v.kind v.obj.pk 'down' %}"
+            hx-target="#review-vote-{{ v.kind }}-{{ v.obj.pk }}" hx-swap="outerHTML">▼ −1</button>
+    {% else %}
+    <span class="vote up static">▲ +1</span>
+    <span class="vote down static">▼ −1</span>
+    {% endif %}
+  </span>
+  <span class="review-tally">
+    <strong class="net{% if v.net > 0 %} pos{% elif v.net < 0 %} neg{% endif %}">{{ v.net }}</strong>
+    net · {{ v.voters }} voter{{ v.voters|pluralize }}
+  </span>
+  {% if v.just_published %}
+  <span class="chip published-now">✓ just published</span>
+  {% elif v.is_published %}
+  <span class="chip">published</span>
+  {% endif %}
+</div>

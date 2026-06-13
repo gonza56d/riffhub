@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}Review · {{ obj }} · riffhub{% endblock %}
+
+{% block content %}
+<a class="detail-back" href="{% url 'catalog:review_queue' %}">‹ back to review queue</a>
+
+<div class="detail-head">
+  <div>
+    <span class="brand">{{ kind_label }}{% if obj.status == "published" %} · published{% else %} · under revision{% endif %}</span>
+    <h1>{{ obj }}</h1>
+  </div>
+</div>
+
+<div class="detail-grid">
+  <div class="detail-main">
+    <section class="panel">
+      <h2>Proposed entry</h2>
+      <dl class="spec-sheet">
+        {% if kind == "guitar" %}
+          <dt>Brand</dt><dd>{{ obj.brand }}</dd>
+          <dt>Name</dt><dd>{{ obj.name }}</dd>
+          <dt>Strings</dt><dd>{{ obj.num_strings }}-string</dd>
+          <dt>Scale</dt><dd>{{ obj.scale_display }}{% if obj.is_multiscale %} · multiscale{% endif %}</dd>
+          {% if obj.num_frets %}<dt>Frets</dt><dd>{{ obj.num_frets }}{% if obj.is_fretless %} · fretless{% endif %}</dd>{% endif %}
+          {% if obj.fret_material %}<dt>Fret material</dt><dd>{{ obj.fret_material.name }}</dd>{% endif %}
+          {% if obj.fretboard_material %}<dt>Fretboard</dt><dd>{{ obj.fretboard_material.name }}{% if obj.fretboard_radius %} · {{ obj.fretboard_radius.name }} radius{% endif %}</dd>{% endif %}
+          {% if obj.neck_construction or obj.neck_material or obj.neck_profile %}<dt>Neck</dt><dd>{% if obj.neck_construction %}{{ obj.neck_construction.name }}{% endif %}{% if obj.neck_material %} · {{ obj.neck_material.name }}{% endif %}{% if obj.neck_profile %} · {{ obj.neck_profile.name }} profile{% endif %}</dd>{% endif %}
+          {% if obj.nut_width_mm %}<dt>Nut width</dt><dd>{{ obj.nut_width_mm }}mm</dd>{% endif %}
+          {% if obj.body_shape or obj.body_material %}<dt>Body</dt><dd>{% if obj.body_shape %}{{ obj.body_shape.name }}{% endif %}{% if obj.body_material %}{% if obj.body_shape %} · {% endif %}{{ obj.body_material.name }}{% endif %}</dd>{% endif %}
+          {% if obj.headstock_type %}<dt>Headstock</dt><dd>{{ obj.headstock_type.name }}</dd>{% endif %}
+          {% if obj.selector_switch %}<dt>Selector</dt><dd>{{ obj.selector_switch.name }}</dd>{% endif %}
+          {% if obj.country_of_origin %}<dt>Made in</dt><dd>{{ obj.country_of_origin.name }}</dd>{% endif %}
+          {% if obj.year_introduced %}<dt>Introduced</dt><dd>{{ obj.year_introduced }}{% if obj.year_discontinued %}–{{ obj.year_discontinued }}{% endif %}</dd>{% endif %}
+        {% elif kind == "brand" %}
+          <dt>Name</dt><dd>{{ obj.name }}</dd>
+          {% if obj.country %}<dt>Country</dt><dd>{{ obj.country.name }}</dd>{% endif %}
+          {% if obj.website %}<dt>Website</dt><dd><a href="{{ obj.website }}" target="_blank" rel="noopener">{{ obj.website }}</a></dd>{% endif %}
+          {% if obj.description %}<dt>About</dt><dd>{{ obj.description }}</dd>{% endif %}
+        {% else %}
+          <dt>Brand</dt><dd>{{ obj.brand }}</dd>
+          <dt>Name</dt><dd>{{ obj.name }}</dd>
+          {% if kind == "bridge" %}
+            <dt>Type</dt><dd>{{ obj.bridge_type.name }}</dd>
+            <dt>Piezo</dt><dd>{{ obj.has_piezo|yesno:"yes,no" }}</dd>
+            <dt>Locking</dt><dd>{{ obj.is_locking|yesno:"yes,no" }}</dd>
+          {% elif kind == "pickup" %}
+            <dt>Type</dt><dd>{{ obj.pickup_type.name }}</dd>
+            <dt>Powered</dt><dd>{% if obj.is_active %}active{% else %}passive{% endif %}</dd>
+          {% elif kind == "tuner" %}
+            {% if obj.tuner_type %}<dt>Type</dt><dd>{{ obj.get_tuner_type_display }}</dd>{% endif %}
+            <dt>Locking</dt><dd>{{ obj.is_locking|yesno:"yes,no" }}</dd>
+            {% if obj.ratio %}<dt>Ratio</dt><dd>{{ obj.ratio }}</dd>{% endif %}
+          {% elif kind == "nut" %}
+            <dt>Material</dt><dd>{{ obj.material.name }}</dd>
+            <dt>Locking</dt><dd>{{ obj.is_locking|yesno:"yes,no" }}</dd>
+          {% endif %}
+          {% if obj.description %}<dt>About</dt><dd>{{ obj.description }}</dd>{% endif %}
+        {% endif %}
+      </dl>
+    </section>
+
+    {% if kind == "guitar" %}
+    <section class="panel">
+      <h2>Components</h2>
+      {% if obj.bridge %}
+      <div class="component">
+        <div class="role">Bridge</div>
+        <div class="part">{{ obj.bridge.brand }} {{ obj.bridge.name }}</div>
+        <div class="meta">{{ obj.bridge.bridge_type.name }}{% if obj.bridge.has_piezo %} · piezo{% endif %}{% if obj.bridge.is_locking %} · locking{% endif %}</div>
+      </div>
+      {% endif %}
+      {% for gp in pickups %}
+      <div class="component">
+        <div class="role">{{ gp.get_position_display }} pickup</div>
+        <div class="part">{{ gp.pickup.brand }} {{ gp.pickup.name }}</div>
+        <div class="meta">{{ gp.pickup.pickup_type.name }}{% if gp.pickup.is_active %} · active{% else %} · passive{% endif %}</div>
+      </div>
+      {% endfor %}
+      {% if obj.tuners %}
+      <div class="component">
+        <div class="role">Tuners</div>
+        <div class="part">{{ obj.tuners.brand }} {{ obj.tuners.name }}</div>
+        <div class="meta">{% if obj.tuners.is_locking %}locking{% else %}standard{% endif %}{% if obj.tuners.ratio %} · {{ obj.tuners.ratio }}{% endif %}</div>
+      </div>
+      {% endif %}
+      {% if obj.nut %}
+      <div class="component">
+        <div class="role">Nut</div>
+        <div class="part">{{ obj.nut.brand }} {{ obj.nut.name }}</div>
+        <div class="meta">{{ obj.nut.material.name }}{% if obj.nut.is_locking %} · locking{% endif %}</div>
+      </div>
+      {% endif %}
+      {% if not obj.bridge and not pickups and not obj.tuners and not obj.nut %}
+      <p class="muted">No components recorded yet.</p>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    <section class="panel">
+      <h2>Corrections</h2>
+      {% include "catalog/review/_corrections.html" with c=corrections %}
+    </section>
+  </div>
+
+  <div class="detail-side">
+    <section class="panel">
+      <h2>Review</h2>
+      <p class="facet-note">Submitted by {{ submitter|default:"(unknown)" }} · {{ obj.created_at|date:"M j, Y" }}</p>
+      {% include "catalog/review/_review_vote.html" with v=vote %}
+      {% if not can_review %}
+      <p class="signin-hint">You can vote once you're a Database Collaborator.</p>
+      {% endif %}
+    </section>
+
+    <section class="panel">
+      <h2>Status</h2>
+      <div class="chips">
+        {% if obj.status == "published" %}
+          <span class="chip published-now">published</span>
+          {% if obj.published_at %}<span class="chip ghost">{{ obj.published_at|date:"M j, Y" }}</span>{% endif %}
+        {% elif obj.status == "rejected" %}
+          <span class="chip status-rejected">rejected</span>
+        {% else %}
+          <span class="chip">under revision</span>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}

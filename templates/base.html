@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}riffhub{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/riffhub.css' %}">
+  <link rel="stylesheet" href="{% static 'css/collab_submit.css' %}">
+  <link rel="stylesheet" href="{% static 'css/collab_review.css' %}">
   <script defer src="{% static 'js/vendor/htmx.min.js' %}"></script>
   <script defer src="{% static 'js/vendor/alpine.min.js' %}"></script>
 </head>
@@ -17,6 +19,8 @@
         <a href="/">browse</a>
         <a href="{% url 'forum:index' %}">forum</a>
         {% if user.is_authenticated %}
+          <a href="{% url 'catalog:submit_index' %}">submit</a>
+          <a href="{% url 'catalog:review_queue' %}">review</a>
           <span class="nav-user">{{ user.username }}</span>
           <form method="post" action="{% url 'logout' %}" class="logout-form">{% csrf_token %}<button type="submit">log out</button></form>
         {% else %}

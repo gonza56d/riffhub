@@ -1,0 +1,31 @@
+<div class="corrections" id="corrections-{{ c.kind }}-{{ c.obj.pk }}">
+  <ul class="correction-list">
+    {% for correction in c.corrections %}
+    <li class="correction" id="correction-{{ correction.pk }}">
+      <div class="correction-meta">
+        <span class="author">{{ correction.author|default:"(unknown)" }}</span>
+        · {{ correction.created_at|date:"M j, Y, g:i a" }}
+        <span class="chip status-{{ correction.status }}">{{ correction.get_status_display }}</span>
+        {% if correction.resolved_by %}<span class="resolved">resolved by {{ correction.resolved_by }}</span>{% endif %}
+      </div>
+      <div class="correction-body">{{ correction.body|linebreaks }}</div>
+    </li>
+    {% empty %}
+    <li class="correction-empty muted">No corrections proposed yet.</li>
+    {% endfor %}
+  </ul>
+
+  {% if c.can_correct %}
+  <form class="correction-form"
+        hx-post="{% url 'catalog:review_correct' c.kind c.obj.pk %}"
+        hx-target="#corrections-{{ c.kind }}-{{ c.obj.pk }}" hx-swap="outerHTML"
+        hx-on::after-request="if(event.detail.successful){this.reset()}">
+    <label for="correction-body-{{ c.kind }}-{{ c.obj.pk }}">{{ c.form.body.label }}</label>
+    <textarea id="correction-body-{{ c.kind }}-{{ c.obj.pk }}" name="body" rows="3" required
+              placeholder="Describe the fix (wrong spec, missing part…)"></textarea>
+    <button type="submit" class="btn-primary">Propose correction</button>
+  </form>
+  {% else %}
+  <p class="signin-hint">You can propose corrections once you're a Database Collaborator.</p>
+  {% endif %}
+</div>

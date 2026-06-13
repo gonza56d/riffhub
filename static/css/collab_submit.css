@@ -1,0 +1,77 @@
+/* collab-db SUBMISSION UI — only the classes this section introduces.
+   Reuses riffhub's palette variables and existing components (.panel,
+   .auth-card, .btn-primary, .field-help, .field-error). */
+
+/* --- Section head ---------------------------------------------------------*/
+.submit-head { padding: 26px 0 8px; }
+.submit-head h1 { margin: 0 0 6px; color: var(--walnut); font-size: 2rem; }
+
+/* --- Gate notice ----------------------------------------------------------*/
+.submit-gate { max-width: 620px; margin-top: 16px; border-left: 4px solid var(--amber); }
+.submit-gate p { color: var(--ink-soft); margin: 0 0 14px; }
+
+/* --- Kind cards -----------------------------------------------------------*/
+.kind-grid {
+  list-style: none; margin: 18px 0 60px; padding: 0;
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+.kind-card {
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--amber);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: box-shadow .12s, transform .12s, border-color .12s;
+}
+.kind-card:hover {
+  border-left-color: var(--amber-2);
+  box-shadow: 0 1px 0 #fff6 inset, 0 4px 14px #2c211826;
+  transform: translateY(-1px);
+}
+.kind-card a { display: block; padding: 16px 18px; color: inherit; }
+.kind-card .kind-name {
+  display: block; font-family: var(--slab); font-size: 1.2rem; color: var(--walnut);
+}
+.kind-card .kind-cta {
+  display: block; margin-top: 6px; color: var(--amber-2); font-size: .9rem;
+}
+
+/* --- Submission form ------------------------------------------------------*/
+.submit-card { max-width: 560px; }
+.submit-note { color: var(--ink-soft); font-size: .85rem; margin: 0 0 18px; }
+.submit-field { display: block; margin-bottom: 14px; color: var(--ink-soft); font-size: .9rem; }
+.submit-label { display: block; margin-bottom: 5px; }
+.submit-field .req { color: var(--amber-2); }
+.submit-card input[type="text"],
+.submit-card input[type="url"],
+.submit-card input[type="number"],
+.submit-card input[type="file"],
+.submit-card textarea,
+.submit-card select {
+  display: block; width: 100%; padding: 8px 10px;
+  font-family: var(--body); font-size: 1rem; color: var(--ink);
+  background: var(--paper-3); border: 1px solid var(--rule); border-radius: 5px;
+}
+.submit-card textarea { resize: vertical; }
+.submit-card input[type="checkbox"] { accent-color: var(--amber-2); }
+
+/* --- Guitar pickup slots --------------------------------------------------*/
+.pickup-slots {
+  border: 1px solid var(--rule-2); border-radius: var(--radius);
+  padding: 10px 16px 4px; margin: 6px 0 18px;
+}
+.pickup-slots legend {
+  padding: 0 6px; color: var(--walnut); font-size: .82rem;
+  text-transform: uppercase; letter-spacing: .08em;
+}
+.pickup-slots .optional, .pickup-slots .field-help { text-transform: none; letter-spacing: 0; }
+.pickup-slots .optional { color: var(--ink-soft); font-weight: normal; }
+
+/* --- Done page ------------------------------------------------------------*/
+.submit-done { max-width: 560px; }
+.submit-done p { color: var(--ink-soft); }
+.submit-done-actions {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 18px;
+}
+.submit-done-link { font-family: var(--slab); color: var(--walnut); }

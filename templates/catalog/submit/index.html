@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Contribute to the database · riffhub{% endblock %}
+
+{% block content %}
+<a class="detail-back" href="{% url 'catalog:browse' %}">‹ back to browse</a>
+
+<div class="submit-head">
+  <h1>Contribute to the database</h1>
+  <p class="lede">
+    Propose a new guitar, gear component or brand. Submissions land as
+    <strong>under revision</strong> and go to the community for review before
+    they're published.
+  </p>
+</div>
+
+{% if not can_submit %}
+<section class="panel submit-gate">
+  <h2>Confirm your e-mail first</h2>
+  <p>
+    Contributing to the collab-db is unlocked once your e-mail address is
+    confirmed (and you're not in a submission cooldown). Check your inbox for
+    the confirmation link, or request a fresh one below.
+  </p>
+  <form method="post" action="{% url 'resend_confirmation' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn-primary">Resend confirmation link</button>
+  </form>
+</section>
+{% else %}
+<ul class="kind-grid">
+  {% for kind in kinds %}
+  <li class="kind-card">
+    <a href="{% url 'catalog:submit_entry' kind.slug %}">
+      <span class="kind-name">{{ kind.label }}</span>
+      <span class="kind-cta">Propose a {{ kind.label|lower }} ›</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

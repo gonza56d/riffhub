@@ -1,0 +1,61 @@
+/* riffhub — collab-db review / voting UI.
+   Only NEW classes here; layout, panels, chips, votebox and buttons all reuse
+   the shared "Warm Vintage Workshop" rules in riffhub.css. */
+
+/* --- Queue ----------------------------------------------------------------*/
+.review-head { padding: 26px 0 8px; }
+.review-head h1 { margin: 0 0 6px; color: var(--walnut); font-size: 2rem; }
+
+.review-list { list-style: none; margin: 0; padding: 10px 0 60px; display: grid; gap: 12px; }
+.review-card {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-left: 4px solid var(--amber); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 13px 16px;
+  transition: box-shadow .12s, transform .12s, border-color .12s;
+}
+.review-card:hover {
+  border-left-color: var(--amber-2);
+  box-shadow: 0 1px 0 #fff6 inset, 0 4px 14px #2c211826;
+  transform: translateY(-1px);
+}
+.chip.kind {
+  text-transform: uppercase; letter-spacing: .06em; font-size: .72rem;
+  color: var(--amber-2); background: transparent; border-color: var(--rule-2);
+}
+.review-summary { font-family: var(--slab); color: var(--walnut); font-size: 1.1rem; margin-left: 8px; }
+.review-card-meta { color: var(--ink-soft); font-size: .85rem; margin-top: 5px; }
+
+/* net-vote badge (queue + detail) */
+.review-net, .review-tally .net { font-family: var(--mono); color: var(--ink-soft); white-space: nowrap; }
+.review-net.pos, .review-tally .net.pos { color: var(--good); }
+.review-net.neg, .review-tally .net.neg { color: #a3331f; }
+
+/* --- Vote widget ----------------------------------------------------------*/
+.review-vote { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.review-tally { font-size: .88rem; color: var(--ink-soft); }
+.review-tally .net { font-size: 1.05rem; }
+.chip.published-now { background: var(--good); color: #fff; border-color: var(--good); }
+
+/* --- Corrections ----------------------------------------------------------*/
+.correction-list { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 10px; }
+.correction {
+  background: var(--paper-3); border: 1px solid var(--rule-2);
+  border-radius: var(--radius); padding: 10px 14px;
+}
+.correction-meta { font-size: .82rem; color: var(--ink-soft); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.correction-meta .author { font-family: var(--slab); color: var(--walnut); }
+.correction-meta .resolved { font-style: italic; }
+.correction-body { line-height: 1.55; margin-top: 4px; }
+.correction-empty { padding: 4px 0; }
+
+.chip.status-open { background: var(--amber); color: var(--paper); border-color: var(--amber-2); }
+.chip.status-applied { background: var(--good); color: #fff; border-color: var(--good); }
+.chip.status-rejected { background: #a3331f; color: #fff; border-color: #a3331f; }
+
+.correction-form { display: grid; gap: 10px; max-width: 560px; }
+.correction-form label { color: var(--ink-soft); font-size: .9rem; }
+.correction-form textarea {
+  font-family: var(--body); font-size: 1rem; padding: 8px 10px;
+  background: var(--paper-3); border: 1px solid var(--rule); border-radius: 5px; width: 100%;
+}
+.correction-form .btn-primary { justify-self: start; }

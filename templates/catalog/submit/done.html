@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Submitted · riffhub{% endblock %}
+
+{% block content %}
+<section class="auth-card submit-done">
+  <h1>Thanks — it's pending review</h1>
+  <p>
+    Your <strong>{{ label|lower }}</strong>{% if obj %} “{{ obj }}”{% endif %}
+    has been submitted and is now <strong>under revision</strong>. The community
+    will review it before it's published to the catalog.
+  </p>
+  <div class="submit-done-actions">
+    <a class="btn-primary" href="{% url 'catalog:submit_index' %}">Submit another</a>
+    <a class="submit-done-link" href="{% url 'catalog:browse' %}">Back to browse</a>
+    <a class="submit-done-link" href="{% url 'forum:index' %}">Visit the forum</a>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Submit a {{ label|lower }} · riffhub{% endblock %}
+
+{% block content %}
+<a class="detail-back" href="{% url 'catalog:submit_index' %}">‹ back to contribute</a>
+
+<section class="auth-card submit-card">
+  <h1>Submit a {{ label|lower }}</h1>
+  <p class="submit-note">
+    Required fields are marked. Your entry will be reviewed by the community
+    before it appears in the catalog.
+  </p>
+
+  <form method="post" action="{% url 'catalog:submit_entry' kind %}" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% for field in form %}
+    <label class="submit-field">
+      <span class="submit-label">
+        {{ field.label }}{% if field.field.required %} <span class="req">*</span>{% endif %}
+      </span>
+      {{ field }}
+      {% if field.help_text %}<div class="field-help">{{ field.help_text|safe }}</div>{% endif %}
+      {% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    {% endfor %}
+
+    {% if is_guitar %}
+    <fieldset class="pickup-slots">
+      <legend>Pickups <span class="optional">(optional)</span></legend>
+      <p class="field-help">
+        Choose existing pickups for any positions this guitar has. Derived
+        facets (combination, active/passive, hum-cancellation) are computed
+        automatically from these.
+      </p>
+      {% for slot_name, slot_pos in pickup_slots %}
+      <label class="submit-field">
+        <span class="submit-label">{{ slot_pos.label }} pickup</span>
+        <select name="{{ slot_name }}">
+          <option value="">— none —</option>
+          {% for pickup in pickups %}
+          <option value="{{ pickup.pk }}">{{ pickup.brand }} {{ pickup.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      {% endfor %}
+    </fieldset>
+    {% endif %}
+
+    {% for error in form.non_field_errors %}<p class="auth-error">{{ error }}</p>{% endfor %}
+
+    <button type="submit" class="btn-primary">Submit for review</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Review queue · riffhub{% endblock %}
+
+{% block content %}
+<div class="review-head">
+  <h1>Review queue</h1>
+  <p class="lede">Submissions waiting for the community to review. Cast +1/−1 and they publish automatically once the bar is met.</p>
+</div>
+
+{% if not can_review %}
+<div class="message">
+  You can review and vote once you've had enough submissions accepted to become a Database Collaborator. Until then, you're welcome to browse what's in the queue.
+</div>
+{% endif %}
+
+{% if rows %}
+<ul class="review-list">
+  {% for row in rows %}
+  <li class="review-card">
+    <a class="card-link" href="{% url 'catalog:review_detail' row.kind row.obj.pk %}">
+      <div class="card-top">
+        <div>
+          <span class="chip kind">{{ row.label }}</span>
+          <span class="review-summary">{{ row.obj }}</span>
+        </div>
+        <span class="review-net{% if row.net > 0 %} pos{% elif row.net < 0 %} neg{% endif %}">{{ row.net }} net</span>
+      </div>
+      <div class="review-card-meta">
+        submitted by {{ row.submitter|default:"(unknown)" }} · {{ row.obj.created_at|date:"M j, Y" }}
+      </div>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<div class="empty"><strong>Nothing to review.</strong> No submissions are under revision right now.</div>
+{% endif %}
+{% endblock %}
