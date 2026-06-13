@@ -216,3 +216,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- riffhub ---
+# User-uploaded media (images stored on disk via ImageField) and collected static.
+/media/
+/staticfiles/

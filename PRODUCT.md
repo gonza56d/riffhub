@@ -64,4 +64,106 @@ I want the backend to be Python, specifically the latest stable version of Djang
 Frontend has to be lightweight. No jquery allowed. Let's decide if it's better to go with Native JS or some framework/lib, but I want it not to depend on any dedicated frontend server other than what Django serves as responses.
 We have to start by deciding what categories do we have for gear. And after that when you finish the initial backend models and tables we have to start deciding the frontend fashion (remember: vintage-modern options!).
 ```
-Initial prompt finished. You can document anything else useful for you in the future below this section.
+
+# Initial prompt finished. You can document anything else useful for you in the future below this section as we define this product.
+
+---
+
+# Engineering notes & decisions
+
+*This section records **how** we build riffhub: the stack, decisions + rationale, and how to run things. The spec above remains the source of truth for **what** we're building.*
+
+## Stack (decided & verified running)
+
+- **Backend:** Django 6.0.6 (latest stable) on Python 3.12.
+- **Database:** PostgreSQL 18 (latest stable) via psycopg 3.
+- **Local dev:** Docker Compose — `web` (Django dev server) + `db` (Postgres). A local `venv/` mirrors deps for IDE/tooling and is gitignored.
+- **Config:** environment-driven via django-environ (see `.env.example`). A **custom user model** (`accounts.User`) is set from the very first migration (changing it later is painful).
+- **Frontend (decided & live):** Django server-rendered templates + **HTMX** for snappy partial page updates (no SPA, no separate front-end server) + small sprinkles of **Alpine.js**, hand-written CSS. No jQuery. Aesthetic: **Warm Vintage Workshop** (parchment + walnut + amber, slab-serif, faint paper grain). See the Frontend section below.
+
+## Decision — image storage: filesystem + Pillow (not DB blobs)
+
+The spec asks "blobs vs Pillow"; these aren't actually alternatives (Pillow *processes* images; storage is a separate axis). Decision: store image **bytes on disk** via Django's `ImageField`, and use **Pillow** to validate uploads (really-an-image, format allow-list, max dimensions) and to generate thumbnails. Rationale: keeps multi-MB binaries out of Postgres → smaller DB, cheap/fast backups, and an easy later move to S3-compatible object storage with no schema change. Videos remain external links (YouTube etc.) per the spec.
+
+## Decision — catalog data model (confirmed with the product owner)
+
+**Scope:** guitars only for v1 (the central `GuitarModel`), modelled so other instruments can be added later without a rewrite.
+
+**Two deliberate halves:**
+
+1. **Hand-entered specs = typed columns + FK controlled-vocabulary tables** on `GuitarModel` (the hot filter path): # strings, scale length (min/max — composable for multiscale), # frets, fret material, fretboard material, fretboard **radius** (composable: min/max + compound/flat flags), neck construction/material/profile, neck depth, nut width, body material/shape, headstock type, selector switch, country of origin. Vocabularies (`FretMaterial`, `BodyShape`, `FretboardRadius`, …) are small, indexed, community-extensible lookup tables, so filter dropdowns and referential integrity come for free.
+
+2. **Gear = four typed catalog objects:** `Bridge`, `Pickup`, `Tuner`, `Nut` — exactly the components that *drive* guitar specs. (Strings became a plain "# of strings" spec; easy-swap hardware like knobs is out.) These are **typed models, not JSON**: with only four stable categories and the derived facets depending on their attributes, typed columns give the integrity riffhub's "100% true" goal needs. *(This supersedes an earlier JSON-schema idea.)*
+
+**Derived facets — the truth guarantee.** Several filterable facets are *calculated* from the attached gear, never hand-typed, so they can't contradict the real components:
+
+| Facet (stored + indexed on `GuitarModel`) | Computed from |
+|---|---|
+| `pickup_combination` (e.g. HSH), `electronics_type` (active/passive/mixed), `has_hum_cancellation` | the guitar's pickups (symbol, active flag, humbucking flag) |
+| `has_tremolo`, `has_piezo` | the bridge |
+| `has_locking_tuners` | the tuners |
+| `neck_thickness_class` (thin/mid/thick) | neck depth measurement |
+| `is_multiscale` | scale min ≠ max |
+
+Facets are **denormalised into indexed columns** (filterable in SQL) and recomputed via signals whenever the guitar or its components change (`catalog/signals.py`, `GuitarModel.recompute_derived()`).
+
+**Collab-db workflow (scaffolded; voting/corrections next).** Every catalog entity inherits `CatalogEntry` → `status` (under_revision / published / rejected) + `submitted_by` + review timestamps. Normal queries use `.published()`; the collab section will surface `.under_revision()`. Submission voting, corrections and reputation-driven promotion build on this base.
+
+**Seed data.** `manage.py seed_catalog` loads reference vocabularies + 6 illustrative guitars (Strat, Les Paul, RG550, RG7321 7-string, LTD EC-1000 active, Strandberg multiscale) that exercise every facet. Idempotent; specs are starter/illustrative and community-correctable.
+
+## User levels & reputation (`accounts`)
+
+`Level` (IntegerChoices, directly comparable): Anonymous(0) < Regular(10) < Collaborator(20) < Founder(30) < Moderator(40) < Creator(50). `User.level` returns the highest applicable: granted flags (`is_riffhub_creator`, `is_community_moderator`) win, then the **sticky** `is_founder` badge, then config-driven Collaborator promotion (accepted-submission count ≥ threshold), else Regular. Crucially, when the thresholds are unset the derivation returns Regular — it never crashes and never silently promotes. `is_at_least(level)` powers permission checks; `add_reputation(n)` adjusts the score; `EmailConfirmation` (uuid token) gates collab submissions. `accounts.services.recompute_standing(user)` re-derives accepted counts from the catalog and awards the sticky Founder badge.
+
+Reputation weights (starting values, could move to SiteConfiguration): post +2, comment +1, received up/down ±1 (forum), accepted catalog submission +10.
+
+## Collab-db review workflow (`catalog`)
+
+`ReviewVote` (generic +1/−1 on any catalog entry) and `Correction` (proposed fix) ride on the `CatalogEntry` status. `catalog.services`: `cast_review_vote` (Collaborators+ only, no self-vote), `evaluate_submission` (publishes when net votes ≥ `gear_acceptance_min_net_votes` and distinct voters ≥ `gear_acceptance_min_voters`; credits the submitter +1 accepted and +10 rep, recomputes standing), `reject_submission` (marks rejected, ticks the reject counter), `can_submit_to_collab` (needs confirmed email; blocks after `max_rejected_before_cooldown` rejects — the troll guard). Acceptance/cooldown knobs live in `SiteConfiguration` (defaults 3 / 3 / 3).
+
+## Forum domain (`forum`)
+
+Hierarchy `Topic → Subtopic → Post(title+body) → Comment(body)`. Generic `Vote` (up/down mutually exclusive, no self-vote, re-cast toggles off; positives and negatives counted **separately**), generic `Reaction` (one of each emoji per user per target, no self-react, toggle), generic `Attachment` (ImageField + Pillow validation: ≤ 5 MiB, ≤ 4096², JPEG/PNG/GIF/WEBP). Videos are external `video_url`s only. **Gear Market**: an `is_market` topic requiring a `MarketDisclaimerAcceptance`; market posts carry `price` + `currency` (enforced in `Post.clean`). Community `TopicProposal`/`SubtopicProposal` + `ProposalVote` (Collaborators+ may propose, any member votes; `evaluate_proposal` accepts on ≥ pass-ratio after the window, then materialises the real topic/subtopic). Every action bumps `activity_count` on the subtopic + its topic (default ordering is by activity). All rules live in `forum.services`; `manage.py seed_forum` loads the predefined topics/subtopics.
+
+## Still to build (backend)
+
+`moderation` app (warnings, silences 1w/1m/permanent, bans, content moves) — not yet started. A few cross-cutting wirings remain for when views land: calling `evaluate_proposal`/`evaluate_submission` on a schedule or on each vote, and content-move tooling for moderators.
+
+## Frontend (decided & live)
+
+Stack: **HTMX + Alpine.js** over Django templates, both vendored locally in `static/js/vendor/` (no CDN, no FE server, no jQuery). Aesthetic: **Warm Vintage Workshop** — parchment/walnut/amber palette, slab-serif headings, faint paper-grain overlay — in `static/css/riffhub.css` (CSS variables make re-skinning easy). `templates/base.html` is the shell.
+
+First page: the **catalog browse + filter** at `/` (`catalog/guitar_browse.html` + the `_guitar_results.html` partial, view `catalog.views.guitar_browse`). The filter form fires `hx-get` on change; the view returns just the results fragment for HTMX requests and the full page otherwise; `hx-push-url` keeps filtered URLs shareable. Facets: strings, scale, pickup layout, electronics, frets, neck, body shape, country, and the boolean feature flags (tremolo, locking tuners, hum-cancelling, piezo, multiscale, fretless). Verified live: `?strings=7` → RG7321, `?has_tremolo=1` → Strat + RG550, `?is_multiscale=1` → Strandberg, `?strings=7&scale=24.75` → empty (the rare-combo case riffhub exists to surface).
+
+Next FE candidates: guitar detail page, forum views, a landing page, and auth (sign-up / login / email-confirm) screens.
+
+## Configurable thresholds — no silent defaults
+
+The spec requires several values to be **explicitly configured**, raising an error if unset (never a hidden fallback):
+- collaborator-promotion threshold (accepted submissions),
+- community-founder threshold (spec suggests 30) + founder-achievable on/off toggle,
+- topic/subtopic-proposal feature toggle, its voting window (1 week) and pass ratio (75%).
+
+These live in a `core.SiteConfiguration` singleton whose typed accessors raise `ImproperlyConfigured` when a required value is missing — directly satisfying *"a default value should not exist and raise an error if this is not configured."*
+
+## Project layout
+
+```
+config/      Django project: settings, urls, wsgi/asgi
+core/        Cross-cutting: SiteConfiguration, shared base models, voting/reaction mixins
+accounts/    Custom User, reputation, derived levels + granted roles, email confirmation
+catalog/     Collab-db: brands, gear, guitar models + specs, submit/review/vote/correct workflow
+forum/       Topics, subtopics, posts, comments, votes, emoji reactions, Gear Market
+moderation/  Warnings, silences (1w / 1m / permanent), bans, content moves
+```
+
+## How to run
+
+```
+cp .env.example .env
+docker compose up --build               # web -> http://localhost:8000 , db -> :5432
+docker compose run --rm web python manage.py migrate
+docker compose run --rm web python manage.py createsuperuser
+# Local tooling via venv (point DATABASE_URL at localhost first — see .env.example):
+./venv/bin/python manage.py <command>
+```

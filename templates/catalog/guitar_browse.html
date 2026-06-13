@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Browse guitars · riffhub{% endblock %}
+
+{% block content %}
+<section class="browse" x-data="{ filtersOpen: false }">
+  <div class="browse-head">
+    <h1>The Guitar Database</h1>
+    <p class="lede">Filter by the specs that actually matter — including facets
+      <em>calculated</em> from each guitar's real components (pickup layout,
+      tremolo, locking tuners, hum-cancellation, multiscale…).</p>
+    <button type="button" class="filter-toggle"
+            @click="filtersOpen = !filtersOpen"
+            x-text="filtersOpen ? 'Hide filters' : 'Show filters'">Show filters</button>
+  </div>
+
+  <div class="browse-grid">
+    <aside class="filters" :class="{ open: filtersOpen }">
+      <form id="filter-form"
+            hx-get="{% url 'catalog:browse' %}"
+            hx-target="#results"
+            hx-trigger="change, submit"
+            hx-push-url="true"
+            hx-indicator="#busy">
+
+        <fieldset class="filter-group">
+          <legend>Strings</legend>
+          {% for s in strings_options %}
+            <label class="chk"><input type="checkbox" name="strings" value="{{ s }}"
+              {% if s|stringformat:'s' in sel_strings %}checked{% endif %}> {{ s }}-string</label>
+          {% endfor %}
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Scale length</legend>
+          <select name="scale">
+            <option value="">Any</option>
+            {% for v in scale_options %}
+              <option value="{{ v }}" {% if v|stringformat:'s' == sel_scale %}selected{% endif %}>{{ v|floatformat:'-2' }}"</option>
+            {% endfor %}
+          </select>
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Pickup layout</legend>
+          {% for c in combo_options %}
+            <label class="chk"><input type="checkbox" name="combo" value="{{ c }}"
+              {% if c in sel_combos %}checked{% endif %}> {{ c }}</label>
+          {% endfor %}
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Electronics</legend>
+          <select name="electronics">
+            <option value="">Any</option>
+            {% for v, label in electronics_options %}
+              <option value="{{ v }}" {% if v == sel_electronics %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Frets</legend>
+          {% for f in frets_options %}
+            <label class="chk"><input type="checkbox" name="frets" value="{{ f }}"
+              {% if f|stringformat:'s' in sel_frets %}checked{% endif %}> {{ f }} frets</label>
+          {% endfor %}
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Neck</legend>
+          <select name="neck">
+            <option value="">Any</option>
+            {% for n in neck_options %}
+              <option value="{{ n.id }}" {% if n.id|stringformat:'s' == sel_neck %}selected{% endif %}>{{ n.name }}</option>
+            {% endfor %}
+          </select>
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Body shape</legend>
+          <select name="shape">
+            <option value="">Any</option>
+            {% for sh in shape_options %}
+              <option value="{{ sh.id }}" {% if sh.id|stringformat:'s' == sel_shape %}selected{% endif %}>{{ sh.name }}</option>
+            {% endfor %}
+          </select>
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Country of origin</legend>
+          <select name="country">
+            <option value="">Any</option>
+            {% for c in country_options %}
+              <option value="{{ c.id }}" {% if c.id|stringformat:'s' == sel_country %}selected{% endif %}>{{ c.name }}</option>
+            {% endfor %}
+          </select>
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Features</legend>
+          {% for field, label in boolean_facets %}
+            <label class="chk"><input type="checkbox" name="{{ field }}" value="1"
+              {% if field in sel_flags %}checked{% endif %}> {{ label }}</label>
+          {% endfor %}
+        </fieldset>
+
+        <div class="filter-actions">
+          <a class="btn-clear" href="{% url 'catalog:browse' %}">Clear all</a>
+        </div>
+      </form>
+    </aside>
+
+    <div id="results-col">
+      <div id="results">
+        {% include "catalog/_guitar_results.html" %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
