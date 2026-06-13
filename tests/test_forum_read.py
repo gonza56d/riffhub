@@ -119,7 +119,7 @@ class ForumIndexTests(TestCase):
         topic = make_topic("Gear")
         make_subtopic(topic, "Guitars", activity_count=7)
         resp = self.client.get(reverse("forum:index"))
-        self.assertContains(resp, "7 activity")
+        self.assertContains(resp, "7 interactions")
 
     def test_index_empty_when_no_topics(self):
         resp = self.client.get(reverse("forum:index"))

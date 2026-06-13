@@ -18,7 +18,7 @@
       {% for sub in topic.subtopics.all %}
       <li>
         <a href="{% url 'forum:subtopic' sub.pk %}">{{ sub.name }}</a>
-        <span class="sub-meta">{{ sub.activity_count }} activity</span>
+        <span class="sub-meta">{{ sub.activity_count }} interactions</span>
       </li>
       {% empty %}
       <li class="muted">No subtopics yet.</li>

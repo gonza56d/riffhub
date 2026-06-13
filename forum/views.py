@@ -25,7 +25,7 @@ from forum.models import Attachment, Comment, Post, Reaction, Subtopic, Topic, V
 
 # A small curated palette for the reaction picker (the spec allows any emoji;
 # the UI offers these by default and shows whatever else has been used).
-REACTION_PALETTE = ["👍", "❤️", "🔥", "🤘", "😂", "😮"]
+REACTION_PALETTE = ["👍", "👎", "❤️", "🔥", "🤘", "😂", "😮"]
 
 TARGET_MODELS = {"post": Post, "comment": Comment}
 
