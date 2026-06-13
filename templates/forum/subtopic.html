@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{ subtopic.name }} · {{ topic.name }} · riffhub{% endblock %}
+
+{% block content %}
+<a class="detail-back" href="{% url 'forum:index' %}">‹ forum</a>
+<div class="forum-head">
+  <h1>{{ topic.name }} <span class="sep">/</span> {{ subtopic.name }}</h1>
+</div>
+
+{% if user.is_authenticated %}
+  {% if is_market and not disclaimer_ok %}
+    <section class="panel disclaimer">
+      <h2>Before you buy or sell here</h2>
+      <p>{{ disclaimer_text }}</p>
+      <form method="post" action="{% url 'forum:accept_disclaimer' subtopic.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-primary">I understand &amp; accept</button>
+      </form>
+    </section>
+  {% else %}
+    <details class="new-post">
+      <summary>Start a new {% if is_market %}listing{% else %}post{% endif %}</summary>
+      <form method="post" action="{% url 'forum:post_create' subtopic.pk %}" class="post-form">
+        {% csrf_token %}
+        <label>Title<input type="text" name="title" required></label>
+        <label>Body<textarea name="body" rows="4" required></textarea></label>
+        <label>Video link (optional)<input type="url" name="video_url" placeholder="https://youtube.com/…"></label>
+        {% if is_market %}
+        <div class="price-row">
+          <label>Price<input type="number" name="price" step="0.01" min="0" required></label>
+          <label>Currency<input type="text" name="currency" value="{{ default_currency }}" maxlength="8"></label>
+        </div>
+        {% endif %}
+        <button type="submit" class="btn-primary">Post</button>
+      </form>
+    </details>
+  {% endif %}
+{% else %}
+  <p class="signin-hint"><a href="{% url 'login' %}">Sign in</a> to post.</p>
+{% endif %}
+
+<ul class="post-list">
+  {% for post in posts %}
+  <li class="post-row">
+    <a class="post-link" href="{% url 'forum:post' post.pk %}">{{ post.title }}</a>
+    <div class="post-row-meta">
+      by {{ post.author }} · {{ post.created_at|date:"M j, Y" }} ·
+      {{ post.num_comments }} comment{{ post.num_comments|pluralize }}
+      {% if is_market %} · <span class="price">{{ post.price }} {{ post.currency }}</span>{% endif %}
+    </div>
+  </li>
+  {% empty %}
+  <li class="empty">No posts yet — be the first.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

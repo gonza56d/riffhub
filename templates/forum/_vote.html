@@ -1,0 +1,13 @@
+<span class="votebox" id="vote-{{ v.target_type }}-{{ v.target.pk }}">
+  {% if v.can_vote %}
+  <button type="button" class="vote up{% if v.up_active %} active{% endif %}"
+          hx-post="{% url 'forum:vote' v.target_type v.target.pk 'up' %}"
+          hx-target="#vote-{{ v.target_type }}-{{ v.target.pk }}" hx-swap="outerHTML">▲ {{ v.tally.up }}</button>
+  <button type="button" class="vote down{% if v.down_active %} active{% endif %}"
+          hx-post="{% url 'forum:vote' v.target_type v.target.pk 'down' %}"
+          hx-target="#vote-{{ v.target_type }}-{{ v.target.pk }}" hx-swap="outerHTML">▼ {{ v.tally.down }}</button>
+  {% else %}
+  <span class="vote up static">▲ {{ v.tally.up }}</span>
+  <span class="vote down static">▼ {{ v.tally.down }}</span>
+  {% endif %}
+</span>

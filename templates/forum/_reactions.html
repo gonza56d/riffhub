@@ -1,0 +1,21 @@
+<span class="reactions" id="react-{{ r.target_type }}-{{ r.target.pk }}" x-data="{ pick: false }">
+  {% for emoji, count in r.counts.items %}
+    {% if r.can_react %}
+    <button type="button" class="reaction{% if emoji in r.mine %} mine{% endif %}"
+            hx-post="{% url 'forum:react' r.target_type r.target.pk %}" hx-vals='{"emoji": "{{ emoji }}"}'
+            hx-target="#react-{{ r.target_type }}-{{ r.target.pk }}" hx-swap="outerHTML">{{ emoji }} {{ count }}</button>
+    {% else %}
+    <span class="reaction static">{{ emoji }} {{ count }}</span>
+    {% endif %}
+  {% endfor %}
+  {% if r.can_react %}
+  <button type="button" class="react-add" @click="pick = !pick" title="Add a reaction">+</button>
+  <span class="react-palette" x-show="pick" x-cloak>
+    {% for emoji in r.palette %}
+    <button type="button" class="reaction add"
+            hx-post="{% url 'forum:react' r.target_type r.target.pk %}" hx-vals='{"emoji": "{{ emoji }}"}'
+            hx-target="#react-{{ r.target_type }}-{{ r.target.pk }}" hx-swap="outerHTML">{{ emoji }}</button>
+    {% endfor %}
+  </span>
+  {% endif %}
+</span>

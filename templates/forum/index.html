@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Forum · riffhub{% endblock %}
+
+{% block content %}
+<div class="forum-head">
+  <h1>The Forum</h1>
+  <p class="lede">Topics &amp; subtopics, busiest first. Jump in — or just lurk.</p>
+</div>
+
+<div class="topic-list">
+  {% for topic in topics %}
+  <section class="topic-block{% if topic.is_market %} market{% endif %}">
+    <div class="topic-block-head">
+      <h2>{{ topic.name }}{% if topic.is_market %} <span class="tag">Market</span>{% endif %}</h2>
+      {% if topic.description %}<p class="topic-desc">{{ topic.description }}</p>{% endif %}
+    </div>
+    <ul class="subtopic-list">
+      {% for sub in topic.subtopics.all %}
+      <li>
+        <a href="{% url 'forum:subtopic' sub.pk %}">{{ sub.name }}</a>
+        <span class="sub-meta">{{ sub.activity_count }} activity</span>
+      </li>
+      {% empty %}
+      <li class="muted">No subtopics yet.</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+</div>
+{% endblock %}

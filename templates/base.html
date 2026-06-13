@@ -9,17 +9,28 @@
   <script defer src="{% static 'js/vendor/htmx.min.js' %}"></script>
   <script defer src="{% static 'js/vendor/alpine.min.js' %}"></script>
 </head>
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="wordmark" href="/">riffhub</a>
       <nav class="site-nav">
-        <a href="/" class="active">browse</a>
-        <a href="#">forum</a>
-        <a href="#">sign in</a>
+        <a href="/">browse</a>
+        <a href="{% url 'forum:index' %}">forum</a>
+        {% if user.is_authenticated %}
+          <span class="nav-user">{{ user.username }}</span>
+          <form method="post" action="{% url 'logout' %}" class="logout-form">{% csrf_token %}<button type="submit">log out</button></form>
+        {% else %}
+          <a href="{% url 'login' %}">sign in</a>
+        {% endif %}
       </nav>
     </div>
   </header>
+
+  {% if messages %}
+  <div class="wrap messages">
+    {% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}
+  </div>
+  {% endif %}
 
   <main class="wrap">
     {% block content %}{% endblock %}

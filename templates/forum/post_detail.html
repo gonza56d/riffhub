@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} · riffhub{% endblock %}
+
+{% block content %}
+<a class="detail-back" href="{% url 'forum:subtopic' subtopic.pk %}">‹ {{ topic.name }} / {{ subtopic.name }}</a>
+
+<article class="post">
+  <h1>{{ post.title }}</h1>
+  <div class="post-meta">
+    by {{ post.author }} · {{ post.created_at|date:"M j, Y, g:i a" }}
+    {% if is_market %} · <span class="price">{{ post.price }} {{ post.currency }}</span>{% endif %}
+  </div>
+  <div class="post-body">{{ post.body|linebreaks }}</div>
+  {% if post.video_url %}<p class="video-link"><a href="{{ post.video_url }}" target="_blank" rel="noopener">▶ Watch linked video</a></p>{% endif %}
+  {% for att in attachments %}
+    <figure class="attachment"><img src="{{ att.image.url }}" alt="{{ att.caption }}">{% if att.caption %}<figcaption>{{ att.caption }}</figcaption>{% endif %}</figure>
+  {% endfor %}
+  <div class="engage">
+    {% include "forum/_vote.html" with v=post_vote %}
+    {% include "forum/_reactions.html" with r=post_react %}
+  </div>
+</article>
+
+<section class="comments-section">
+  <h2>{{ comment_rows|length }} comment{{ comment_rows|length|pluralize }}</h2>
+  <div id="comments">
+    {% for row in comment_rows %}{% include "forum/_comment.html" %}{% endfor %}
+  </div>
+
+  {% if user.is_authenticated %}
+  <form class="comment-form"
+        hx-post="{% url 'forum:comment_create' post.pk %}"
+        hx-target="#comments" hx-swap="beforeend"
+        hx-on::after-request="if(event.detail.successful){this.reset()}">
+    <textarea name="body" rows="3" required placeholder="Add a comment…"></textarea>
+    <button type="submit" class="btn-primary">Comment</button>
+  </form>
+  {% else %}
+  <p class="signin-hint"><a href="{% url 'login' %}">Sign in</a> to comment, vote and react.</p>
+  {% endif %}
+</section>
+{% endblock %}
