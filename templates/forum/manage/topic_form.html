@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Edit topic · riffhub{% endblock %}
+
+{% block content %}
+<a class="detail-back" href="{% url 'forum:manage_topics' %}">‹ manage</a>
+<section class="auth-card">
+  <h1>Edit topic</h1>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <label>{{ field.label }}
+      {{ field }}
+      {% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    {% endfor %}
+    <button class="btn-primary">Save</button>
+  </form>
+</section>
+{% endblock %}

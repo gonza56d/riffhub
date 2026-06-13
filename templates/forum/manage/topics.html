@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Manage forum · riffhub{% endblock %}
+
+{% block content %}
+<div class="forum-head">
+  <h1>Manage topics &amp; subtopics</h1>
+  <p class="lede">Riffhub Creator tools — create, rename, recategorise or remove forum categories.</p>
+</div>
+
+<details class="new-post">
+  <summary>New topic</summary>
+  <form class="post-form" method="post" action="{% url 'forum:topic_create' %}">
+    {% csrf_token %}
+    <label>Name<input type="text" name="name" required></label>
+    <label>Description<textarea name="description" rows="2"></textarea></label>
+    <label class="chk"><input type="checkbox" name="is_market"> Market topic (selling — unlocks price + disclaimer)</label>
+    <label class="chk"><input type="checkbox" name="requires_disclaimer"> Requires disclaimer acceptance</label>
+    <button class="btn-primary">Create topic</button>
+  </form>
+</details>
+
+<div class="manage-list">
+  {% for topic in topics %}
+  <section class="panel">
+    <div class="manage-topic-head">
+      <h2>{{ topic.name }}
+        {% if topic.is_market %}<span class="tag">Market</span>{% endif %}
+        {% if topic.is_predefined %}<span class="chip ghost">predefined</span>{% endif %}
+      </h2>
+      <span class="manage-actions">
+        <a class="btn-clear" href="{% url 'forum:topic_edit' topic.pk %}">Edit</a>
+        <form method="post" action="{% url 'forum:topic_delete' topic.pk %}"
+              onsubmit="return confirm('Delete “{{ topic.name|escapejs }}” and ALL its subtopics and posts? This cannot be undone.');">
+          {% csrf_token %}<button class="danger">Delete</button>
+        </form>
+      </span>
+    </div>
+    <ul class="manage-subs">
+      {% for sub in topic.subtopics.all %}
+      <li>
+        <span>{{ sub.name }}</span>
+        <span class="manage-actions">
+          <a href="{% url 'forum:subtopic_edit' sub.pk %}">edit</a>
+          <form method="post" action="{% url 'forum:subtopic_delete' sub.pk %}"
+                onsubmit="return confirm('Delete subtopic “{{ sub.name|escapejs }}” and its posts?');">
+            {% csrf_token %}<button class="danger-link">delete</button>
+          </form>
+        </span>
+      </li>
+      {% empty %}<li class="muted">No subtopics yet.</li>{% endfor %}
+    </ul>
+    <form class="manage-add-sub" method="post" action="{% url 'forum:subtopic_create' topic.pk %}">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="New subtopic name" required>
+      <button>Add subtopic</button>
+    </form>
+  </section>
+  {% endfor %}
+</div>
+{% endblock %}

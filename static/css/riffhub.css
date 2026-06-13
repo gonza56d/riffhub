@@ -449,3 +449,20 @@ button.vote:hover { border-color: var(--walnut); }
 .profile-row { padding: 6px 0; border-top: 1px solid var(--rule-2); }
 .profile-row:first-child { border-top: 0; }
 @media (max-width: 800px) { .profile-cols { grid-template-columns: 1fr; } }
+
+/* --- Creator: topic management --------------------------------------------*/
+.manage-list { display: grid; gap: 16px; padding-bottom: 60px; }
+.manage-topic-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.manage-topic-head h2 { margin: 0; color: var(--walnut); font-size: 1.25rem; }
+.manage-actions { display: inline-flex; gap: 8px; align-items: center; }
+.manage-actions form { margin: 0; display: inline; }
+.manage-subs { list-style: none; margin: 10px 0; padding: 0; }
+.manage-subs li { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-top: 1px solid var(--rule-2); }
+.manage-add-sub { display: flex; gap: 8px; margin-top: 8px; }
+.manage-add-sub input { flex: 1; padding: 6px 9px; background: var(--paper-3); border: 1px solid var(--rule); border-radius: 5px; font-family: var(--body); }
+.manage-add-sub button, .manage-actions button {
+  font-family: var(--slab); cursor: pointer; background: var(--walnut); color: var(--paper);
+  border: 0; border-radius: 5px; padding: 5px 11px; font-size: .85rem;
+}
+.manage-actions button.danger { background: #a3331f; }
+.danger-link { background: none; border: 0; color: #a3331f; cursor: pointer; padding: 0; font-family: var(--slab); }

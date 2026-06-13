@@ -134,7 +134,7 @@ Free speech is the default (rudeness/insults aren't moderated); these tools targ
 
 ## Still to build / nice-to-have
 
-All six core domains (catalog, collab workflow, accounts/levels, forum, moderation) and their UIs are built and verified. Remaining nice-to-haves: direct messages (DMs — the silence rule already anticipates them); a dedicated Creator UI for forum topic/subtopic CRUD (today via admin + community proposals); scheduling proposal/submission evaluation (currently evaluated per-vote); and user profile pages (reputation, level, public silence flags).
+All six core domains (catalog, collab workflow, accounts/levels, forum, moderation), their UIs, **user profile pages**, and the **Creator topic/subtopic management UI** (`/forum/manage/`, Creator-gated CRUD over topics & subtopics) are built and verified. Remaining nice-to-haves: **direct messages (DMs)** — the silence rule already anticipates them — and **scheduling** the proposal/submission evaluation (currently evaluated per-vote / on demand).
 
 ## Frontend (decided & live)
 

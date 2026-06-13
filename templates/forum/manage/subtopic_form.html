@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Edit subtopic · riffhub{% endblock %}
+
+{% block content %}
+<a class="detail-back" href="{% url 'forum:manage_topics' %}">‹ manage</a>
+<section class="auth-card">
+  <h1>Edit subtopic</h1>
+  <p class="auth-note">Change the name, or move it to a different topic.</p>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <label>{{ field.label }}
+      {{ field }}
+      {% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    {% endfor %}
+    <button class="btn-primary">Save</button>
+  </form>
+</section>
+{% endblock %}

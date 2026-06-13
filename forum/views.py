@@ -10,6 +10,7 @@ and choose what HTML to send back.
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import IntegrityError
 from django.db.models import Count
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -19,6 +20,7 @@ from accounts.models import Level
 
 from forum import services
 from forum.constants import DEFAULT_CURRENCY, MARKET_DISCLAIMER_TEXT, VoteValue
+from forum.forms import SubtopicForm, TopicForm
 from forum.models import Attachment, Comment, Post, Reaction, Subtopic, Topic, Vote
 
 # A small curated palette for the reaction picker (the spec allows any emoji;
@@ -232,3 +234,102 @@ def accept_disclaimer(request, pk):
     if request.user.is_authenticated:
         services.accept_market_disclaimer(request.user)
     return redirect("forum:subtopic", pk=pk)
+
+
+# --- Creator-only topic / subtopic management ------------------------------
+def _require_creator(user) -> None:
+    if not (user.is_authenticated and user.is_at_least(Level.CREATOR)):
+        raise PermissionDenied("Riffhub Creator privileges are required.")
+
+
+def manage_topics(request):
+    _require_creator(request.user)
+    return render(
+        request,
+        "forum/manage/topics.html",
+        {"topics": Topic.objects.prefetch_related("subtopics")},
+    )
+
+
+@require_POST
+def topic_create(request):
+    _require_creator(request.user)
+    form = TopicForm(request.POST)
+    if not form.is_valid():
+        messages.error(request, "; ".join(f"{f}: {e.as_text()}" for f, e in form.errors.items()))
+    else:
+        try:
+            topic = form.save()
+            messages.success(request, f"Created topic “{topic.name}”.")
+        except IntegrityError:
+            messages.error(request, "A topic with a conflicting name already exists.")
+    return redirect("forum:manage_topics")
+
+
+def topic_edit(request, pk):
+    _require_creator(request.user)
+    topic = get_object_or_404(Topic, pk=pk)
+    if request.method == "POST":
+        form = TopicForm(request.POST, instance=topic)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Topic updated.")
+            return redirect("forum:manage_topics")
+    else:
+        form = TopicForm(instance=topic)
+    return render(request, "forum/manage/topic_form.html", {"form": form, "topic": topic})
+
+
+@require_POST
+def topic_delete(request, pk):
+    _require_creator(request.user)
+    topic = get_object_or_404(Topic, pk=pk)
+    name = topic.name
+    topic.delete()
+    messages.success(request, f"Deleted topic “{name}” and everything under it.")
+    return redirect("forum:manage_topics")
+
+
+@require_POST
+def subtopic_create(request, pk):
+    _require_creator(request.user)
+    topic = get_object_or_404(Topic, pk=pk)
+    name = (request.POST.get("name") or "").strip()
+    if not name:
+        messages.error(request, "Subtopic name is required.")
+    else:
+        try:
+            Subtopic.objects.create(topic=topic, name=name)
+            messages.success(request, f"Added “{name}” to {topic.name}.")
+        except IntegrityError:
+            messages.error(request, f"“{name}” already exists under {topic.name}.")
+    return redirect("forum:manage_topics")
+
+
+def subtopic_edit(request, pk):
+    _require_creator(request.user)
+    subtopic = get_object_or_404(Subtopic, pk=pk)
+    if request.method == "POST":
+        form = SubtopicForm(request.POST, instance=subtopic)
+        if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, "Subtopic updated.")
+                return redirect("forum:manage_topics")
+            except IntegrityError:
+                messages.error(request, "That name already exists under the chosen topic.")
+    else:
+        form = SubtopicForm(instance=subtopic)
+    return render(
+        request, "forum/manage/subtopic_form.html", {"form": form, "subtopic": subtopic}
+    )
+
+
+@require_POST
+def subtopic_delete(request, pk):
+    _require_creator(request.user)
+    subtopic = get_object_or_404(Subtopic, pk=pk)
+    name = subtopic.name
+    subtopic.delete()
+    messages.success(request, f"Deleted subtopic “{name}”.")
+    return redirect("forum:manage_topics")
