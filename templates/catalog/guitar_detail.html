@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}{{ guitar.brand }} {{ guitar.name }} · riffhub{% endblock %}
+
+{% block content %}
+<a class="detail-back" href="{% url 'catalog:browse' %}">‹ back to browse</a>
+
+<div class="detail-head">
+  <div>
+    <span class="brand">{{ guitar.brand }}</span>
+    <h1>{{ guitar.name }}</h1>
+  </div>
+  <div class="scale-big">
+    {{ guitar.scale_display }}
+    <small>scale length{% if guitar.is_multiscale %} · multiscale{% endif %}</small>
+  </div>
+</div>
+
+<div class="detail-grid">
+  <div class="detail-main">
+    <section class="panel">
+      <h2>Specifications</h2>
+      <dl class="spec-sheet">
+        <dt>Strings</dt><dd>{{ guitar.num_strings }}-string</dd>
+        {% if guitar.num_frets %}<dt>Frets</dt><dd>{{ guitar.num_frets }}{% if guitar.is_fretless %} · fretless{% endif %}</dd>{% endif %}
+        {% if guitar.fret_material %}<dt>Fret material</dt><dd>{{ guitar.fret_material.name }}</dd>{% endif %}
+        {% if guitar.fretboard_material %}<dt>Fretboard</dt><dd>{{ guitar.fretboard_material.name }}{% if guitar.fretboard_radius %} · {{ guitar.fretboard_radius.name }} radius{% endif %}</dd>{% endif %}
+        {% if guitar.neck_construction or guitar.neck_material or guitar.neck_profile %}<dt>Neck</dt><dd>{% if guitar.neck_construction %}{{ guitar.neck_construction.name }}{% endif %}{% if guitar.neck_material %} · {{ guitar.neck_material.name }}{% endif %}{% if guitar.neck_profile %} · {{ guitar.neck_profile.name }} profile{% endif %}</dd>{% endif %}
+        {% if guitar.neck_depth_1st_fret_mm or guitar.neck_depth_12th_fret_mm %}<dt>Neck depth</dt><dd>{% if guitar.neck_depth_1st_fret_mm %}{{ guitar.neck_depth_1st_fret_mm }}mm @ 1st{% endif %}{% if guitar.neck_depth_12th_fret_mm %} · {{ guitar.neck_depth_12th_fret_mm }}mm @ 12th{% endif %}</dd>{% endif %}
+        {% if guitar.nut_width_mm %}<dt>Nut width</dt><dd>{{ guitar.nut_width_mm }}mm</dd>{% endif %}
+        {% if guitar.body_shape or guitar.body_material %}<dt>Body</dt><dd>{% if guitar.body_shape %}{{ guitar.body_shape.name }}{% endif %}{% if guitar.body_material %}{% if guitar.body_shape %} · {% endif %}{{ guitar.body_material.name }}{% endif %}</dd>{% endif %}
+        {% if guitar.headstock_type %}<dt>Headstock</dt><dd>{{ guitar.headstock_type.name }}</dd>{% endif %}
+        {% if guitar.selector_switch %}<dt>Selector</dt><dd>{{ guitar.selector_switch.name }}</dd>{% endif %}
+        {% if guitar.country_of_origin %}<dt>Made in</dt><dd>{{ guitar.country_of_origin.name }}</dd>{% endif %}
+        {% if guitar.year_introduced %}<dt>Introduced</dt><dd>{{ guitar.year_introduced }}{% if guitar.year_discontinued %}–{{ guitar.year_discontinued }}{% endif %}</dd>{% endif %}
+      </dl>
+    </section>
+  </div>
+
+  <div class="detail-side">
+    <section class="panel">
+      <h2>Derived facets</h2>
+      <p class="facet-note">Calculated from the components below — never hand-typed, so they can't contradict the real parts.</p>
+      <div class="chips">
+        {% if guitar.pickup_combination %}<span class="chip">{{ guitar.pickup_combination }} layout</span>{% endif %}
+        <span class="chip">{{ guitar.get_electronics_type_display|lower }}</span>
+        {% if guitar.has_tremolo %}<span class="chip">tremolo</span>{% endif %}
+        {% if guitar.has_piezo %}<span class="chip">piezo</span>{% endif %}
+        {% if guitar.has_locking_tuners %}<span class="chip">locking tuners</span>{% endif %}
+        {% if guitar.has_hum_cancellation %}<span class="chip">hum-cancelling</span>{% endif %}
+        {% if guitar.is_multiscale %}<span class="chip">multiscale</span>{% endif %}
+        {% if guitar.neck_thickness_class and guitar.neck_thickness_class != "unknown" %}<span class="chip">{{ guitar.get_neck_thickness_class_display|lower }} neck</span>{% endif %}
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Components</h2>
+      {% if guitar.bridge %}
+      <div class="component">
+        <div class="role">Bridge</div>
+        <div class="part">{{ guitar.bridge.brand }} {{ guitar.bridge.name }}</div>
+        <div class="meta">{{ guitar.bridge.bridge_type.name }}{% if guitar.bridge.has_piezo %} · piezo{% endif %}{% if guitar.bridge.is_locking %} · locking{% endif %}</div>
+      </div>
+      {% endif %}
+      {% for gp in pickups %}
+      <div class="component">
+        <div class="role">{{ gp.get_position_display }} pickup</div>
+        <div class="part">{{ gp.pickup.brand }} {{ gp.pickup.name }}</div>
+        <div class="meta">{{ gp.pickup.pickup_type.name }}{% if gp.pickup.is_active %} · active{% else %} · passive{% endif %}</div>
+      </div>
+      {% endfor %}
+      {% if guitar.tuners %}
+      <div class="component">
+        <div class="role">Tuners</div>
+        <div class="part">{{ guitar.tuners.brand }} {{ guitar.tuners.name }}</div>
+        <div class="meta">{% if guitar.tuners.is_locking %}locking{% else %}standard{% endif %}{% if guitar.tuners.ratio %} · {{ guitar.tuners.ratio }}{% endif %}</div>
+      </div>
+      {% endif %}
+      {% if guitar.nut %}
+      <div class="component">
+        <div class="role">Nut</div>
+        <div class="part">{{ guitar.nut.brand }} {{ guitar.nut.name }}</div>
+        <div class="meta">{{ guitar.nut.material.name }}{% if guitar.nut.is_locking %} · locking{% endif %}</div>
+      </div>
+      {% endif %}
+      {% if not guitar.bridge and not pickups and not guitar.tuners and not guitar.nut %}
+      <p class="muted">No components recorded yet.</p>
+      {% endif %}
+    </section>
+  </div>
+</div>
+{% endblock %}

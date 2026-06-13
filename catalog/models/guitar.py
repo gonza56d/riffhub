@@ -12,6 +12,15 @@ from catalog.constants import (
 from .base import CatalogEntry
 
 
+def _trim_inches(value) -> str:
+    """Format an inches Decimal without trailing zeros:
+    25.000 -> '25', 25.500 -> '25.5', 24.750 -> '24.75'."""
+    text = f"{value:f}"
+    if "." in text:
+        text = text.rstrip("0").rstrip(".")
+    return text
+
+
 class GuitarModel(CatalogEntry):
     """A guitar model: the central, filterable entity.
 
@@ -137,6 +146,13 @@ class GuitarModel(CatalogEntry):
 
     def __str__(self) -> str:
         return f"{self.brand} {self.name}"
+
+    @property
+    def scale_display(self) -> str:
+        """Human scale string: '25.5"', or '25–25.5"' for a multiscale guitar."""
+        lo = _trim_inches(self.scale_length_min_inches)
+        hi = _trim_inches(self.scale_length_max_inches)
+        return f'{lo}"' if lo == hi else f'{lo}–{hi}"'
 
     # --- Derived spec computation -----------------------------------------
     def _classify_neck_thickness(self) -> str:

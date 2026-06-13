@@ -8,7 +8,7 @@ fast ORM filtering.
 """
 
 from django.db.models import F
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from catalog.constants import ElectronicsType
 from catalog.models import BodyShape, Country, GuitarModel, NeckConstruction
@@ -130,3 +130,29 @@ def guitar_browse(request):
         else "catalog/guitar_browse.html"
     )
     return render(request, template, context)
+
+
+def guitar_detail(request, pk):
+    """Full spec sheet for one published guitar, plus its components.
+
+    Only published guitars are reachable here — under-revision submissions stay
+    hidden until accepted (they'll surface in the collab section instead).
+    """
+    guitar = get_object_or_404(
+        GuitarModel.objects.published().select_related(
+            "brand", "body_shape", "body_material", "neck_construction",
+            "neck_material", "neck_profile", "fret_material", "fretboard_material",
+            "fretboard_radius", "headstock_type", "selector_switch",
+            "country_of_origin", "bridge__brand", "bridge__bridge_type",
+            "nut__brand", "nut__material", "tuners__brand",
+        ),
+        pk=pk,
+    )
+    pickups = list(
+        guitar.guitar_pickups.select_related("pickup__brand", "pickup__pickup_type")
+    )
+    return render(
+        request,
+        "catalog/guitar_detail.html",
+        {"guitar": guitar, "pickups": pickups},
+    )

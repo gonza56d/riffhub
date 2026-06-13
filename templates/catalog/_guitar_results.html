@@ -8,14 +8,13 @@
 <ul class="guitar-list">
   {% for g in guitars %}
   <li class="guitar-card">
+    <a class="card-link" href="{% url 'catalog:detail' g.pk %}">
     <div class="card-top">
       <div class="brand-model">
         <span class="brand">{{ g.brand }}</span>
         <span class="model">{{ g.name }}</span>
       </div>
-      <span class="scale">
-        {% if g.is_multiscale %}{{ g.scale_length_min_inches|floatformat:'-2' }}–{{ g.scale_length_max_inches|floatformat:'-2' }}"{% else %}{{ g.scale_length_min_inches|floatformat:'-2' }}"{% endif %}
-      </span>
+      <span class="scale">{{ g.scale_display }}</span>
     </div>
     <div class="card-spec">
       {{ g.num_strings }}-string · {{ g.pickup_combination|default:"—" }} · {{ g.get_electronics_type_display|lower }}{% if g.num_frets %} · {{ g.num_frets }} frets{% endif %}
@@ -31,6 +30,7 @@
       {% if g.body_shape %}<span class="chip">{{ g.body_shape.name }}</span>{% endif %}
       {% if g.country_of_origin %}<span class="chip ghost">{{ g.country_of_origin.name }}</span>{% endif %}
     </div>
+    </a>
   </li>
   {% endfor %}
 </ul>
