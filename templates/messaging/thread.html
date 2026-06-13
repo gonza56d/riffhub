@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ other.username }} · Messages · riffhub{% endblock %}
+
+{% block content %}
+<a class="detail-back" href="{% url 'messaging:inbox' %}">‹ Messages</a>
+
+<section class="dm-thread">
+  <div class="dm-thread-head">
+    <h1><a href="{% url 'profile' other.username %}">{{ other.username }}</a></h1>
+  </div>
+
+  <div id="messages" class="dm-messages">
+    {% for message in messages %}{% include "messaging/_message.html" %}{% endfor %}
+  </div>
+
+  {% if can_send %}
+  <form class="dm-send-form"
+        hx-post="{% url 'messaging:send' other.username %}"
+        hx-target="#messages" hx-swap="beforeend"
+        hx-on::after-request="if(event.detail.successful){this.reset()}">
+    {% csrf_token %}
+    <textarea name="body" rows="3" required placeholder="Write a message…"></textarea>
+    <button type="submit" class="btn-primary">Send</button>
+  </form>
+  {% else %}
+  <p class="signin-hint dm-blocked">You can't send messages while silenced or banned.</p>
+  {% endif %}
+</section>
+{% endblock %}

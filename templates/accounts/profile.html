@@ -12,6 +12,9 @@
       {% if profile_user.is_founder %}<span class="chip role founder">Community Founder</span>{% endif %}
     </div>
     <p class="muted">Joined {{ profile_user.date_joined|date:"M Y" }}</p>
+    {% if user.is_authenticated and not is_self %}
+    <p class="profile-actions"><a class="btn-primary" href="{% url 'messaging:thread' profile_user.username %}">Send a message</a></p>
+    {% endif %}
   </div>
 
   {% if public_silence %}

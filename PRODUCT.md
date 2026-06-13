@@ -134,7 +134,11 @@ Free speech is the default (rudeness/insults aren't moderated); these tools targ
 
 ## Still to build / nice-to-have
 
-All six core domains (catalog, collab workflow, accounts/levels, forum, moderation), their UIs, **user profile pages**, and the **Creator topic/subtopic management UI** (`/forum/manage/`, Creator-gated CRUD over topics & subtopics) are built and verified. Remaining nice-to-haves: **direct messages (DMs)** — the silence rule already anticipates them — and **scheduling** the proposal/submission evaluation (currently evaluated per-vote / on demand).
+All six core domains (catalog, collab workflow, accounts/levels, forum, moderation), their UIs, **user profile pages**, the **Creator topic/subtopic management UI** (`/forum/manage/`), and **direct messages** (`messaging` app, `/messages/` — canonical 1:1 conversations, unread badges via a context processor, silenced/banned users blocked from sending, "Send a message" from profiles) are built and verified. The only remaining spec nice-to-have is **scheduling** the proposal/submission evaluation (currently per-vote / on demand). Moderation of DM content (a report flow) is a possible future add.
+
+## Direct messages (`messaging`)
+
+`Conversation` (canonical 1:1 via `for_pair`, ordered by `user_low`/`user_high` pk) + `DirectMessage` (sender, body, `is_read`). `messaging.services`: `send_message` (blocks self-DM, empty body, and silenced/banned senders via `can_participate`), `mark_read`, `unread_count`, `inbox_rows`, `get_conversation`. Views (`/messages/`): inbox, a username-addressed thread (`/messages/u/<name>/`, get-or-creates + marks read), and an HTMX `send` endpoint. A `messaging_flags` context processor surfaces `unread_dm_count` for the nav badge. Covered by `tests/test_messaging.py` (39 tests).
 
 ## Frontend (decided & live)
 

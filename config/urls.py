@@ -9,6 +9,7 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     path("forum/", include("forum.urls")),
     path("moderation/", include("moderation.urls")),
+    path("messages/", include("messaging.urls")),
     path("u/<str:username>/", account_views.profile, name="profile"),
     path("", include("catalog.urls")),
 ]

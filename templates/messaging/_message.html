@@ -1,0 +1,4 @@
+<div class="dm-msg {% if message.sender == user %}own{% else %}other{% endif %}">
+  <div class="dm-msg-body">{{ message.body|linebreaksbr }}</div>
+  <div class="dm-msg-time">{{ message.created_at|date:"M j, g:i a" }}</div>
+</div>

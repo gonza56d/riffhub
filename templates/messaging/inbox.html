@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Messages · riffhub{% endblock %}
+
+{% block content %}
+<section class="dm-inbox">
+  <h1>Messages</h1>
+  <ul class="dm-conv-list">
+    {% for row in rows %}
+    <li class="dm-conv-row{% if row.unread %} unread{% endif %}">
+      <a class="dm-conv-link" href="{% url 'messaging:thread' row.other.username %}">
+        <span class="dm-conv-name">{{ row.other.username }}</span>
+        <span class="dm-conv-preview">{% if row.last_message %}{{ row.last_message.body|truncatechars:60 }}{% else %}No messages yet{% endif %}</span>
+        {% if row.unread %}<span class="dm-badge">{{ row.unread }}</span>{% endif %}
+      </a>
+    </li>
+    {% empty %}
+    <li class="dm-empty"><p class="muted">No conversations yet.</p></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

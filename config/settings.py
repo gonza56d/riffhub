@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "catalog",
     "forum",
     "moderation",
+    "messaging",
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "moderation.context_processors.moderation_flags",
+                "messaging.context_processors.messaging_flags",
             ],
         },
     },

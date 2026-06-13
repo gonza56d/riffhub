@@ -21,6 +21,7 @@
         {% if user.is_authenticated %}
           <a href="{% url 'catalog:submit_index' %}">submit</a>
           <a href="{% url 'catalog:review_queue' %}">review</a>
+          <a href="{% url 'messaging:inbox' %}">messages{% if unread_dm_count %} <span class="dm-badge">{{ unread_dm_count }}</span>{% endif %}</a>
           {% if is_moderator %}<a href="{% url 'moderation:dashboard' %}">moderation</a>{% endif %}
           {% if is_creator %}<a href="{% url 'forum:manage_topics' %}">manage</a>{% endif %}
           <a class="nav-user" href="{% url 'profile' user.username %}">{{ user.username }}</a>
