@@ -1,16 +1,13 @@
-"""Seed demo forum content — posts, comments, votes and reactions — plus the
-fake users that author them, into every **empty** subtopic.
+"""Seed demo forum content — posts, comments, votes, reactions and replies.
 
-Fake users are named "{Name} Test" (e.g. "John Test") with a deliberate mix of
-levels — Regular, Collaborator-eligible (``accepted_submissions_count`` set, so
-they derive as Database Collaborator once the promotion threshold is configured)
-and sticky Founders (``is_founder``). It NEVER creates a Community Moderator or
-Riffhub Creator — those granted roles stay manual.
+Two idempotent passes, both safe to re-run (including on a live deploy):
+  * fill every **empty** subtopic with posts (priced listings in the Gear
+    Market), each carrying comments, up/down votes and emoji reactions;
+  * add a reply or two onto a deterministic ~half of the existing top-level
+    comments that don't have any replies yet.
 
-Idempotent and safe to re-run (including on a live deploy):
-  * fake users are ``get_or_create``d by username, never duplicated;
-  * content is only added to subtopics that currently have NO posts, so a
-    re-run simply fills any newly-empty subtopics and skips populated ones.
+Fake authors come from the shared "{Name} Test" pool (``accounts.seed``) — a mix
+of Regular / Collaborator-eligible / Founder, never a Moderator or Creator.
 
 Run after ``seed_forum`` (which creates the predefined topics/subtopics)::
 
@@ -18,34 +15,14 @@ Run after ``seed_forum`` (which creates the predefined topics/subtopics)::
 """
 
 import random
-from decimal import Decimal
 
-from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
+from accounts.seed import ensure_fake_users
 from forum import services
 from forum.constants import DEFAULT_CURRENCY, VoteValue
-from forum.models import Subtopic
-
-User = get_user_model()
-
-
-# (first name, level-shaping attrs). NO moderators or creators by design.
-FAKE_USERS = [
-    ("John", {"reputation_score": 4}),                                          # Regular
-    ("Alex", {"reputation_score": 1}),                                          # Regular
-    ("Pat", {"reputation_score": 6}),                                           # Regular
-    ("Morgan", {"reputation_score": 2}),                                        # Regular
-    ("Riley", {"reputation_score": 3}),                                         # Regular
-    ("Jane", {"reputation_score": 12, "accepted_submissions_count": 6}),        # Collaborator-eligible
-    ("Chris", {"reputation_score": 8, "accepted_submissions_count": 4}),        # Collaborator-eligible
-    ("Jordan", {"reputation_score": 17, "accepted_submissions_count": 8}),      # Collaborator-eligible
-    ("Casey", {"reputation_score": 9, "accepted_submissions_count": 5}),        # Collaborator-eligible
-    ("Dana", {"reputation_score": 14, "accepted_submissions_count": 7}),        # Collaborator-eligible
-    ("Sam", {"reputation_score": 28, "accepted_submissions_count": 9, "is_founder": True}),   # Founder
-    ("Taylor", {"reputation_score": 22, "is_founder": True}),                   # Founder
-]
+from forum.models import Comment, Subtopic
 
 REACTIONS = ["🔥", "🤘", "🎸", "👍", "❤️", "🙌"]
 
@@ -72,19 +49,31 @@ COMMENTS = [
     "This is exactly what I needed to read today.",
 ]
 
+REPLIES = [
+    "Totally agree with this.",
+    "Good point — hadn't thought of it that way.",
+    "Same experience here.",
+    "Have you tried the other option though?",
+    "This, 100%.",
+    "Thanks, that's genuinely helpful.",
+]
+
 MARKET_PRICES = ["250.00", "450.00", "800.00", "1200.00", "1850.00", "2500.00"]
+
+# A stable ~half of reply-less top-level comments get replies.
+REPLY_PROBABILITY = 0.5
 
 
 class Command(BaseCommand):
     help = (
-        "Seed demo posts/comments/votes/reactions (and fake users) into every "
-        "EMPTY subtopic. Idempotent — only fills subtopics with no posts."
+        "Seed demo posts/comments/votes/reactions into every EMPTY subtopic, "
+        "and replies onto existing reply-less comments. Idempotent."
     )
 
     @transaction.atomic
     def handle(self, *args, **options):
         rng = random.Random(1989)  # fixed seed -> reproducible content
-        users, users_created = self._ensure_users()
+        users, users_created = ensure_fake_users()
 
         filled = skipped = 0
         n_posts = n_comments = n_votes = n_reactions = 0
@@ -134,26 +123,38 @@ class Command(BaseCommand):
                     services.toggle_reaction(reactor, post, rng.choice(REACTIONS))
                     n_reactions += 1
 
+        n_replies = self._seed_replies(users)
+
         self.stdout.write(self.style.SUCCESS(
             f"Fake users: {users_created} created, {len(users)} total. "
             f"Subtopics: {filled} filled, {skipped} already had posts. "
-            f"Created {n_posts} posts, {n_comments} comments, "
-            f"{n_votes} votes, {n_reactions} reactions."
+            f"Created {n_posts} posts, {n_comments} comments, {n_votes} votes, "
+            f"{n_reactions} reactions, {n_replies} replies."
         ))
 
-    def _ensure_users(self):
-        """get_or_create the fake "{Name} Test" user pool (idempotent)."""
-        users = []
-        created = 0
-        for name, attrs in FAKE_USERS:
-            user, was_created = User.objects.get_or_create(
-                username=f"{name} Test",
-                defaults={
-                    "email": f"{name.lower()}.test@example.com",
-                    "email_confirmed": True,
-                    **attrs,
-                },
-            )
-            created += int(was_created)
-            users.append(user)
-        return users, created
+    def _seed_replies(self, users) -> int:
+        """Reply to a deterministic ~half of reply-less top-level comments.
+
+        Each comment's selection and content are seeded by its pk, so re-runs
+        are stable; the ``replies.exists()`` guard makes the pass idempotent —
+        a comment never accrues a second round of seeded replies.
+        """
+        n_replies = 0
+        top_level = Comment.objects.filter(
+            parent__isnull=True, is_removed=False, is_deleted=False
+        ).select_related("post")
+        for comment in top_level:
+            crng = random.Random(comment.pk)  # stable per comment
+            if crng.random() >= REPLY_PROBABILITY:
+                continue
+            if comment.replies.exists():
+                continue  # already has replies -> idempotent skip
+            for _ in range(crng.randint(1, 2)):
+                services.create_comment(
+                    post=comment.post,
+                    author=crng.choice(users),
+                    body=crng.choice(REPLIES),
+                    parent=comment,
+                )
+                n_replies += 1
+        return n_replies

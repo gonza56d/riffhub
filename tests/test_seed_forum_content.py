@@ -93,3 +93,21 @@ class SeedForumContentTests(TestCase):
         self.assertTrue(market_posts.exists())
         for post in market_posts:
             self.assertIsNotNone(post.price)
+
+    def test_seeds_one_level_replies_on_existing_comments(self):
+        self._seed_structure()
+        call_command("seed_forum_content", verbosity=0)
+        replies = Comment.objects.filter(parent__isnull=False)
+        self.assertTrue(replies.exists(), "the reply pass should create replies")
+        # Replies hang off top-level comments only (one level deep).
+        for reply in replies.select_related("parent")[:25]:
+            self.assertIsNone(reply.parent.parent_id)
+            self.assertEqual(reply.post_id, reply.parent.post_id)
+
+    def test_reply_seeding_is_idempotent(self):
+        self._seed_structure()
+        call_command("seed_forum_content", verbosity=0)
+        replies = Comment.objects.filter(parent__isnull=False).count()
+        self.assertGreater(replies, 0)
+        call_command("seed_forum_content", verbosity=0)
+        self.assertEqual(Comment.objects.filter(parent__isnull=False).count(), replies)
