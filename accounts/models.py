@@ -130,9 +130,16 @@ class User(AbstractUser):
         """Adjust the reputation score by ``amount`` (may be negative) and save.
 
         The forum domain calls this when a user's post/comment is up/downvoted.
+        Uses an atomic ``F`` update (not a read-modify-write) so two concurrent
+        votes on the same author can't clobber each other's increment.
         """
-        self.reputation_score = (self.reputation_score or 0) + amount
-        self.save(update_fields=["reputation_score"])
+        from django.db.models import F, Value
+        from django.db.models.functions import Coalesce
+
+        type(self).objects.filter(pk=self.pk).update(
+            reputation_score=Coalesce(F("reputation_score"), Value(0)) + amount
+        )
+        self.refresh_from_db(fields=["reputation_score"])
 
 
 class EmailConfirmation(TimeStampedModel):
