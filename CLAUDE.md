@@ -12,6 +12,12 @@ updated when you add or change a domain.
 - **Django 6.0** on Python 3.12, **PostgreSQL 18** (psycopg 3).
 - **Docker Compose** for local dev (`web` + `db`). A local **`venv/` mirrors the deps** for IDE/tooling
   and **must stay gitignored** (never commit it).
+- **Config is env-driven** (`django-environ`): one settings module switched by **`DJANGO_ENV`**
+  (`dev` | `prod`). `dev` (default) = DEBUG on; `prod` = DEBUG off + HTTPS/cookie hardening and a
+  hard requirement for `SECRET_KEY`/`ALLOWED_HOSTS`/`DATABASE_URL` (fails loudly otherwise). The DB is
+  always `DATABASE_URL`-driven. Runs **without Docker** as a gunicorn/WSGI app (static via
+  **WhiteNoise**, media off a persistent disk) — the deploy target is **Render** (managed Postgres,
+  fixed-price); `render.yaml` is the Blueprint, `deploy/RENDER.md` the walkthrough.
 - Frontend: Django templates + **HTMX** + a little **Alpine.js** — both vendored in
   `static/js/vendor/` (no CDN, **no jQuery**). Theme is "Warm Vintage Workshop" in
   `static/css/riffhub.css` (CSS variables; reuse them).
@@ -59,6 +65,10 @@ docker compose --profile scheduler up                      # opt-in periodic eva
 ```
 Configure the promotion thresholds in /admin (SiteConfiguration) to enable Collaborator/Founder
 promotion and review-voting; until then everyone derives as Regular.
+
+**Production / no-Docker:** set `DJANGO_ENV=prod` (+ the required env vars) and run as a gunicorn/WSGI
+app. The deploy target is **Render** — `render.yaml` is the Blueprint (web + managed Postgres + media
+disk + hourly cron) and `deploy/RENDER.md` is the walkthrough; prod env knobs are in `.env.example`.
 
 ## Test
 - Tests live in the top-level **`tests/`** package — one module per area (`tests/test_<area>.py`).

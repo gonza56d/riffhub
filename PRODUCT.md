@@ -78,8 +78,20 @@ We have to start by deciding what categories do we have for gear. And after that
 - **Backend:** Django 6.0.6 (latest stable) on Python 3.12.
 - **Database:** PostgreSQL 18 (latest stable) via psycopg 3.
 - **Local dev:** Docker Compose — `web` (Django dev server) + `db` (Postgres). A local `venv/` mirrors deps for IDE/tooling and is gitignored.
-- **Config:** environment-driven via django-environ (see `.env.example`). A **custom user model** (`accounts.User`) is set from the very first migration (changing it later is painful).
+- **Config:** environment-driven via django-environ — one settings module switched by **`DJANGO_ENV`** (`dev` | `prod`); see `.env.example` and `deploy/RENDER.md`. A **custom user model** (`accounts.User`) is set from the very first migration (changing it later is painful).
 - **Frontend (decided & live):** Django server-rendered templates + **HTMX** for snappy partial page updates (no SPA, no separate front-end server) + small sprinkles of **Alpine.js**, hand-written CSS. No jQuery. Aesthetic: **Warm Vintage Workshop** (parchment + walnut + amber, slab-serif, faint paper grain). See the Frontend section below.
+
+## Decision — environments, config & deployment (Render)
+
+**One settings module** (`config/settings.py`), switched by **`DJANGO_ENV`** (`dev` default | `prod`). Rationale: keep the existing 12-factor, single-file style — no `settings/` package, no `DJANGO_SETTINGS_MODULE` juggling — while making the dev↔prod difference one explicit switch the operator sets per environment (`dev` locally, `prod` on the host).
+
+**Host choice — Render, not PythonAnywhere.** We first targeted PythonAnywhere, but its affordable paid tier only offers **MySQL**, and riffhub leans on Postgres semantics MySQL can't reproduce — notably the **partial unique constraints** on proposal votes (`UniqueConstraint(condition=...)` in `forum`), which MySQL silently drops, plus utf8mb4/emoji storage and case-sensitivity differences. Rather than take on a risky DB migration for a barely-started app, we chose **Render**: fixed-price (no usage metering), managed **Postgres**, about as simple as PA.
+
+- `DJANGO_ENV` drives `DEBUG` (still overridable via `DEBUG=`), and in `prod` turns on the security stack — `SECURE_PROXY_SSL_HEADER` (Render terminates TLS at its edge and forwards `X-Forwarded-Proto`), secure session/CSRF cookies, opt-in HSTS — plus stderr logging (Render captures it to the service log). `SECURE_SSL_REDIRECT` is left **off on Render** (the edge already forces HTTPS; a Django-level redirect would 301 the internal health check).
+- **Fail loudly:** in `prod`, `SECRET_KEY`, `ALLOWED_HOSTS`, and `DATABASE_URL` have no defaults and raise `ImproperlyConfigured` if unset — the same "never silently run misconfigured" philosophy as the SiteConfiguration thresholds. `ALLOWED_HOSTS` also auto-includes Render's injected `RENDER_EXTERNAL_HOSTNAME`.
+- The database is always `DATABASE_URL`-driven, so "dockerized local db vs Render's managed Postgres" is just a different URL; persistent connections (`CONN_MAX_AGE` + `CONN_HEALTH_CHECKS`) are on in prod.
+- **No Docker in prod:** Render runs a plain **gunicorn/WSGI** app. **WhiteNoise** serves compressed, hashed static (`CompressedManifestStaticFilesStorage`) straight from the app. User-uploaded **media** is served by Django from a **Render persistent disk** at `MEDIA_ROOT` (Render's FS is otherwise ephemeral); S3-compatible object storage (R2/B2/S3 via django-storages) is the documented scale-up. The opt-in Compose `scheduler` becomes a Render **cron job** running `manage.py evaluate_pending`.
+- Everything is described as code in **`render.yaml`** (web + Postgres + media disk + cron); deploy playbook in `deploy/RENDER.md`; env knobs in `.env.example`.
 
 ## Decision — image storage: filesystem + Pillow (not DB blobs)
 
@@ -180,3 +192,5 @@ docker compose run --rm web python manage.py createsuperuser
 # Local tooling via venv (point DATABASE_URL at localhost first — see .env.example):
 ./venv/bin/python manage.py <command>
 ```
+
+**Production (no Docker):** set `DJANGO_ENV=prod` and deploy to **Render** (managed Postgres, fixed-price) — `render.yaml` is the Blueprint. Full walkthrough: `deploy/RENDER.md`.

@@ -25,6 +25,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      DJANGO_ENV: ${DJANGO_ENV:-dev}
       SECRET_KEY: ${SECRET_KEY:-django-insecure-dev-key-change-me}
       DEBUG: ${DEBUG:-True}
       DATABASE_URL: postgres://${POSTGRES_USER:-riffhub}:${POSTGRES_PASSWORD:-riffhub}@db:5432/${POSTGRES_DB:-riffhub}
@@ -40,6 +41,7 @@ services:
     volumes:
       - .:/app
     environment:
+      DJANGO_ENV: ${DJANGO_ENV:-dev}
       SECRET_KEY: ${SECRET_KEY:-django-insecure-dev-key-change-me}
       DEBUG: ${DEBUG:-True}
       DATABASE_URL: postgres://${POSTGRES_USER:-riffhub}:${POSTGRES_PASSWORD:-riffhub}@db:5432/${POSTGRES_DB:-riffhub}
