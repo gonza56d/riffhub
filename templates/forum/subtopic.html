@@ -7,17 +7,23 @@
   <h1>{{ topic.name }} <span class="sep">/</span> {{ subtopic.name }}</h1>
 </div>
 
-{% if user.is_authenticated %}
-  {% if is_market and not disclaimer_ok %}
-    <section class="panel disclaimer">
-      <h2>Before you buy or sell here</h2>
-      <p>{{ disclaimer_text }}</p>
+{% if is_market and not disclaimer_ok %}
+  {# Gear Market gate: the listings stay hidden until the disclaimer is
+     accepted, so this is the first (and only) thing a visitor sees here. #}
+  <section class="panel disclaimer gate">
+    <h2>Before you buy or sell here</h2>
+    <p>{{ disclaimer_text }}</p>
+    {% if user.is_authenticated %}
       <form method="post" action="{% url 'forum:accept_disclaimer' subtopic.pk %}">
         {% csrf_token %}
         <button type="submit" class="btn-primary">I understand &amp; accept</button>
       </form>
-    </section>
-  {% else %}
+    {% else %}
+      <p class="signin-hint"><a href="{% url 'login' %}">Sign in</a> to view the Gear Market.</p>
+    {% endif %}
+  </section>
+{% else %}
+  {% if user.is_authenticated %}
     <details class="new-post">
       <summary>Start a new {% if is_market %}listing{% else %}post{% endif %}</summary>
       <form method="post" action="{% url 'forum:post_create' subtopic.pk %}" class="post-form">
@@ -34,23 +40,23 @@
         <button type="submit" class="btn-primary">Post</button>
       </form>
     </details>
+  {% else %}
+    <p class="signin-hint"><a href="{% url 'login' %}">Sign in</a> to post.</p>
   {% endif %}
-{% else %}
-  <p class="signin-hint"><a href="{% url 'login' %}">Sign in</a> to post.</p>
-{% endif %}
 
-<ul class="post-list">
-  {% for post in posts %}
-  <li class="post-row">
-    <a class="post-link" href="{% url 'forum:post' post.pk %}">{{ post.title }}</a>
-    <div class="post-row-meta">
-      by {% include "accounts/_userlink.html" with u=post.author label=post.author %} · {{ post.created_at|date:"M j, Y" }} ·
-      {{ post.num_comments }} comment{{ post.num_comments|pluralize }}
-      {% if is_market %} · <span class="price">{{ post.price }} {{ post.currency }}</span>{% endif %}
-    </div>
-  </li>
-  {% empty %}
-  <li class="empty">No posts yet — be the first.</li>
-  {% endfor %}
-</ul>
+  <ul class="post-list">
+    {% for post in posts %}
+    <li class="post-row">
+      <a class="post-link" href="{% url 'forum:post' post.pk %}">{{ post.title }}</a>
+      <div class="post-row-meta">
+        by {% include "accounts/_userlink.html" with u=post.author label=post.author %} · {{ post.created_at|date:"M j, Y" }} ·
+        {{ post.num_comments }} comment{{ post.num_comments|pluralize }}
+        {% if is_market %} · <span class="price">{{ post.price }} {{ post.currency }}</span>{% endif %}
+      </div>
+    </li>
+    {% empty %}
+    <li class="empty">No posts yet — be the first.</li>
+    {% endfor %}
+  </ul>
+{% endif %}
 {% endblock %}

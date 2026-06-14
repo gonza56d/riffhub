@@ -288,6 +288,43 @@ class MarketPostViewDisclaimerGateTests(TestCase):
         self.assertEqual(resp.status_code, 302)
         self.assertTrue(services.has_accepted_market_disclaimer(self.user))
 
+    # --- the disclaimer gates *viewing* the section, not just posting -------
+    def _listing(self):
+        return Post.objects.create(
+            subtopic=self.market_sub,
+            author=self.user,
+            title="Selling a Strat",
+            body="mint condition",
+            price=Decimal("1200.00"),
+            currency="USD",
+        )
+
+    def test_listings_hidden_until_disclaimer_accepted(self):
+        # Logged in but not yet accepted: only the disclaimer gate renders.
+        self._listing()
+        self.client.force_login(self.user)
+        resp = self.client.get(self.subtopic_url)
+        self.assertContains(resp, "Before you buy or sell here")
+        self.assertContains(resp, "I understand")
+        self.assertNotContains(resp, "Selling a Strat")
+
+    def test_listings_visible_after_acceptance(self):
+        self._listing()
+        services.accept_market_disclaimer(self.user)
+        self.client.force_login(self.user)
+        resp = self.client.get(self.subtopic_url)
+        self.assertContains(resp, "Selling a Strat")
+        self.assertNotContains(resp, "Before you buy or sell here")
+
+    def test_anonymous_sees_gate_not_listings(self):
+        # Anonymous can't accept, so the section stays gated behind a sign-in.
+        self._listing()
+        resp = self.client.get(self.subtopic_url)
+        self.assertContains(resp, "Before you buy or sell here")
+        # "Sign in" is inside an <a>, so match the text after the link tag.
+        self.assertContains(resp, "to view the Gear Market")
+        self.assertNotContains(resp, "Selling a Strat")
+
     def test_post_allowed_and_price_captured_after_acceptance(self):
         self.client.force_login(self.user)
         services.accept_market_disclaimer(self.user)
