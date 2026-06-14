@@ -10,7 +10,7 @@
     <h1>{{ gear.name }}</h1>
   </div>
   <div class="scale-big">{{ kind|capfirst }}<small>component</small></div>
-  <a class="btn-clear search-images" target="_blank" rel="noopener" href="https://www.google.com/search?q={{ gear.brand|stringformat:'s'|add:' '|add:gear.name|urlencode }}">Search Images</a>
+  <a class="btn-clear search-images" target="_blank" rel="noopener" href="https://images.google.com/search?q={{ gear.brand|stringformat:'s'|add:' '|add:gear.name|urlencode }}">Search Images</a>
 </div>
 
 <div class="detail-grid">

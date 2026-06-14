@@ -17,7 +17,7 @@
       <span class="scale">{{ g.scale_display }}</span>
     </div>
     <div class="card-spec">
-      {{ g.num_strings }}-string · {{ g.pickup_combination|default:"—" }} · {{ g.get_electronics_type_display|lower }}{% if g.num_frets %} · {{ g.num_frets }} frets{% endif %}
+      {{ g.num_strings }}-string · {{ g.pickup_combination|default:"—" }} · {{ g.get_electronics_type_display|lower }}{% if g.num_frets %} · {{ g.num_frets }} frets{% endif %} · {{ g.activity }} interactions
     </div>
     <div class="chips">
       {% if g.has_tremolo %}<span class="chip">tremolo</span>{% endif %}
@@ -36,9 +36,9 @@
 </ul>
 
 {% if page_obj.paginator.num_pages > 1 %}
-{# hx-* attrs are inherited by the child links, so each page link swaps #results
-   and pushes the URL. The real href keeps them shareable + keyboard-accessible
-   and lets them work as a full page load if JS is off. #}
+{% comment %}hx-boost is inherited by the child links: each page link swaps #results
+and pushes the URL, while the real href keeps it shareable, keyboard-accessible and
+usable as a full page load when JS is off.{% endcomment %}
 <nav class="pager" aria-label="Pagination"
      hx-boost="true" hx-target="#results" hx-swap="innerHTML show:top"
      hx-push-url="true" hx-indicator="#busy">

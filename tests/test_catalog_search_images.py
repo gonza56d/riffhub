@@ -44,7 +44,7 @@ class SearchImagesButtonTests(TestCase):
 
     def _assert_search_button(self, resp, product_name):
         self.assertEqual(resp.status_code, 200)
-        self.assertContains(resp, "https://www.google.com/search?q=")
+        self.assertContains(resp, "https://images.google.com/search?q=")
         self.assertContains(resp, 'target="_blank"')
         self.assertContains(resp, 'rel="noopener"')
         # The product name (brand + name) is present in URL-encoded form, so the
