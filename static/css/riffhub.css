@@ -103,7 +103,7 @@ h1, h2, h3, legend, .wordmark, .brand { font-family: var(--slab); }
   box-shadow: var(--shadow);
   padding: 6px 16px 16px;
 }
-.filter-group { border: 0; border-top: 1px solid var(--rule-2); padding: 12px 0 4px; margin: 0; }
+.filter-group { border: 0; border-top: 1px solid var(--rule-2); padding: 6px 0 16px; margin: 0; }
 .filter-group:first-of-type { border-top: 0; }
 .filter-group legend {
   padding: 0; color: var(--walnut); font-size: .82rem;
@@ -306,13 +306,15 @@ h1, h2, h3, legend, .wordmark, .brand { font-family: var(--slab); }
 }
 .post-form {
   background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--radius);
-  padding: 16px 18px; margin-top: 10px; display: grid; gap: 12px; max-width: 560px;
+  padding: 16px 18px; margin-top: 10px; display: grid; gap: 12px;
 }
 .post-form label { display: grid; gap: 5px; color: var(--ink-soft); font-size: .9rem; }
 .post-form input, .post-form textarea, .comment-form textarea {
   font-family: var(--body); font-size: 1rem; padding: 8px 10px;
-  background: var(--paper-3); border: 1px solid var(--rule); border-radius: 5px; width: 100%;
+  background: var(--paper-3); border: 1px solid var(--rule); border-radius: 5px;
+  width: 100%; box-sizing: border-box;
 }
+.post-form textarea, .comment-form textarea { resize: vertical; }
 .price-row { display: flex; gap: 12px; }
 .post-form .btn-primary { justify-self: start; }
 
@@ -590,9 +592,9 @@ button.vote:hover { border-color: var(--walnut); }
 }
 .theme-toggle:hover { border-color: var(--walnut); background: var(--paper-3); }
 .theme-ico { display: none; }
-.theme-ico--moon { display: inline; }   /* light mode shows a moon (→ go dark) */
-html[data-theme="dark"] .theme-ico--moon { display: none; }
-html[data-theme="dark"] .theme-ico--sun { display: inline; }
+.theme-ico--sun { display: inline; }   /* show the CURRENT theme: light mode → sun */
+html[data-theme="dark"] .theme-ico--sun { display: none; }
+html[data-theme="dark"] .theme-ico--moon { display: inline; }   /* dark mode → moon */
 
 /* ===========================================================================
    DARK THEME — "Warm Vintage Workshop, after hours"
