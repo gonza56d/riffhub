@@ -1,15 +1,60 @@
-<div class="comment" id="comment-{{ row.comment.pk }}">
+{% load forum_extras %}
+<div class="comment{% if row.is_reply %} reply{% endif %}{% if row.comment.is_deleted %} deleted{% endif %}" id="comment-{{ row.comment.pk }}">
+  {% if row.comment.is_deleted %}
+  {# Author-deleted: placeholder for everyone; the original body is never sent
+     to non-moderators (it lives behind forum:comment_original). Reactions are
+     preserved and shown to all. #}
+  <p class="muted deleted-note">This message was deleted.</p>
+  <div class="engage">{% include "forum/_reactions.html" with r=row.react %}</div>
+  {% if is_moderator %}
+  <div class="mod-inline original-reveal" id="original-{{ row.comment.pk }}">
+    <button type="button" class="link-btn"
+            hx-get="{% url 'forum:comment_original' row.comment.pk %}"
+            hx-target="#original-{{ row.comment.pk }}" hx-swap="outerHTML">Show Original Message</button>
+  </div>
+  {% endif %}
+  {% else %}
   <div class="comment-meta"><span class="author">{% include "accounts/_userlink.html" with u=row.comment.author label=row.comment.author %}</span> · {{ row.comment.created_at|date:"M j, Y" }}</div>
-  <div class="comment-body">{{ row.comment.body|linebreaks }}</div>
+  <div class="comment-body">{{ row.comment|comment_body }}</div>
   {% if row.comment.video_url %}<p class="video-link"><a href="{{ row.comment.video_url }}" target="_blank" rel="noopener">▶ video</a></p>{% endif %}
   <div class="engage">
     {% include "forum/_vote.html" with v=row.vote %}
     {% include "forum/_reactions.html" with r=row.react %}
   </div>
-  {% if row.comment.is_removed %}
-  <p class="removed-badge">[removed by moderator]{% if is_moderator %}
-    <form class="mod-inline" method="post" action="{% url 'moderation:restore_content' 'comment' row.comment.pk %}">{% csrf_token %}<button class="link-btn">restore</button></form>{% endif %}</p>
-  {% elif is_moderator %}
-  <form class="mod-inline" method="post" action="{% url 'moderation:remove_content' 'comment' row.comment.pk %}">{% csrf_token %}<input type="text" name="reason" placeholder="reason"><button class="danger">remove</button></form>
+  <div class="comment-actions">
+    {% if row.comment.is_removed %}
+      <span class="removed-badge">[removed by moderator]</span>
+      {% if is_moderator %}<form class="mod-inline" method="post" action="{% url 'moderation:restore_content' 'comment' row.comment.pk %}">{% csrf_token %}<button class="link-btn">restore</button></form>{% endif %}
+    {% else %}
+      {% if row.can_delete %}
+      <form class="mod-inline delete-form" method="post" action="{% url 'forum:comment_delete' row.comment.pk %}"
+            hx-post="{% url 'forum:comment_delete' row.comment.pk %}"
+            hx-target="#comment-{{ row.comment.pk }}" hx-swap="outerHTML"
+            hx-confirm="Delete this {% if row.is_reply %}reply{% else %}comment{% endif %}? This can't be undone.">{% csrf_token %}<button class="link-btn">delete</button></form>
+      {% endif %}
+      {% if is_moderator %}<form class="mod-inline" method="post" action="{% url 'moderation:remove_content' 'comment' row.comment.pk %}">{% csrf_token %}<input type="text" name="reason" placeholder="reason"><button class="danger">remove</button></form>{% endif %}
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if not row.is_reply %}
+  {# One level of replies only: replies render here, and the reply box targets
+     this container. You can't reply to a reply. #}
+  <div class="comment-replies" id="replies-{{ row.comment.pk }}">
+    {% for reply in row.replies %}{% include "forum/_comment.html" with row=reply %}{% endfor %}
+  </div>
+  {% if user.is_authenticated and not row.comment.is_deleted and not row.comment.is_removed %}
+  <div class="reply-box" x-data="{ open: false }">
+    <button type="button" class="link-btn reply-toggle" @click="open = !open">↳ Reply</button>
+    <form class="reply-form" x-show="open" x-cloak
+          hx-post="{% url 'forum:reply_create' row.comment.pk %}"
+          hx-target="#replies-{{ row.comment.pk }}" hx-swap="beforeend"
+          hx-on::after-request="if(event.detail.successful){this.reset()}">
+      {% csrf_token %}
+      <textarea name="body" rows="2" required placeholder="Reply… tag anyone with @username"></textarea>
+      <button type="submit" class="btn-primary">Reply</button>
+    </form>
+  </div>
+  {% endif %}
   {% endif %}
 </div>

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Deleted in {{ subtopic.name }} · riffhub{% endblock %}
+
+{% block content %}
+<a class="detail-back" href="{% url 'deleted:index' %}">‹ deleted posts</a>
+<div class="forum-head">
+  <h1>{{ topic.name }} <span class="sep">/</span> {{ subtopic.name }} <span class="tag">deleted</span></h1>
+</div>
+
+<ul class="post-list">
+  {% for post in posts %}
+  <li class="post-row">
+    <a class="post-link" href="{% url 'forum:post' post.pk %}">{{ post.title }}</a>
+    <div class="post-row-meta">
+      by {% include "accounts/_userlink.html" with u=post.author label=post.author %} ·
+      posted {{ post.created_at|date:"M j, Y" }}{% if post.deleted_at %} · deleted {{ post.deleted_at|date:"M j, Y" }}{% endif %} ·
+      {{ post.num_comments }} comment{{ post.num_comments|pluralize }}
+    </div>
+  </li>
+  {% empty %}
+  <li class="empty">No deleted posts in this subtopic.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

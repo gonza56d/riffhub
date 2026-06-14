@@ -381,6 +381,27 @@ h1, h2, h3, legend, .wordmark, .brand { font-family: var(--slab); }
 .comment-form { display: grid; gap: 10px; max-width: 620px; }
 .comment-form .btn-primary { justify-self: start; }
 
+/* --- Replies, mentions, deletion ------------------------------------------*/
+.comment.reply {
+  margin-left: 22px; border-left: 3px solid var(--amber); background: var(--paper-3);
+}
+.comment.deleted { background: var(--paper-3); opacity: .92; }
+.deleted-note { margin: 0; }
+.comment-replies { display: grid; gap: 10px; margin-top: 10px; }
+.comment-replies:empty { margin-top: 0; }
+.comment-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+.mention { font-family: var(--slab); color: var(--amber-2); text-decoration: none; }
+.mention:hover { text-decoration: underline; }
+.reply-box { margin-top: 8px; }
+.reply-toggle { font-size: .85rem; }
+.reply-form { display: grid; gap: 8px; max-width: 560px; margin-top: 8px; }
+.reply-form .btn-primary { justify-self: start; }
+.comment-original {
+  margin-top: 8px; padding: 8px 12px; background: var(--paper);
+  border: 1px dashed var(--amber-2); border-radius: var(--radius);
+}
+.post-actions { display: inline-block; margin-top: 10px; }
+
 /* --- Vote + reaction widgets ----------------------------------------------*/
 .votebox { display: inline-flex; gap: 4px; }
 .vote {

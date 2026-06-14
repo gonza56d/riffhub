@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Deleted posts · riffhub{% endblock %}
+
+{% block content %}
+<div class="forum-head">
+  <h1>Deleted posts</h1>
+  <p class="lede">Author-deleted threads, kept for moderation. Pick a subtopic to explore its deleted posts.</p>
+</div>
+
+<div class="topic-list">
+  {% for topic in topics %}
+  <section class="topic-block{% if topic.is_market %} market{% endif %}">
+    <div class="topic-block-head">
+      <h2>{{ topic.name }}{% if topic.is_market %} <span class="tag">Market</span>{% endif %}</h2>
+    </div>
+    <ul class="subtopic-list">
+      {% for sub in topic.subtopics.all %}
+      <li>
+        {% if sub.deleted_count %}
+        <a href="{% url 'deleted:subtopic' sub.pk %}">{{ sub.name }}</a>
+        <span class="sub-meta">{{ sub.deleted_count }} deleted</span>
+        {% else %}
+        <span class="muted">{{ sub.name }}</span>
+        <span class="sub-meta">none deleted</span>
+        {% endif %}
+      </li>
+      {% empty %}
+      <li class="muted">No subtopics yet.</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% empty %}
+  <p class="muted">No topics yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

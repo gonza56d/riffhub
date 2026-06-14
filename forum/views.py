@@ -7,14 +7,16 @@ live in ``forum.services`` — these views just resolve targets, enforce auth,
 and choose what HTML to send back.
 """
 
+from collections import defaultdict
+
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
-from django.db.models import Count, Q
+from django.db.models import Count, Prefetch, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET, require_POST
 
 from accounts.models import Level
 
@@ -39,13 +41,23 @@ def _resolve_target(target_type, pk):
 
 
 def _visible_or_404(obj, user):
-    """Return ``obj`` unless it's soft-removed content hidden from ``user``.
+    """Return ``obj`` unless it's hidden content the action can't touch.
 
-    Mirrors ``post_detail``'s gate: non-moderators may not engage with a removed
-    Post, a removed Comment, or a Comment whose parent Post is removed. Returns
-    the object for moderators (and for live content); otherwise raises ``Http404``.
+    Two gates:
+
+    * *Author-deleted* content is closed to **all** engagement (votes, reactions,
+      replies) — even for moderators — since a deleted item's reactions are only
+      ever display-only. So a deleted Post/Comment (or a Comment on a deleted
+      Post) raises ``Http404`` for everyone.
+    * *Moderator-removed* content is hidden from non-moderators (a removed Post, a
+      removed Comment, or a Comment whose parent Post is removed) but reachable by
+      moderators, mirroring ``post_detail``.
     """
     is_mod = user.is_authenticated and user.is_at_least(Level.MODERATOR)
+    if getattr(obj, "is_deleted", False):
+        raise Http404("This content has been deleted.")
+    if isinstance(obj, Comment) and obj.post.is_deleted:
+        raise Http404("This content has been deleted.")
     if is_mod:
         return obj
     removed = obj.is_removed
@@ -54,6 +66,16 @@ def _visible_or_404(obj, user):
     if removed:
         raise Http404("This content has been removed.")
     return obj
+
+
+def _can_delete(user, obj) -> bool:
+    """Whether ``user`` may author-delete ``obj`` (their own, still-live content)."""
+    return bool(
+        user.is_authenticated
+        and obj.author_id == user.pk
+        and not obj.is_deleted
+        and not obj.is_removed
+    )
 
 
 def _my_vote(user, obj):
@@ -76,33 +98,74 @@ def _my_reactions(user, obj):
 
 def _vote_ctx(obj, user, target_type):
     mine = _my_vote(user, obj)
+    # A deleted item keeps its tally but is no longer votable (display-only).
+    inert = getattr(obj, "is_deleted", False)
     return {
         "target_type": target_type,
         "target": obj,
         "tally": services.vote_tally(obj),
         "up_active": mine == VoteValue.UP,
         "down_active": mine == VoteValue.DOWN,
-        "can_vote": user.is_authenticated and obj.author_id != user.pk,
+        "can_vote": user.is_authenticated and obj.author_id != user.pk and not inert,
     }
 
 
 def _react_ctx(obj, user, target_type):
+    # Reactions on a deleted comment are preserved and shown to everyone, but no
+    # new ones can be added (PRODUCT.md) — render them as static counts.
+    inert = getattr(obj, "is_deleted", False)
     return {
         "target_type": target_type,
         "target": obj,
         "counts": services.reaction_tally(obj),
         "mine": _my_reactions(user, obj),
         "palette": REACTION_PALETTE,
-        "can_react": user.is_authenticated and obj.author_id != user.pk,
+        "can_react": user.is_authenticated and obj.author_id != user.pk and not inert,
     }
 
 
-def _comment_row(comment, user):
+def _comment_row(comment, user, *, replies=None, is_reply=False):
     return {
         "comment": comment,
         "vote": _vote_ctx(comment, user, "comment"),
         "react": _react_ctx(comment, user, "comment"),
+        "can_delete": _can_delete(user, comment),
+        "is_reply": is_reply,
+        "replies": replies or [],
     }
+
+
+def _build_thread(post, user):
+    """Build the threaded comment rows for ``post`` honouring visibility.
+
+    Returns a list of top-level comment rows, each carrying its one level of
+    reply rows under ``replies``. Moderator-removed comments are dropped for
+    non-moderators (a removed root takes its replies with it); author-deleted
+    comments stay (they render as a placeholder). Mentions are prefetched so the
+    ``comment_body`` filter never queries per comment.
+    """
+    is_mod = user.is_authenticated and user.is_at_least(Level.MODERATOR)
+    qs = post.comments.select_related("author").prefetch_related("mentions")
+    if not is_mod:
+        qs = qs.filter(is_removed=False)
+    comments = list(qs)
+
+    replies_by_parent = defaultdict(list)
+    roots = []
+    for comment in comments:
+        if comment.parent_id is None:
+            roots.append(comment)
+        else:
+            replies_by_parent[comment.parent_id].append(comment)
+
+    rows = []
+    for root in roots:
+        reply_rows = [
+            _comment_row(reply, user, is_reply=True)
+            for reply in replies_by_parent.get(root.pk, [])
+        ]
+        rows.append(_comment_row(root, user, replies=reply_rows))
+    return rows
 
 
 # --- read pages ------------------------------------------------------------
@@ -114,10 +177,13 @@ def index(request):
 def subtopic_detail(request, pk):
     subtopic = get_object_or_404(Subtopic.objects.select_related("topic"), pk=pk)
     posts = (
-        subtopic.posts.filter(is_removed=False)
+        subtopic.posts.filter(is_removed=False, is_deleted=False)
         .select_related("author")
         .annotate(
-            num_comments=Count("comments", filter=Q(comments__is_removed=False))
+            num_comments=Count(
+                "comments",
+                filter=Q(comments__is_removed=False, comments__is_deleted=False),
+            )
         )
     )
     disclaimer_ok = request.user.is_authenticated and services.has_accepted_market_disclaimer(
@@ -143,12 +209,12 @@ def post_detail(request, pk):
         Post.objects.select_related("author", "subtopic__topic"), pk=pk
     )
     is_mod = request.user.is_authenticated and request.user.is_at_least(Level.MODERATOR)
-    if post.is_removed and not is_mod:
-        raise Http404("This post has been removed.")
-    comments = post.comments.select_related("author")
-    if not is_mod:
-        comments = comments.filter(is_removed=False)
-    comment_rows = [_comment_row(c, request.user) for c in comments]
+    # A post hidden by a moderator (removed) OR by its author (deleted) is a 404
+    # for everyone but moderators, who can still audit it (the /deleted area
+    # links here for author-deleted posts).
+    if (post.is_removed or post.is_deleted) and not is_mod:
+        raise Http404("This post is no longer available.")
+    comment_rows = _build_thread(post, request.user)
     ct = ContentType.objects.get_for_model(Post)
     attachments = Attachment.objects.filter(content_type=ct, object_id=post.pk)
     return render(
@@ -164,6 +230,7 @@ def post_detail(request, pk):
             "attachments": attachments,
             "is_market": post.subtopic.topic.is_market,
             "move_targets": Subtopic.objects.select_related("topic") if is_mod else None,
+            "can_delete_post": _can_delete(request.user, post),
         },
     )
 
@@ -217,6 +284,94 @@ def comment_create(request, pk):
     )
 
 
+@require_POST
+def reply_create(request, pk):
+    """Create a one-level reply to a top-level comment (HTMX).
+
+    ``pk`` is the parent comment. Returns the reply fragment, appended under the
+    parent's replies. Replying to a reply (or to deleted/removed content) is
+    rejected — the single-level rule lives in ``Comment.clean``.
+    """
+    if not request.user.is_authenticated:
+        return HttpResponse("Sign in to reply.", status=403)
+    parent = _visible_or_404(
+        get_object_or_404(Comment.objects.select_related("post__subtopic"), pk=pk),
+        request.user,
+    )
+    body = (request.POST.get("body") or "").strip()
+    if not body:
+        return HttpResponse("A reply can't be empty.", status=400)
+    try:
+        reply = services.create_comment(
+            post=parent.post, author=request.user, body=body, parent=parent
+        )
+    except PermissionDenied as exc:
+        return HttpResponse(str(exc) or "You can't reply right now.", status=403)
+    except ValidationError as exc:
+        return HttpResponse("; ".join(exc.messages), status=400)
+    return render(
+        request,
+        "forum/_comment.html",
+        {"row": _comment_row(reply, request.user, is_reply=True)},
+    )
+
+
+@require_POST
+def post_delete(request, pk):
+    """Author-delete a post (soft) and return to its subtopic.
+
+    Only the author may delete; the service raises ``PermissionDenied`` (→ 403)
+    otherwise. After deletion the post is hidden from everyone but moderators.
+    """
+    if not request.user.is_authenticated:
+        return redirect("login")
+    post = get_object_or_404(Post, pk=pk)
+    services.delete_post(request.user, post)
+    messages.success(request, "Your post was deleted.")
+    return redirect("forum:subtopic", pk=post.subtopic_id)
+
+
+@require_POST
+def comment_delete(request, pk):
+    """Author-delete a comment/reply (soft) and re-render it as a placeholder.
+
+    Returns the re-rendered comment fragment (now "This message was deleted.").
+    For a top-level comment the existing replies are re-rendered with it so they
+    aren't lost from the DOM on the in-place swap.
+    """
+    if not request.user.is_authenticated:
+        return HttpResponse("Sign in to delete.", status=403)
+    comment = get_object_or_404(Comment.objects.select_related("author"), pk=pk)
+    services.delete_comment(request.user, comment)
+    if comment.parent_id is None:
+        replies_qs = comment.replies.select_related("author").prefetch_related("mentions")
+        if not (request.user.is_authenticated and request.user.is_at_least(Level.MODERATOR)):
+            replies_qs = replies_qs.filter(is_removed=False)
+        replies = [_comment_row(r, request.user, is_reply=True) for r in replies_qs]
+        row = _comment_row(comment, request.user, replies=replies)
+    else:
+        row = _comment_row(comment, request.user, is_reply=True)
+    return render(request, "forum/_comment.html", {"row": row})
+
+
+@require_GET
+def comment_original(request, pk):
+    """Reveal the original body of an author-deleted comment (moderators only).
+
+    The original text is never sent to non-moderators (it isn't in the page
+    HTML at all), so this gated endpoint is the only way to see it — moderators
+    and Riffhub Creators (level ≥ MODERATOR) get a 200, everyone else a 403.
+    """
+    if not (request.user.is_authenticated and request.user.is_at_least(Level.MODERATOR)):
+        raise PermissionDenied("Moderator privileges are required.")
+    comment = get_object_or_404(
+        Comment.objects.select_related("author").prefetch_related("mentions"), pk=pk
+    )
+    if not comment.is_deleted:
+        raise Http404("This comment has no hidden original.")
+    return render(request, "forum/_comment_original.html", {"comment": comment})
+
+
 # --- post creation + market disclaimer -------------------------------------
 @require_POST
 def post_create(request, pk):
@@ -259,6 +414,49 @@ def accept_disclaimer(request, pk):
     if request.user.is_authenticated:
         services.accept_market_disclaimer(request.user)
     return redirect("forum:subtopic", pk=pk)
+
+
+# --- Moderator-only audit of author-deleted posts (/deleted) ---------------
+def _require_moderator(user) -> None:
+    if not (user.is_authenticated and user.is_at_least(Level.MODERATOR)):
+        raise PermissionDenied("Moderator privileges are required.")
+
+
+def deleted_index(request):
+    """List the whole live topic/subtopic tree, each subtopic annotated with how
+    many author-deleted posts it holds (PRODUCT.md: moderators audit deletions).
+
+    Moderators "see all the topics and subtopics that currently exist but they
+    explore only deleted Posts" — the drill-down (``deleted_subtopic``) is where
+    the deleted posts themselves live.
+    """
+    _require_moderator(request.user)
+    topics = Topic.objects.prefetch_related(
+        Prefetch(
+            "subtopics",
+            queryset=Subtopic.objects.annotate(
+                deleted_count=Count("posts", filter=Q(posts__is_deleted=True))
+            ),
+        )
+    )
+    return render(request, "forum/deleted_index.html", {"topics": topics})
+
+
+def deleted_subtopic(request, pk):
+    """List the author-deleted posts within one subtopic (moderators only)."""
+    _require_moderator(request.user)
+    subtopic = get_object_or_404(Subtopic.objects.select_related("topic"), pk=pk)
+    posts = (
+        subtopic.posts.filter(is_deleted=True)
+        .select_related("author")
+        .annotate(num_comments=Count("comments"))
+        .order_by("-deleted_at")
+    )
+    return render(
+        request,
+        "forum/deleted_subtopic.html",
+        {"subtopic": subtopic, "topic": subtopic.topic, "posts": posts},
+    )
 
 
 # --- Creator-only topic / subtopic management ------------------------------

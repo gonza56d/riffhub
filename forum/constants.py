@@ -80,6 +80,12 @@ PREDEFINED_TOPICS = (
 GEAR_MARKET_TOPIC_NAME = "Gear Market"
 GEAR_MARKET_SUBTOPICS = ("Guitars", "Basses", "Studio", "Percussion", "Other")
 
+# Shown in place of a comment/reply that its author has deleted (soft delete).
+# Moderators and Riffhub Creators can still reveal the original (see
+# ``forum.views.comment_original``); everyone else only ever sees this text.
+DELETED_COMMENT_PLACEHOLDER = "This message was deleted."
+
+
 # Wording the user must accept before participating in the Gear Market.
 MARKET_DISCLAIMER_TEXT = (
     "riffhub is not responsible for any sale, purchase, coordination of "

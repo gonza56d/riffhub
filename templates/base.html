@@ -41,6 +41,7 @@
           <a href="{% url 'catalog:review_queue' %}">review</a>
           <a href="{% url 'messaging:inbox' %}">messages{% if unread_dm_count %} <span class="dm-badge">{{ unread_dm_count }}</span>{% endif %}</a>
           {% if is_moderator %}<a href="{% url 'moderation:dashboard' %}">moderation</a>{% endif %}
+          {% if is_moderator %}<a href="{% url 'deleted:index' %}">deleted</a>{% endif %}
           {% if is_creator %}<a href="{% url 'forum:manage_topics' %}">manage</a>{% endif %}
           <span class="nav-user">{% include "accounts/_userlink.html" with u=user label=user.username %}</span>
           <form method="post" action="{% url 'logout' %}" class="logout-form">{% csrf_token %}<button type="submit">log out</button></form>

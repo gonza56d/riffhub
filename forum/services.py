@@ -16,8 +16,10 @@ worker), so that check is left as a clearly-marked TODO and we fall back to
 
 from __future__ import annotations
 
+import re
 from decimal import Decimal
 
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
@@ -99,16 +101,87 @@ def create_post(*, subtopic, author, title: str, body: str, **extra) -> Post:
     return post
 
 
+# A mention is an ``@`` immediately followed by username-legal characters
+# (letters, digits, and ``@ . + - _`` as Django's UsernameValidator allows).
+_MENTION_RE = re.compile(r"@([\w.@+-]+)")
+
+
+def _apply_mentions(comment: Comment) -> None:
+    """Resolve the ``@handles`` in ``comment.body`` to tagged users and store them.
+
+    PRODUCT.md: a reply may *tag* any user who is not banned. We parse the
+    handles, match real accounts, and drop banned/inactive ones at the database
+    level (``is_banned`` == not active *or* an un-lifted ban) so a banned user
+    can never be tagged. The stored set drives the rendered profile links — an
+    unknown or banned handle simply stays plain text.
+    """
+    usernames = set(_MENTION_RE.findall(comment.body or ""))
+    if not usernames:
+        comment.mentions.clear()
+        return
+    User = get_user_model()
+    # is_active=True filters DB-side; ``is_banned`` (an un-lifted ban) is a
+    # property, so drop those in Python. Mention sets are tiny, so the extra
+    # check per candidate is cheap — and it reuses the same "banned" definition
+    # the rest of the app (and ``_userlink``) trusts.
+    candidates = User.objects.filter(username__in=usernames, is_active=True)
+    comment.mentions.set([user for user in candidates if not user.is_banned])
+
+
 @transaction.atomic
-def create_comment(*, post, author, body: str, **extra) -> Comment:
-    """Create a comment and register activity on its subtopic/topic."""
+def create_comment(*, post, author, body: str, parent=None, **extra) -> Comment:
+    """Create a comment (or a one-level reply) and register activity.
+
+    ``parent`` makes this a reply; the single-level rule and same-post check are
+    enforced by ``Comment.clean`` (via ``full_clean``). After saving, any
+    ``@username`` tags in the body are resolved to non-banned users
+    (:func:`_apply_mentions`).
+    """
     if not can_participate(author):
         raise PermissionDenied("You can't comment while silenced or banned.")
-    comment = Comment(post=post, author=author, body=body, **extra)
+    comment = Comment(post=post, author=author, body=body, parent=parent, **extra)
     comment.full_clean()
     comment.save()
+    _apply_mentions(comment)
     register_activity(post.subtopic)
     author.add_reputation(REP_COMMENT_CREATED)
+    return comment
+
+
+# ---------------------------------------------------------------------------
+# Author self-service deletion (soft; distinct from a moderator remove)
+# ---------------------------------------------------------------------------
+@transaction.atomic
+def delete_post(user, post) -> Post:
+    """Author-delete a post (soft delete).
+
+    PRODUCT.md: a user may delete their own post. It then disappears from every
+    public view — its body *and* its comments become inaccessible — but is kept
+    so moderators can audit it at ``/deleted``. Only the author may do this;
+    moderators use *remove* instead. Idempotent if already deleted.
+    """
+    if not getattr(user, "is_authenticated", False) or post.author_id != user.pk:
+        raise PermissionDenied("You can only delete your own posts.")
+    if post.is_deleted:
+        return post
+    post.mark_deleted(by=user)
+    return post
+
+
+@transaction.atomic
+def delete_comment(user, comment) -> Comment:
+    """Author-delete a comment or reply (soft delete).
+
+    PRODUCT.md: the comment is replaced by a "This message was deleted."
+    placeholder for everyone while its reactions are preserved and still shown;
+    moderators and Riffhub Creators can reveal the original for moderation. Only
+    the author may delete. Idempotent if already deleted.
+    """
+    if not getattr(user, "is_authenticated", False) or comment.author_id != user.pk:
+        raise PermissionDenied("You can only delete your own comments.")
+    if comment.is_deleted:
+        return comment
+    comment.mark_deleted(by=user)
     return comment
 
 
