@@ -112,6 +112,7 @@ TEMPLATES = [
                 "moderation.context_processors.moderation_flags",
                 "messaging.context_processors.messaging_flags",
                 "accounts.context_processors.theme",
+                "accounts.context_processors.email_confirmation",
             ],
         },
     },

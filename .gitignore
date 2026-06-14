@@ -221,3 +221,7 @@ __marimo__/
 # User-uploaded media (images stored on disk via ImageField) and collected static.
 /media/
 /staticfiles/
+
+# Local Claude Code MCP config — references RENDER_API_KEY from your shell env,
+# so no secret is stored, but kept local to avoid clone-time parse errors.
+.mcp.json

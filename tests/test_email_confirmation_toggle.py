@@ -58,6 +58,14 @@ class ConfirmationDisabledTests(TestCase):
         self.assertTrue(has_confirmed_email(user))
         self.assertTrue(can_submit_to_collab(user))
 
+    def test_no_confirm_banner_is_shown(self):
+        user = User.objects.create_user(
+            username="bannerless", email="b@riffhub.test", password=STRONG_PASSWORD
+        )
+        self.client.force_login(user)
+        resp = self.client.get(reverse("catalog:browse"))
+        self.assertNotContains(resp, "Confirm your e-mail to contribute gear")
+
 
 @override_settings(REQUIRE_EMAIL_CONFIRMATION=True)
 class ConfirmationRequiredTests(TestCase):
@@ -81,3 +89,11 @@ class ConfirmationRequiredTests(TestCase):
         )
         self.assertFalse(has_confirmed_email(user))
         self.assertFalse(can_submit_to_collab(user))
+
+    def test_confirm_banner_is_shown(self):
+        user = User.objects.create_user(
+            username="bannered", email="b2@riffhub.test", password=STRONG_PASSWORD
+        )
+        self.client.force_login(user)
+        resp = self.client.get(reverse("catalog:browse"))
+        self.assertContains(resp, "Confirm your e-mail to contribute gear")
