@@ -34,6 +34,8 @@
         {% if guitar.year_introduced %}<dt>Introduced</dt><dd>{{ guitar.year_introduced }}{% if guitar.year_discontinued %}–{{ guitar.year_discontinued }}{% endif %}</dd>{% endif %}
       </dl>
     </section>
+
+    {% include "catalog/_catalog_comments.html" %}
   </div>
 
   <div class="detail-side">
@@ -57,28 +59,28 @@
       {% if guitar.bridge %}
       <div class="component">
         <div class="role">Bridge</div>
-        <div class="part">{{ guitar.bridge.brand }} {{ guitar.bridge.name }}</div>
+        <div class="part"><a href="{% url 'catalog:gear_detail' 'bridge' guitar.bridge.pk %}">{{ guitar.bridge.brand }} {{ guitar.bridge.name }}</a></div>
         <div class="meta">{{ guitar.bridge.bridge_type.name }}{% if guitar.bridge.has_piezo %} · piezo{% endif %}{% if guitar.bridge.is_locking %} · locking{% endif %}</div>
       </div>
       {% endif %}
       {% for gp in pickups %}
       <div class="component">
         <div class="role">{{ gp.get_position_display }} pickup</div>
-        <div class="part">{{ gp.pickup.brand }} {{ gp.pickup.name }}</div>
+        <div class="part"><a href="{% url 'catalog:gear_detail' 'pickup' gp.pickup.pk %}">{{ gp.pickup.brand }} {{ gp.pickup.name }}</a></div>
         <div class="meta">{{ gp.pickup.pickup_type.name }}{% if gp.pickup.is_active %} · active{% else %} · passive{% endif %}</div>
       </div>
       {% endfor %}
       {% if guitar.tuners %}
       <div class="component">
         <div class="role">Tuners</div>
-        <div class="part">{{ guitar.tuners.brand }} {{ guitar.tuners.name }}</div>
+        <div class="part"><a href="{% url 'catalog:gear_detail' 'tuner' guitar.tuners.pk %}">{{ guitar.tuners.brand }} {{ guitar.tuners.name }}</a></div>
         <div class="meta">{% if guitar.tuners.is_locking %}locking{% else %}standard{% endif %}{% if guitar.tuners.ratio %} · {{ guitar.tuners.ratio }}{% endif %}</div>
       </div>
       {% endif %}
       {% if guitar.nut %}
       <div class="component">
         <div class="role">Nut</div>
-        <div class="part">{{ guitar.nut.brand }} {{ guitar.nut.name }}</div>
+        <div class="part"><a href="{% url 'catalog:gear_detail' 'nut' guitar.nut.pk %}">{{ guitar.nut.brand }} {{ guitar.nut.name }}</a></div>
         <div class="meta">{{ guitar.nut.material.name }}{% if guitar.nut.is_locking %} · locking{% endif %}</div>
       </div>
       {% endif %}

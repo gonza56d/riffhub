@@ -1,5 +1,6 @@
 from .base import CatalogEntry, CatalogQuerySet, ControlledVocabulary
 from .brand import Brand
+from .comment import CatalogComment
 from .gear import Bridge, GearItem, Nut, Pickup, Tuner
 from .guitar import GuitarModel, GuitarPickup
 from .review import Correction, ReviewVote
@@ -25,6 +26,7 @@ __all__ = [
     "CatalogQuerySet",
     "ControlledVocabulary",
     "Brand",
+    "CatalogComment",
     "GearItem",
     "Bridge",
     "Pickup",

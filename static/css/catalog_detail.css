@@ -1,0 +1,38 @@
+/* Catalog detail extras: comment threads (guitars + gear) and gear pages.
+   Every rule is scoped to catalog-only class names so it never cascades into
+   the forum's comment styling. Reuses the theme variables from riffhub.css. */
+
+.catalog-comments { margin-top: 18px; }
+.catalog-comments h2 { margin-bottom: 12px; }
+
+.catalog-comments .comment-form { display: grid; gap: 8px; margin: 8px 0 6px; }
+.catalog-comments .comment-form textarea {
+  width: 100%; padding: 8px 10px; border: 1px solid var(--rule);
+  border-radius: 6px; background: var(--paper-3); color: var(--ink);
+  font-family: var(--body); font-size: .95rem; resize: vertical;
+}
+.catalog-comments .comment-form button { justify-self: start; }
+
+.catalog-comment-list { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 14px; }
+.catalog-comment {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 12px 14px;
+}
+.catalog-comment .comment-meta { font-size: .82rem; color: var(--ink-soft); }
+.catalog-comment .comment-meta .author { color: var(--walnut); }
+.catalog-comment .comment-body { margin-top: 4px; color: var(--ink); }
+
+.catalog-reply {
+  margin: 10px 0 0 18px; padding: 8px 12px;
+  border-left: 3px solid var(--amber); background: var(--paper-3);
+  border-radius: 0 5px 5px 0;
+}
+
+.catalog-reply-box { margin-top: 8px; }
+.catalog-reply-box summary {
+  cursor: pointer; color: var(--walnut); font-family: var(--slab); font-size: .85rem;
+}
+
+.used-on { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.used-on a { color: var(--walnut); }
+.gear-desc { margin-top: 12px; color: var(--ink-soft); }

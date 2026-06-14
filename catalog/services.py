@@ -6,14 +6,17 @@ be called from views, the admin or future tasks.
 """
 
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import PermissionDenied, ValidationError
+from django.db.models import Prefetch
 from django.utils import timezone
 
 from accounts.models import Level
 from accounts.services import recompute_standing
 from catalog.constants import REP_ACCEPTED_SUBMISSION, PublicationStatus, VoteValue
-from catalog.models import Brand, Bridge, GuitarModel, Nut, Pickup, Tuner
+from catalog.models import Brand, Bridge, CatalogComment, GuitarModel, Nut, Pickup, Tuner
 from catalog.models.review import ReviewVote
 from core.models import SiteConfiguration
+from moderation.services import can_participate
 
 
 def cast_review_vote(user, target, value: int) -> ReviewVote | None:
@@ -151,3 +154,67 @@ def can_submit_to_collab(user) -> bool:
     if user.rejected_submissions_count > config.max_rejected_before_cooldown:
         return False
     return True
+
+
+# ---------------------------------------------------------------------------
+# Catalog comments (guitar + gear detail pages)
+# ---------------------------------------------------------------------------
+def _comment_ct(target):
+    """ContentType for attaching/looking up a comment on a catalog object.
+
+    The read and write paths must resolve the ContentType identically, so this
+    is the single source of truth for both.
+    """
+    return ContentType.objects.get_for_model(target, for_concrete_model=False)
+
+
+def add_catalog_comment(*, target, author, body, parent=None):
+    """Create a comment (or one-level reply) on a catalog object.
+
+    Gated by ``moderation.can_participate`` (silenced/banned users are blocked,
+    like forum posting). A blank body is rejected. A reply (``parent`` given)
+    must hang off a *top-level* comment on the *same* target — replying to a
+    reply, or to a comment from another page, is rejected.
+    """
+    if not can_participate(author):
+        raise PermissionDenied("You can't comment while silenced or banned.")
+    body = (body or "").strip()
+    if not body:
+        raise ValidationError("A comment can't be empty.")
+
+    ct = _comment_ct(target)
+    if parent is not None:
+        if parent.parent_id is not None:
+            raise ValidationError("You can only reply to a top-level comment.")
+        if parent.content_type_id != ct.id or parent.object_id != target.pk:
+            raise ValidationError("That comment belongs to a different page.")
+
+    return CatalogComment.objects.create(
+        content_type=ct,
+        object_id=target.pk,
+        author=author,
+        body=body,
+        parent=parent,
+    )
+
+
+def catalog_comment_thread(target):
+    """Top-level, non-removed comments for ``target`` (newest first), each with
+    its non-removed replies prefetched (oldest first). The caller paginates the
+    returned (top-level) queryset.
+    """
+    ct = _comment_ct(target)
+    visible_replies = CatalogComment.objects.filter(is_removed=False).select_related(
+        "author"
+    )
+    return (
+        CatalogComment.objects.filter(
+            content_type=ct,
+            object_id=target.pk,
+            parent__isnull=True,
+            is_removed=False,
+        )
+        .select_related("author")
+        .prefetch_related(Prefetch("replies", queryset=visible_replies))
+        .order_by("-created_at")
+    )

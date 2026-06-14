@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ gear.brand }} {{ gear.name }} · riffhub{% endblock %}
+
+{% block content %}
+<a class="detail-back" href="{% url 'catalog:browse' %}">‹ back to browse</a>
+
+<div class="detail-head">
+  <div>
+    <span class="brand">{{ gear.brand }}</span>
+    <h1>{{ gear.name }}</h1>
+  </div>
+  <div class="scale-big">{{ kind|capfirst }}<small>component</small></div>
+</div>
+
+<div class="detail-grid">
+  <div class="detail-main">
+    <section class="panel">
+      <h2>Specifications</h2>
+      <dl class="spec-sheet">
+        {% for label, value in specs %}<dt>{{ label }}</dt><dd>{{ value }}</dd>{% endfor %}
+      </dl>
+      {% if description %}<div class="gear-desc">{{ description|linebreaks }}</div>{% endif %}
+    </section>
+
+    {% include "catalog/_catalog_comments.html" %}
+  </div>
+
+  <div class="detail-side">
+    <section class="panel">
+      <h2>Used on</h2>
+      {% if used_on %}
+      <ul class="used-on">
+        {% for g in used_on %}
+        <li><a href="{% url 'catalog:detail' g.pk %}">{{ g.brand }} {{ g.name }}</a></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="muted">Not linked to any published guitar yet.</p>
+      {% endif %}
+    </section>
+  </div>
+</div>
+{% endblock %}

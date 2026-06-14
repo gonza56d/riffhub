@@ -9,12 +9,27 @@ fast ORM filtering.
 
 from decimal import Decimal, InvalidOperation
 
+from django.contrib import messages
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.paginator import Paginator
 from django.db.models import F
-from django.shortcuts import get_object_or_404, render
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
 
+from catalog import services
 from catalog.constants import ElectronicsType, PublicationStatus
-from catalog.models import BodyShape, Country, GuitarModel, NeckConstruction
+from catalog.models import (
+    BodyShape,
+    Bridge,
+    CatalogComment,
+    Country,
+    GuitarModel,
+    NeckConstruction,
+    Nut,
+    Pickup,
+    Tuner,
+)
 
 # How many guitars to show per page on the browse list.
 PAGE_SIZE = 24
@@ -233,7 +248,11 @@ def guitar_detail(request, pk):
     return render(
         request,
         "catalog/guitar_detail.html",
-        {"guitar": guitar, "pickups": pickups},
+        {
+            "guitar": guitar,
+            "pickups": pickups,
+            **_comment_context(request, guitar, "guitar"),
+        },
     )
 
 
@@ -249,3 +268,143 @@ def _is_published_component(component) -> bool:
         return False
     brand = component.brand
     return brand is not None and brand.status == PublicationStatus.PUBLISHED
+
+
+# ---------------------------------------------------------------------------
+# Comments (guitar + gear detail pages) + gear detail pages
+# ---------------------------------------------------------------------------
+PAGE_SIZE_COMMENTS = 10
+
+# URL "kind" -> gear model. "guitar" is handled separately (GuitarModel).
+GEAR_KINDS = {
+    "bridge": Bridge,
+    "pickup": Pickup,
+    "tuner": Tuner,
+    "nut": Nut,
+}
+
+
+def _published_gear(model, pk):
+    """Fetch a published gear item whose brand is also published, else 404."""
+    gear = get_object_or_404(model.objects.select_related("brand"), pk=pk)
+    if not _is_published_component(gear):
+        raise Http404("This gear isn't available.")
+    return gear
+
+
+def _comment_context(request, target, target_kind) -> dict:
+    """Paginated comment thread context for a catalog detail page.
+
+    ``target_kind`` is the URL token ("guitar" / "bridge" / …) the comment form
+    posts back to. The pager links carry only ``?page`` (detail pages have no
+    other query params).
+    """
+    paginator = Paginator(services.catalog_comment_thread(target), PAGE_SIZE_COMMENTS)
+    page_obj = paginator.get_page(_page_number(request.GET.get("page")))
+    return {
+        "comments_page": page_obj,
+        "comments_total": paginator.count,
+        "comment_target_kind": target_kind,
+        "comment_target_pk": target.pk,
+        "can_comment": request.user.is_authenticated,
+    }
+
+
+def _gear_specs(kind, gear):
+    """(label, value) rows for a gear item's spec sheet, by kind."""
+    rows = [("Brand", gear.brand.name)]
+    if kind == "bridge":
+        rows += [
+            ("Type", gear.bridge_type.name),
+            ("Piezo", "Yes" if gear.has_piezo else "No"),
+            ("Locking", "Yes" if gear.is_locking else "No"),
+        ]
+    elif kind == "pickup":
+        rows += [
+            ("Type", gear.pickup_type.name),
+            ("Electronics", "Active" if gear.is_active else "Passive"),
+        ]
+    elif kind == "tuner":
+        rows.append(("Locking", "Yes" if gear.is_locking else "No"))
+        if gear.ratio:
+            rows.append(("Ratio", gear.ratio))
+        if gear.tuner_type:
+            rows.append(("Type", gear.get_tuner_type_display()))
+    elif kind == "nut":
+        rows += [
+            ("Material", gear.material.name),
+            ("Locking", "Yes" if gear.is_locking else "No"),
+        ]
+    return rows
+
+
+def _guitars_using(kind, gear):
+    """Published guitars that reference this gear item (for the "Used on" list)."""
+    qs = GuitarModel.objects.published().select_related("brand")
+    if kind == "bridge":
+        qs = qs.filter(bridge=gear)
+    elif kind == "tuner":
+        qs = qs.filter(tuners=gear)
+    elif kind == "nut":
+        qs = qs.filter(nut=gear)
+    elif kind == "pickup":
+        qs = qs.filter(guitar_pickups__pickup=gear).distinct()
+    return qs.order_by("brand__name", "name")
+
+
+def gear_detail(request, kind, pk):
+    """Spec sheet for one published gear item, the guitars using it, and its
+    comment thread. Mirrors ``guitar_detail``'s publication gating."""
+    model = GEAR_KINDS.get(kind)
+    if model is None:
+        raise Http404("Unknown gear type.")
+    gear = _published_gear(model, pk)
+    context = {
+        "kind": kind,
+        "gear": gear,
+        "specs": _gear_specs(kind, gear),
+        "description": gear.description,
+        "used_on": _guitars_using(kind, gear),
+        **_comment_context(request, gear, kind),
+    }
+    return render(request, "catalog/gear_detail.html", context)
+
+
+def _resolve_comment_target(kind, pk):
+    """Resolve a comment-target URL token to its published catalog object."""
+    if kind == "guitar":
+        return get_object_or_404(GuitarModel.objects.published(), pk=pk)
+    model = GEAR_KINDS.get(kind)
+    if model is None:
+        raise Http404("Unknown comment target.")
+    return _published_gear(model, pk)
+
+
+@require_POST
+def add_catalog_comment(request, kind, pk):
+    """Post a comment (or a one-level reply via a ``parent`` field) on a guitar
+    or gear page, then redirect back to it."""
+    if not request.user.is_authenticated:
+        return redirect("login")
+    target = _resolve_comment_target(kind, pk)
+
+    parent = None
+    parent_id = request.POST.get("parent")
+    if parent_id:
+        parent = get_object_or_404(CatalogComment, pk=parent_id)
+
+    try:
+        services.add_catalog_comment(
+            target=target,
+            author=request.user,
+            body=request.POST.get("body", ""),
+            parent=parent,
+        )
+    except PermissionDenied as exc:
+        messages.error(request, str(exc) or "You can't comment right now.")
+    except ValidationError as exc:
+        messages.error(request, "; ".join(exc.messages))
+
+    if kind == "guitar":
+        return redirect("catalog:detail", pk=target.pk)
+    return redirect("catalog:gear_detail", kind=kind, pk=target.pk)
