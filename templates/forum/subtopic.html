@@ -8,8 +8,7 @@
 </div>
 
 {% if is_market and not disclaimer_ok %}
-  {# Gear Market gate: the listings stay hidden until the disclaimer is
-     accepted, so this is the first (and only) thing a visitor sees here. #}
+  {# Gear Market gate: listings stay hidden until the disclaimer is accepted. #}
   <section class="panel disclaimer gate">
     <h2>Before you buy or sell here</h2>
     <p>{{ disclaimer_text }}</p>

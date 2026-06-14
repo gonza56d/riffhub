@@ -307,6 +307,8 @@ class MarketPostViewDisclaimerGateTests(TestCase):
         self.assertContains(resp, "Before you buy or sell here")
         self.assertContains(resp, "I understand")
         self.assertNotContains(resp, "Selling a Strat")
+        # Guard against a raw template comment leaking into the page.
+        self.assertNotContains(resp, "{#")
 
     def test_listings_visible_after_acceptance(self):
         self._listing()
