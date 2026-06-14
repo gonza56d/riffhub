@@ -139,10 +139,13 @@ def reject_submission(entry, *, by=None) -> None:
 def can_submit_to_collab(user) -> bool:
     """Whether ``user`` may currently submit to the collab-db.
 
-    Gate (PRODUCT.md): the e-mail must be confirmed, and a user who has racked
-    up too many rejected submissions is temporarily blocked (troll guard).
+    Gate (PRODUCT.md): the e-mail must be confirmed (unless e-mail confirmation
+    is disabled via REQUIRE_EMAIL_CONFIRMATION), and a user who has racked up too
+    many rejected submissions is temporarily blocked (troll guard).
     """
-    if not user.email_confirmed:
+    from accounts.services import has_confirmed_email
+
+    if not has_confirmed_email(user):
         return False
     config = SiteConfiguration.get_solo()
     if user.rejected_submissions_count > config.max_rejected_before_cooldown:

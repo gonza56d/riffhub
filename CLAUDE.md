@@ -27,7 +27,8 @@ updated when you add or change a domain.
   The collaborator/founder promotion thresholds have **no default and raise `ImproperlyConfigured`
   until set in /admin** (by design — never silently promote).
 - **accounts** — custom `User` (`AUTH_USER_MODEL`), the ordered 6-level `Level` ladder
-  (`user.is_at_least(Level.X)`), reputation, e-mail confirmation, profile pages at `/u/<username>/`.
+  (`user.is_at_least(Level.X)`), reputation, e-mail confirmation (gates collab-db contributions;
+  toggle with `REQUIRE_EMAIL_CONFIRMATION`), profile pages at `/u/<username>/`.
 - **catalog** — the collab-db: `Brand`, typed gear (`Bridge`/`Pickup`/`Tuner`/`Nut`), `GuitarModel`,
   and small controlled-vocabulary lookup tables. **Derived guitar facets** (pickup combo, tremolo,
   electronics, …) are recomputed from the attached components via signals and denormalised into indexed

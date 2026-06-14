@@ -151,6 +151,11 @@ AUTH_USER_MODEL = "accounts.User"
 LOGIN_REDIRECT_URL = "/forum/"
 LOGOUT_REDIRECT_URL = "/forum/"
 
+# Whether new users must confirm their e-mail before they can contribute to the
+# collab gear DB. Turn off (REQUIRE_EMAIL_CONFIRMATION=False) to disable the
+# feature without removing it: sign-up then auto-confirms and sends no e-mail.
+REQUIRE_EMAIL_CONFIRMATION = env.bool("REQUIRE_EMAIL_CONFIRMATION", default=True)
+
 # --- Email ------------------------------------------------------------------
 # Dev prints e-mails to the console. For real delivery in prod set
 # EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend and the EMAIL_* vars

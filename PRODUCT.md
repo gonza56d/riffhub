@@ -131,7 +131,7 @@ Reputation weights (starting values, could move to SiteConfiguration): post +2, 
 
 ## Collab-db review workflow (`catalog`)
 
-`ReviewVote` (generic +1/−1 on any catalog entry) and `Correction` (proposed fix) ride on the `CatalogEntry` status. `catalog.services`: `cast_review_vote` (Collaborators+ only, no self-vote), `evaluate_submission` (publishes when net votes ≥ `gear_acceptance_min_net_votes` and distinct voters ≥ `gear_acceptance_min_voters`; credits the submitter +1 accepted and +10 rep, recomputes standing), `reject_submission` (marks rejected, ticks the reject counter), `can_submit_to_collab` (needs confirmed email; blocks after `max_rejected_before_cooldown` rejects — the troll guard). Acceptance/cooldown knobs live in `SiteConfiguration` (defaults 3 / 3 / 3).
+`ReviewVote` (generic +1/−1 on any catalog entry) and `Correction` (proposed fix) ride on the `CatalogEntry` status. `catalog.services`: `cast_review_vote` (Collaborators+ only, no self-vote), `evaluate_submission` (publishes when net votes ≥ `gear_acceptance_min_net_votes` and distinct voters ≥ `gear_acceptance_min_voters`; credits the submitter +1 accepted and +10 rep, recomputes standing), `reject_submission` (marks rejected, ticks the reject counter), `can_submit_to_collab` (needs confirmed email unless `REQUIRE_EMAIL_CONFIRMATION` is disabled; blocks after `max_rejected_before_cooldown` rejects — the troll guard). Acceptance/cooldown knobs live in `SiteConfiguration` (defaults 3 / 3 / 3).
 
 ## Forum domain (`forum`)
 

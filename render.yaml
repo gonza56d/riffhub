@@ -53,6 +53,8 @@ services:
                                # redirect would break the (HTTP) health check.
       - key: WEB_CONCURRENCY
         value: "2"             # gunicorn workers; raise on plans with more RAM
+      - key: REQUIRE_EMAIL_CONFIRMATION
+        value: "false"         # no mail service yet — sign-up auto-confirms
 
   # --- Hourly sweeper (proposals/submissions) ------------------------------
   # Mirrors the opt-in Docker "scheduler". Cron jobs bill only for the seconds

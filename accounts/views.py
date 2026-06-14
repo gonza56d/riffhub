@@ -23,6 +23,7 @@ from accounts.models import (
     EmailConfirmation,
     Theme,
 )
+from accounts.services import email_confirmation_required
 from catalog.models import GuitarModel
 from forum.models import Comment, Post
 from moderation.models import Silence
@@ -61,13 +62,20 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            link = _send_confirmation(request, user)
+            if email_confirmation_required():
+                link = _send_confirmation(request, user)
+                login(request, user, backend=AUTH_BACKEND)
+                return render(
+                    request,
+                    "registration/signup_done.html",
+                    {"email": user.email, "confirmation_link": link if settings.DEBUG else None},
+                )
+            # Confirmation disabled — auto-confirm and drop the user straight in.
+            user.email_confirmed = True
+            user.save(update_fields=["email_confirmed"])
             login(request, user, backend=AUTH_BACKEND)
-            return render(
-                request,
-                "registration/signup_done.html",
-                {"email": user.email, "confirmation_link": link if settings.DEBUG else None},
-            )
+            messages.success(request, "Welcome to riffhub! Your account is ready.")
+            return redirect("forum:index")
     else:
         form = SignUpForm()
     return render(request, "registration/signup.html", {"form": form})
@@ -88,7 +96,9 @@ def confirm_email(request, token):
 @require_POST
 def resend_confirmation(request):
     user = request.user
-    if user.is_authenticated and not user.email_confirmed:
+    if not email_confirmation_required():
+        messages.info(request, "E-mail confirmation isn't required right now.")
+    elif user.is_authenticated and not user.email_confirmed:
         link = _send_confirmation(request, user)
         if settings.DEBUG:
             messages.info(request, f"Confirmation re-sent. Dev link: {link}")

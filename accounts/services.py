@@ -6,6 +6,7 @@ Kept out of the model so the rules stay easy to find and call from the catalog
 review workflow.
 """
 
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 from catalog.constants import PublicationStatus
@@ -62,3 +63,19 @@ def recompute_standing(user) -> None:
             update_fields.append("is_founder")
 
     user.save(update_fields=update_fields)
+
+
+def email_confirmation_required() -> bool:
+    """Whether new users must confirm their e-mail before they can contribute.
+
+    Mirrors the ``REQUIRE_EMAIL_CONFIRMATION`` setting (env-toggleable, default
+    on). When off, sign-up auto-confirms and no confirmation e-mail is sent —
+    the feature's code stays in place, just dormant.
+    """
+    return settings.REQUIRE_EMAIL_CONFIRMATION
+
+
+def has_confirmed_email(user) -> bool:
+    """True if ``user`` has cleared the e-mail gate — either they confirmed, or
+    e-mail confirmation is currently disabled."""
+    return user.email_confirmed or not email_confirmation_required()
