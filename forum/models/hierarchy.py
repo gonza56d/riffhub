@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
-from core.models import Moderatable, TimeStampedModel
+from core.models import Deletable, Moderatable, TimeStampedModel
 
 from forum.constants import CURRENCY_MAX_LENGTH
 
@@ -73,7 +73,7 @@ class Subtopic(models.Model):
         super().save(*args, **kwargs)
 
 
-class Post(TimeStampedModel, Moderatable):
+class Post(TimeStampedModel, Moderatable, Deletable):
     """A thread inside a subtopic: has a title and a body.
 
     In the Gear Market a post is a listing, so ``price``/``currency`` are
@@ -135,15 +135,29 @@ class Post(TimeStampedModel, Moderatable):
             )
 
 
-class Comment(TimeStampedModel, Moderatable):
-    """A reply on a :class:`Post`. Body only — no title, no price.
+class Comment(TimeStampedModel, Moderatable, Deletable):
+    """A comment on a :class:`Post`, or a one-level reply to another comment.
 
     Lowball offers in the Gear Market are just regular comments (PRODUCT.md).
     An optional external ``video_url`` mirrors posts for parity.
+
+    Replies are limited to a single level (PRODUCT.md): a comment may reply to a
+    top-level comment, but never to a reply. ``clean`` enforces that and keeps a
+    reply on the same post as its parent. Instead of nesting deeper, a reply may
+    *tag* other (non-banned) users via ``@username`` mentions, captured in
+    ``mentions`` at creation time (see ``forum.services``).
     """
 
     post = models.ForeignKey(
         "forum.Post", on_delete=models.CASCADE, related_name="comments"
+    )
+    parent = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="replies",
+        help_text="The top-level comment this is a reply to (None for a root comment).",
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -154,9 +168,39 @@ class Comment(TimeStampedModel, Moderatable):
     video_url = models.URLField(
         blank=True, help_text="External video link only (e.g. YouTube)."
     )
+    # Users tagged in this comment. Populated from the @handles in ``body`` at
+    # creation, filtered to non-banned accounts (a banned user can't be tagged).
+    mentions = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name="forum_mentions",
+    )
 
     class Meta:
         ordering = ["created_at"]
+        indexes = [models.Index(fields=["post", "parent"])]
 
     def __str__(self) -> str:
         return f"Comment by {self.author} on {self.post}"
+
+    @property
+    def is_reply(self) -> bool:
+        """Whether this comment is a reply to another comment."""
+        return self.parent_id is not None
+
+    def clean(self) -> None:
+        """Enforce the single-level reply rule (PRODUCT.md).
+
+        You can reply to a top-level comment but never to a reply, and a reply
+        must live on the same post as the comment it answers.
+        """
+        super().clean()
+        if self.parent_id:
+            if self.parent.post_id != self.post_id:
+                raise ValidationError(
+                    {"parent": "A reply must belong to the same post as its parent comment."}
+                )
+            if self.parent.parent_id is not None:
+                raise ValidationError(
+                    {"parent": "You can only reply to top-level comments, not to replies."}
+                )

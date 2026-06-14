@@ -157,8 +157,10 @@ def profile(request, username):
     # content, just without a link back here.
     if profile_user.is_banned:
         raise Http404("This profile is unavailable.")
+    # Exclude both moderator-removed and author-deleted content: a deleted post
+    # is gone for everyone, so its title must not leak through the profile.
     posts = (
-        Post.objects.filter(author=profile_user, is_removed=False)
+        Post.objects.filter(author=profile_user, is_removed=False, is_deleted=False)
         .select_related("subtopic__topic")
         .order_by("-created_at")[:10]
     )
@@ -175,9 +177,11 @@ def profile(request, username):
             "profile_user": profile_user,
             "level": profile_user.level,
             "posts": posts,
-            "post_count": Post.objects.filter(author=profile_user, is_removed=False).count(),
+            "post_count": Post.objects.filter(
+                author=profile_user, is_removed=False, is_deleted=False
+            ).count(),
             "comment_count": Comment.objects.filter(
-                author=profile_user, is_removed=False
+                author=profile_user, is_removed=False, is_deleted=False
             ).count(),
             "guitars": guitars,
             "public_silence": Silence.objects.filter(

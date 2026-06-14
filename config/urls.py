@@ -19,6 +19,9 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("accounts.urls")),
     path("forum/", include("forum.urls")),
+    # Moderator-only audit of author-deleted posts. PRODUCT.md puts it at the
+    # site root (``{root_url}/deleted``), though it's served by the forum app.
+    path("deleted/", include("forum.deleted_urls")),
     path("moderation/", include("moderation.urls")),
     path("messages/", include("messaging.urls")),
     path("u/<str:username>/", account_views.profile, name="profile"),

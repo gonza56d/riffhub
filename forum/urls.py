@@ -11,6 +11,10 @@ urlpatterns = [
     path("s/<int:pk>/disclaimer/", views.accept_disclaimer, name="accept_disclaimer"),
     path("post/<int:pk>/", views.post_detail, name="post"),
     path("post/<int:pk>/comment/", views.comment_create, name="comment_create"),
+    path("post/<int:pk>/delete/", views.post_delete, name="post_delete"),
+    path("comment/<int:pk>/reply/", views.reply_create, name="reply_create"),
+    path("comment/<int:pk>/delete/", views.comment_delete, name="comment_delete"),
+    path("comment/<int:pk>/original/", views.comment_original, name="comment_original"),
     # Creator-only topic / subtopic management
     path("manage/", views.manage_topics, name="manage_topics"),
     path("manage/topic/new/", views.topic_create, name="topic_create"),

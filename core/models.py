@@ -55,6 +55,40 @@ class Moderatable(models.Model):
             self.save(update_fields=["is_removed", "removed_at", "removed_by", "removal_reason"])
 
 
+class Deletable(models.Model):
+    """Abstract mixin for content its *author* can delete (self-service).
+
+    Distinct from :class:`Moderatable`: a moderator *removes* off-topic/illegal
+    content, while a user *deletes* their own. Author-deleted content is soft —
+    kept in the database so a moderator can still audit it — but hidden from the
+    normal public views (PRODUCT.md "delete your own posts/comments"). A deleted
+    Post disappears entirely (content + comments); a deleted Comment renders a
+    "This message was deleted." placeholder while its reactions are preserved.
+    The two states are independent (a comment can be both author-deleted and
+    moderator-removed); views decide precedence.
+    """
+
+    is_deleted = models.BooleanField(default=False, db_index=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
+    deleted_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+
+    class Meta:
+        abstract = True
+
+    def mark_deleted(self, by, *, save: bool = True) -> None:
+        self.is_deleted = True
+        self.deleted_at = timezone.now()
+        self.deleted_by = by
+        if save:
+            self.save(update_fields=["is_deleted", "deleted_at", "deleted_by"])
+
+
 class SiteConfiguration(TimeStampedModel):
     """Singleton holding runtime-tunable policy values.
 

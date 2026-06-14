@@ -1,0 +1,6 @@
+{% load forum_extras %}
+<div class="comment-original" id="original-{{ comment.pk }}">
+  <div class="comment-meta"><span class="author">{% include "accounts/_userlink.html" with u=comment.author label=comment.author %}</span> · {{ comment.created_at|date:"M j, Y" }} · <span class="muted">original — deleted by author{% if comment.deleted_at %} {{ comment.deleted_at|date:"M j, Y" }}{% endif %}</span></div>
+  <div class="comment-body">{{ comment|comment_body }}</div>
+  {% if comment.video_url %}<p class="video-link"><a href="{{ comment.video_url }}" target="_blank" rel="noopener">▶ video</a></p>{% endif %}
+</div>

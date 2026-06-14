@@ -19,6 +19,13 @@
     {% include "forum/_vote.html" with v=post_vote %}
     {% include "forum/_reactions.html" with r=post_react %}
   </div>
+  {% if can_delete_post %}
+  <form class="post-actions" method="post" action="{% url 'forum:post_delete' post.pk %}"
+        onsubmit="return confirm('Delete this post? It and its comments will be removed for everyone. This can\'t be undone.');">{% csrf_token %}
+    <button class="danger-link">Delete post</button>
+  </form>
+  {% endif %}
+  {% if post.is_deleted and is_moderator %}<p class="muted deleted-note">This post was deleted by its author — visible to moderators for audit.</p>{% endif %}
 </article>
 
 {% if is_moderator %}
