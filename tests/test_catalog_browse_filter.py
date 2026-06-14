@@ -17,12 +17,15 @@ Design notes:
   explicitly; that also lets the publication-gating tests be precise.
 """
 
+import datetime
 from decimal import Decimal
 
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from accounts.models import User
+from catalog import services
 from catalog.constants import ElectronicsType, PublicationStatus
 from catalog.models import (
     BodyShape,
@@ -324,6 +327,87 @@ class FilterGuitarsServiceTests(TestCase):
         )
         qs = self._qs("strings=7")
         self.assertEqual(self._names(qs), ["RG7321"])
+
+
+class GuitarBrowseOrderingTests(TestCase):
+    """The browse list orders guitars by ``-updated_at``, then by activity
+    (CatalogComment count) desc, then ``-pk``. Asserted through the HTTP view's
+    ``page_obj`` so the ordering is verified end-to-end (through pagination)."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.brand = _published_brand("Order")
+        cls.url = reverse("catalog:browse")
+        cls.commenter = User.objects.create_user(
+            username="commenter", email="c@example.com", password="pw12345!"
+        )
+
+    def setUp(self):
+        cfg = SiteConfiguration.get_solo()
+        cfg.collaborator_promotion_threshold = 3
+        cfg.founder_threshold = 30
+        cfg.save()
+
+    def _stamp(self, guitar, when):
+        """Force ``updated_at`` (auto_now would otherwise overwrite it on save),
+        bypassing the field via a direct UPDATE."""
+        GuitarModel.objects.filter(pk=guitar.pk).update(updated_at=when)
+
+    def _comment(self, guitar, n=1):
+        for _ in range(n):
+            services.add_catalog_comment(
+                target=guitar, author=self.commenter, body="Nice guitar."
+            )
+
+    def _page_names(self, params=None):
+        resp = self.client.get(self.url, params or {})
+        return [g.name for g in resp.context["page_obj"]]
+
+    def test_more_recently_updated_sorts_first(self):
+        older = make_guitar(self.brand, "Older", num_strings=6)
+        newer = make_guitar(self.brand, "Newer", num_strings=6)
+        base = timezone.now() - datetime.timedelta(days=10)
+        self._stamp(older, base)
+        self._stamp(newer, base + datetime.timedelta(days=1))
+
+        self.assertEqual(self._page_names(), ["Newer", "Older"])
+
+    def test_equal_updated_at_more_comments_sorts_first(self):
+        # Two guitars with identical updated_at: the one with more comments wins.
+        when = timezone.now() - datetime.timedelta(days=5)
+        quiet = make_guitar(self.brand, "Quiet", num_strings=6)
+        busy = make_guitar(self.brand, "Busy", num_strings=6)
+        self._stamp(quiet, when)
+        self._stamp(busy, when)
+
+        self._comment(quiet, n=1)
+        self._comment(busy, n=3)
+
+        self.assertEqual(self._page_names(), ["Busy", "Quiet"])
+
+    def test_recency_outranks_activity(self):
+        # A newer guitar with zero comments still beats an older, busy one:
+        # -updated_at is the primary key, activity is only the tiebreaker.
+        old = make_guitar(self.brand, "OldButBusy", num_strings=6)
+        new = make_guitar(self.brand, "NewButQuiet", num_strings=6)
+        base = timezone.now() - datetime.timedelta(days=3)
+        self._stamp(old, base)
+        self._stamp(new, base + datetime.timedelta(hours=1))
+        self._comment(old, n=5)
+
+        self.assertEqual(self._page_names(), ["NewButQuiet", "OldButBusy"])
+
+    def test_activity_annotation_does_not_change_match_count(self):
+        # The Count("comments") annotation must not multiply/drop rows: a guitar
+        # with several comments still appears exactly once in the results.
+        when = timezone.now()
+        g = make_guitar(self.brand, "Solo", num_strings=6)
+        self._stamp(g, when)
+        self._comment(g, n=4)
+
+        names = self._page_names()
+        self.assertEqual(names.count("Solo"), 1)
+        self.assertEqual(len(names), 1)
 
 
 class GuitarBrowseViewTests(TestCase):

@@ -13,7 +13,8 @@ from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
-from django.db.models import Count, Prefetch, Q
+from django.db.models import Count, F, IntegerField, OuterRef, Prefetch, Q, Subquery
+from django.db.models.functions import Coalesce
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_GET, require_POST
@@ -176,6 +177,30 @@ def index(request):
 
 def subtopic_detail(request, pk):
     subtopic = get_object_or_404(Subtopic.objects.select_related("topic"), pk=pk)
+    # "Activity" of a post = comments + votes + reactions it has received.
+    # Votes/Reactions are GenericForeignKeys with no GenericRelation on Post, so
+    # we count them with correlated Subqueries keyed on (content_type, object_id).
+    # Subqueries (vs. joined Count(...)) keep each relation's count independent,
+    # so combining three of them can't multiply rows — and they add no column, so
+    # no migration is needed. ``num_comments`` stays a joined Count with the same
+    # visibility filter the listing already used.
+    post_ct = ContentType.objects.get_for_model(Post)
+    vote_count = Subquery(
+        Vote.objects.filter(content_type=post_ct, object_id=OuterRef("pk"))
+        .order_by()
+        .values("object_id")
+        .annotate(n=Count("*"))
+        .values("n"),
+        output_field=IntegerField(),
+    )
+    reaction_count = Subquery(
+        Reaction.objects.filter(content_type=post_ct, object_id=OuterRef("pk"))
+        .order_by()
+        .values("object_id")
+        .annotate(n=Count("*"))
+        .values("n"),
+        output_field=IntegerField(),
+    )
     posts = (
         subtopic.posts.filter(is_removed=False, is_deleted=False)
         .select_related("author")
@@ -183,8 +208,14 @@ def subtopic_detail(request, pk):
             num_comments=Count(
                 "comments",
                 filter=Q(comments__is_removed=False, comments__is_deleted=False),
-            )
+            ),
+            num_votes=Coalesce(vote_count, 0),
+            num_reactions=Coalesce(reaction_count, 0),
         )
+        .annotate(
+            activity=F("num_comments") + F("num_votes") + F("num_reactions")
+        )
+        .order_by("-updated_at", "-activity", "-pk")
     )
     disclaimer_ok = request.user.is_authenticated and services.has_accepted_market_disclaimer(
         request.user

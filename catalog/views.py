@@ -12,7 +12,7 @@ from decimal import Decimal, InvalidOperation
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.paginator import Paginator
-from django.db.models import F
+from django.db.models import Count, F
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
@@ -114,7 +114,16 @@ def filter_guitars(params):
         if _truthy(params.get(field, "")):
             qs = qs.filter(**{field: True})
 
-    return qs
+    # Browse ordering: most recently updated first, then by activity (how many
+    # CatalogComments the guitar has received — guitars have no votes/reactions),
+    # then -pk as a stable final tiebreaker so pagination doesn't shuffle rows
+    # that tie on both keys. ``activity`` is a query-only annotation via the
+    # ``comments`` GenericRelation (no DB column / no migration). The Count over
+    # a to-many relation doesn't multiply rows here because no other to-many
+    # table is joined in.
+    return qs.annotate(activity=Count("comments")).order_by(
+        "-updated_at", "-activity", "-pk"
+    )
 
 
 def _distinct(field):

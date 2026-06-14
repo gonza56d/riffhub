@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -133,6 +134,16 @@ class GuitarModel(CatalogEntry):
     pickups = models.ManyToManyField(
         "catalog.Pickup", through="catalog.GuitarPickup",
         related_name="guitars", blank=True,
+    )
+    # Reverse handle onto the generic CatalogComments attached to this guitar.
+    # A GenericRelation adds NO database column (it's a query-only descriptor),
+    # so it needs no migration; it just lets the browse view annotate the
+    # comment count (``activity``) with a plain ``Count("comments")``.
+    comments = GenericRelation(
+        "catalog.CatalogComment",
+        content_type_field="content_type",
+        object_id_field="object_id",
+        related_query_name="guitar",
     )
 
     # --- DERIVED facets (denormalised; recomputed from components) ---------

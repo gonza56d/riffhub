@@ -13,15 +13,19 @@ resolve targets, enforce visibility (removed-content hiding), and choose the
 template. Engagement/mutation endpoints are covered by sibling test modules.
 """
 
+from datetime import datetime, timezone as dt_timezone
+
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
 
+from forum import services
 from forum.constants import (
     GEAR_MARKET_SUBTOPICS,
     GEAR_MARKET_TOPIC_NAME,
     PREDEFINED_TOPICS,
+    VoteValue,
 )
 from forum.models import Comment, Post, Subtopic, Topic
 
@@ -239,6 +243,111 @@ class SubtopicDetailTests(TestCase):
     def test_subtopic_detail_anonymous_sees_signin_hint(self):
         resp = self.client.get(reverse("forum:subtopic", args=[self.subtopic.pk]))
         self.assertContains(resp, "Sign in")
+
+
+# ---------------------------------------------------------------------------
+# /forum/s/<pk>/ — post ordering (recency first, then activity, then -pk)
+# ---------------------------------------------------------------------------
+class SubtopicPostOrderingTests(TestCase):
+    """Posts on a subtopic page sort by ``-updated_at``, then activity desc, ``-pk``.
+
+    "Activity" of a post = number of (comments + votes + reactions) it has
+    received, computed as a query annotation in ``subtopic_detail`` (no DB
+    field, no migration). These tests assert the order via ``posts`` context pks.
+
+    ``updated_at`` is ``auto_now`` so it can't be passed to ``create``; we pin
+    distinct, timezone-aware values with a bulk ``.update`` (which doesn't touch
+    ``auto_now``) after the rows exist.
+    """
+
+    def setUp(self):
+        self.author = make_user("orderauthor")
+        # Distinct actors so nobody self-votes/reacts (the services forbid it).
+        self.actor1 = make_user("orderactor1")
+        self.actor2 = make_user("orderactor2")
+        self.topic = make_topic("Gear")
+        self.subtopic = make_subtopic(self.topic, "Guitars")
+
+    def _pin_updated(self, post, when):
+        """Pin ``post.updated_at`` (an ``auto_now`` field) to an aware datetime."""
+        Post.objects.filter(pk=post.pk).update(updated_at=when)
+
+    def _posts(self):
+        resp = self.client.get(reverse("forum:subtopic", args=[self.subtopic.pk]))
+        self.assertEqual(resp.status_code, 200)
+        return list(resp.context["posts"])
+
+    def test_more_recently_updated_post_lists_first(self):
+        older = make_post(self.subtopic, self.author, title="Older")
+        newer = make_post(self.subtopic, self.author, title="Newer")
+        # Pin updated_at so recency is unambiguous regardless of creation order.
+        self._pin_updated(older, datetime(2020, 1, 1, tzinfo=dt_timezone.utc))
+        self._pin_updated(newer, datetime(2024, 1, 1, tzinfo=dt_timezone.utc))
+        self.assertEqual(
+            [p.pk for p in self._posts()], [newer.pk, older.pk]
+        )
+
+    def test_recency_wins_over_activity(self):
+        """A busier-but-older post still sorts below a fresher quiet one."""
+        busy_old = make_post(self.subtopic, self.author, title="Busy old")
+        quiet_new = make_post(self.subtopic, self.author, title="Quiet new")
+        # Give the older post real activity; the newer one none.
+        make_comment(busy_old, self.actor1)
+        services.cast_vote(self.actor1, busy_old, VoteValue.UP)
+        services.toggle_reaction(self.actor2, busy_old, "🔥")
+        self._pin_updated(busy_old, datetime(2020, 1, 1, tzinfo=dt_timezone.utc))
+        self._pin_updated(quiet_new, datetime(2024, 1, 1, tzinfo=dt_timezone.utc))
+        self.assertEqual(
+            [p.pk for p in self._posts()], [quiet_new.pk, busy_old.pk]
+        )
+
+    def test_equal_updated_at_orders_by_activity_desc(self):
+        """Same updated_at -> the post with more comments/votes/reactions first."""
+        same = datetime(2022, 6, 1, tzinfo=dt_timezone.utc)
+        quiet = make_post(self.subtopic, self.author, title="Quiet")
+        busy = make_post(self.subtopic, self.author, title="Busy")
+        # busy gets 1 comment + 1 vote + 1 reaction = activity 3; quiet stays 0.
+        make_comment(busy, self.actor1, body="nice")
+        services.cast_vote(self.actor1, busy, VoteValue.UP)
+        services.toggle_reaction(self.actor2, busy, "🤘")
+        self._pin_updated(quiet, same)
+        self._pin_updated(busy, same)
+        ordered = self._posts()
+        self.assertEqual([p.pk for p in ordered], [busy.pk, quiet.pk])
+        # The annotation also exposes the component counts.
+        by_pk = {p.pk: p for p in ordered}
+        self.assertEqual(by_pk[busy.pk].activity, 3)
+        self.assertEqual(by_pk[busy.pk].num_comments, 1)
+        self.assertEqual(by_pk[busy.pk].num_votes, 1)
+        self.assertEqual(by_pk[busy.pk].num_reactions, 1)
+        self.assertEqual(by_pk[quiet.pk].activity, 0)
+
+    def test_votes_alone_count_as_activity(self):
+        """Activity counts votes even with no comments — no JOIN multiplication."""
+        same = datetime(2022, 6, 1, tzinfo=dt_timezone.utc)
+        quiet = make_post(self.subtopic, self.author, title="Quiet")
+        voted = make_post(self.subtopic, self.author, title="Voted")
+        services.cast_vote(self.actor1, voted, VoteValue.UP)
+        services.cast_vote(self.actor2, voted, VoteValue.DOWN)
+        self._pin_updated(quiet, same)
+        self._pin_updated(voted, same)
+        ordered = self._posts()
+        self.assertEqual([p.pk for p in ordered], [voted.pk, quiet.pk])
+        by_pk = {p.pk: p for p in ordered}
+        self.assertEqual(by_pk[voted.pk].num_votes, 2)
+        self.assertEqual(by_pk[voted.pk].activity, 2)
+
+    def test_full_tie_breaks_by_pk_desc(self):
+        """Equal updated_at and equal (zero) activity -> newest pk first."""
+        same = datetime(2022, 6, 1, tzinfo=dt_timezone.utc)
+        first = make_post(self.subtopic, self.author, title="First")
+        second = make_post(self.subtopic, self.author, title="Second")
+        self._pin_updated(first, same)
+        self._pin_updated(second, same)
+        # Both have zero activity and the same updated_at: -pk decides.
+        self.assertEqual(
+            [p.pk for p in self._posts()], [second.pk, first.pk]
+        )
 
 
 # ---------------------------------------------------------------------------

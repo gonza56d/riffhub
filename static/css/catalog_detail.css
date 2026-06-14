@@ -33,6 +33,9 @@
   cursor: pointer; color: var(--walnut); font-family: var(--slab); font-size: .85rem;
 }
 
+/* "Search Images" affordance in the detail header (guitar + gear pages). */
+.detail-head .search-images { align-self: flex-end; white-space: nowrap; }
+
 .used-on { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .used-on a { color: var(--walnut); }
 .gear-desc { margin-top: 12px; color: var(--ink-soft); }

@@ -33,6 +33,19 @@ comments_total, comment_target_kind, comment_target_pk.
       {% endif %}
       {% endif %}
 
+      {% if user.is_authenticated and not c.is_deleted %}
+      <details class="catalog-reply-box">
+        <summary>Reply</summary>
+        <form class="comment-form reply-form" method="post"
+              action="{% url 'catalog:add_comment' comment_target_kind comment_target_pk %}">
+          {% csrf_token %}
+          <input type="hidden" name="parent" value="{{ c.pk }}">
+          <textarea name="body" rows="2" required placeholder="Write a reply…"></textarea>
+          <button type="submit" class="btn-primary">Reply</button>
+        </form>
+      </details>
+      {% endif %}
+
       {% for r in c.replies.all %}
       <div class="catalog-reply" id="comment-{{ r.pk }}">
         <div class="comment-meta">
@@ -49,19 +62,6 @@ comments_total, comment_target_kind, comment_target_pk.
         {% endif %}
       </div>
       {% endfor %}
-
-      {% if user.is_authenticated and not c.is_deleted %}
-      <details class="catalog-reply-box">
-        <summary>Reply</summary>
-        <form class="comment-form reply-form" method="post"
-              action="{% url 'catalog:add_comment' comment_target_kind comment_target_pk %}">
-          {% csrf_token %}
-          <input type="hidden" name="parent" value="{{ c.pk }}">
-          <textarea name="body" rows="2" required placeholder="Write a reply…"></textarea>
-          <button type="submit" class="btn-primary">Reply</button>
-        </form>
-      </details>
-      {% endif %}
     </li>
     {% empty %}
     <li class="empty">No comments yet — start the conversation.</li>

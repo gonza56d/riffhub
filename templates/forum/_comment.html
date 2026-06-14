@@ -38,11 +38,10 @@
   {% endif %}
 
   {% if not row.is_reply %}
-  {# One level of replies only: replies render here, and the reply box targets
-     this container. You can't reply to a reply. #}
-  <div class="comment-replies" id="replies-{{ row.comment.pk }}">
-    {% for reply in row.replies %}{% include "forum/_comment.html" with row=reply %}{% endfor %}
-  </div>
+  {# One level of replies only. The reply box sits directly under the comment
+     (so you don't scroll past every reply to reply); its HTMX target is the
+     #replies-… container by id, so new replies still append there regardless
+     of DOM order. You can't reply to a reply. #}
   {% if user.is_authenticated and not row.comment.is_deleted and not row.comment.is_removed %}
   <div class="reply-box" x-data="{ open: false }">
     <button type="button" class="link-btn reply-toggle" @click="open = !open">↳ Reply</button>
@@ -56,5 +55,8 @@
     </form>
   </div>
   {% endif %}
+  <div class="comment-replies" id="replies-{{ row.comment.pk }}">
+    {% for reply in row.replies %}{% include "forum/_comment.html" with row=reply %}{% endfor %}
+  </div>
   {% endif %}
 </div>
