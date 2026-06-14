@@ -211,6 +211,9 @@ def toggle_reaction(user, target, emoji: str) -> Reaction | None:
     emoji = (emoji or "").strip()
     if not emoji:
         raise ValidationError("An emoji is required to react.")
+    emoji_max_length = Reaction._meta.get_field("emoji").max_length
+    if len(emoji) > emoji_max_length:
+        raise ValidationError("That emoji is too long to react with.")
 
     if target.author_id == getattr(user, "pk", None):
         raise PermissionDenied("You cannot react to your own content.")
@@ -314,10 +317,30 @@ def _proposal_window_close(config: SiteConfiguration):
     return timezone.now() + timedelta(days=config.topic_proposal_voting_days)
 
 
+def _clean_proposed_name(name: str) -> str:
+    """Validate/normalise a proposed topic or subtopic name.
+
+    A blank/whitespace name would later materialise a Topic with an empty
+    name+slug, and an over-length name would raise a raw ``DataError`` on
+    insert. Strip the name and reject both cases up front (the field's own
+    ``max_length`` is the source of truth for the cap).
+    """
+    name = (name or "").strip()
+    if not name:
+        raise ValidationError("A name is required.")
+    max_length = TopicProposal._meta.get_field("proposed_name").max_length
+    if len(name) > max_length:
+        raise ValidationError(
+            f"That name is too long (max {max_length} characters)."
+        )
+    return name
+
+
 @transaction.atomic
 def open_topic_proposal(user, *, name: str, description: str = "") -> TopicProposal:
     """Open a new top-level topic proposal with a config-driven voting window."""
     _ensure_may_propose(user)
+    name = _clean_proposed_name(name)
     config = SiteConfiguration.get_solo()
     _ensure_proposals_enabled(config)
     return TopicProposal.objects.create(
@@ -334,6 +357,7 @@ def open_subtopic_proposal(
 ) -> SubtopicProposal:
     """Open a new subtopic proposal under ``parent_topic``."""
     _ensure_may_propose(user)
+    name = _clean_proposed_name(name)
     config = SiteConfiguration.get_solo()
     _ensure_proposals_enabled(config)
     return SubtopicProposal.objects.create(
@@ -431,19 +455,36 @@ def evaluate_proposal(proposal):
 
 
 def _materialise_proposal(proposal) -> None:
-    """Create the real Topic/Subtopic for a freshly accepted proposal."""
+    """Create the real Topic/Subtopic for a freshly accepted proposal.
+
+    The DB enforces uniqueness on the auto-generated *slug* (``Topic.slug`` is
+    unique; ``Subtopic`` is unique on ``(topic, slug)``), not the name. Two
+    distinct names can slugify to the same slug, so we dedupe on that slug — if
+    a matching row already exists we reuse it, otherwise we create. Looking up
+    by name (as ``get_or_create(name=...)`` did) would miss the existing row and
+    INSERT a duplicate slug -> ``IntegrityError`` inside this atomic block.
+    """
+    from django.utils.text import slugify
+
     from forum.models import Subtopic, Topic
 
+    # Mirror the model ``save()`` slug logic (slugify, capped at the slug width).
     if isinstance(proposal, TopicProposal):
-        Topic.objects.get_or_create(
-            name=proposal.proposed_name,
-            defaults={"description": proposal.proposed_description},
-        )
+        slug = slugify(proposal.proposed_name)[:120]
+        if not Topic.objects.filter(slug=slug).exists():
+            Topic.objects.create(
+                name=proposal.proposed_name,
+                description=proposal.proposed_description,
+            )
     else:
-        Subtopic.objects.get_or_create(
-            topic=proposal.parent_topic,
-            name=proposal.proposed_name,
-        )
+        slug = slugify(proposal.proposed_name)[:120]
+        if not Subtopic.objects.filter(
+            topic=proposal.parent_topic, slug=slug
+        ).exists():
+            Subtopic.objects.create(
+                topic=proposal.parent_topic,
+                name=proposal.proposed_name,
+            )
 
 
 def sweep_due_proposals() -> dict:

@@ -1,3 +1,7 @@
+from decimal import Decimal
+
+from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 from django.db import models
 
 from catalog.constants import (
@@ -38,41 +42,47 @@ class GuitarModel(CatalogEntry):
     year_discontinued = models.PositiveIntegerField(null=True, blank=True)
 
     # --- Strings & scale (scale is composable: min != max => multiscale) ---
-    num_strings = models.PositiveSmallIntegerField(db_index=True)
+    num_strings = models.PositiveSmallIntegerField(
+        db_index=True, validators=[MinValueValidator(1)]
+    )
     scale_length_min_inches = models.DecimalField(
-        max_digits=5, decimal_places=3, db_index=True
+        max_digits=5, decimal_places=3, db_index=True,
+        validators=[MinValueValidator(Decimal("0.001"))],
     )
     scale_length_max_inches = models.DecimalField(
-        max_digits=5, decimal_places=3, db_index=True
+        max_digits=5, decimal_places=3, db_index=True,
+        validators=[MinValueValidator(Decimal("0.001"))],
     )
 
     # --- Frets & fretboard -------------------------------------------------
-    num_frets = models.PositiveSmallIntegerField(null=True, blank=True, db_index=True)
+    num_frets = models.PositiveSmallIntegerField(
+        null=True, blank=True, db_index=True, validators=[MinValueValidator(1)]
+    )
     fret_material = models.ForeignKey(
-        "catalog.FretMaterial", on_delete=models.SET_NULL,
+        "catalog.FretMaterial", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
     is_fretless = models.BooleanField(default=False, db_index=True)
     fretboard_material = models.ForeignKey(
-        "catalog.FretboardMaterial", on_delete=models.SET_NULL,
+        "catalog.FretboardMaterial", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
     fretboard_radius = models.ForeignKey(
-        "catalog.FretboardRadius", on_delete=models.SET_NULL,
+        "catalog.FretboardRadius", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
 
     # --- Neck --------------------------------------------------------------
     neck_construction = models.ForeignKey(
-        "catalog.NeckConstruction", on_delete=models.SET_NULL,
+        "catalog.NeckConstruction", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars", db_index=True,
     )
     neck_material = models.ForeignKey(
-        "catalog.NeckMaterial", on_delete=models.SET_NULL,
+        "catalog.NeckMaterial", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
     neck_profile = models.ForeignKey(
-        "catalog.NeckProfile", on_delete=models.SET_NULL,
+        "catalog.NeckProfile", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
     neck_depth_1st_fret_mm = models.DecimalField(
@@ -87,37 +97,37 @@ class GuitarModel(CatalogEntry):
 
     # --- Body & hardware ---------------------------------------------------
     body_material = models.ForeignKey(
-        "catalog.BodyMaterial", on_delete=models.SET_NULL,
+        "catalog.BodyMaterial", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
     body_shape = models.ForeignKey(
-        "catalog.BodyShape", on_delete=models.SET_NULL,
+        "catalog.BodyShape", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
     headstock_type = models.ForeignKey(
-        "catalog.HeadstockType", on_delete=models.SET_NULL,
+        "catalog.HeadstockType", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
     selector_switch = models.ForeignKey(
-        "catalog.SelectorSwitch", on_delete=models.SET_NULL,
+        "catalog.SelectorSwitch", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
     country_of_origin = models.ForeignKey(
-        "catalog.Country", on_delete=models.SET_NULL,
+        "catalog.Country", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars", db_index=True,
     )
 
     # --- Components (gear) -------------------------------------------------
     bridge = models.ForeignKey(
-        "catalog.Bridge", on_delete=models.SET_NULL,
+        "catalog.Bridge", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
     nut = models.ForeignKey(
-        "catalog.Nut", on_delete=models.SET_NULL,
+        "catalog.Nut", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
     tuners = models.ForeignKey(
-        "catalog.Tuner", on_delete=models.SET_NULL,
+        "catalog.Tuner", on_delete=models.PROTECT,
         null=True, blank=True, related_name="guitars",
     )
     pickups = models.ManyToManyField(
@@ -146,6 +156,23 @@ class GuitarModel(CatalogEntry):
 
     def __str__(self) -> str:
         return f"{self.brand} {self.name}"
+
+    def clean(self) -> None:
+        """Reject an inverted scale range (min > max) so we never store nonsense
+        like a 27→24" guitar. Per-field positivity is enforced by the field
+        validators; this only runs the cross-field check when both are set."""
+        super().clean()
+        lo = self.scale_length_min_inches
+        hi = self.scale_length_max_inches
+        if lo is not None and hi is not None and lo > hi:
+            raise ValidationError(
+                {
+                    "scale_length_max_inches": (
+                        "Maximum scale length must be greater than or equal to "
+                        "the minimum scale length."
+                    )
+                }
+            )
 
     @property
     def scale_display(self) -> str:

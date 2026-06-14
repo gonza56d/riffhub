@@ -63,7 +63,15 @@ def evaluate_submission(entry) -> bool:
     net-vote floor and a distinct-voter floor so a single enthusiastic voter
     cannot wave something through. On acceptance we publish, credit the
     submitter and recompute their standing (which may promote them).
+
+    Only an UNDER_REVISION entry can be evaluated: once an entry has been
+    published or rejected it is final, so re-running the evaluator (e.g. on a
+    late/toggled vote) can neither re-award reputation on a published entry nor
+    resurrect a moderator-rejected one.
     """
+    if entry.status != PublicationStatus.UNDER_REVISION:
+        return False
+
     config = SiteConfiguration.get_solo()
     net = ReviewVote.net_votes(entry)
     voters = ReviewVote.voter_count(entry)

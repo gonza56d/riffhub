@@ -18,12 +18,12 @@ class Conversation(TimeStampedModel):
 
     user_low = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="+",
     )
     user_high = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="+",
     )
     last_message_at = models.DateTimeField(null=True, blank=True, db_index=True)
@@ -74,7 +74,7 @@ class DirectMessage(TimeStampedModel, Moderatable):
     )
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="sent_messages",
     )
     body = models.TextField()
@@ -100,7 +100,7 @@ class DirectMessageReport(TimeStampedModel):
 
     reporter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="dm_reports",
     )
     message = models.ForeignKey(

@@ -87,7 +87,7 @@ class Post(TimeStampedModel, Moderatable):
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="forum_posts",
     )
     title = models.CharField(max_length=255)
@@ -125,6 +125,10 @@ class Post(TimeStampedModel, Moderatable):
                 raise ValidationError(
                     {"price": "A price is required for Gear Market listings."}
                 )
+            if self.price < 0:
+                raise ValidationError(
+                    {"price": "A price cannot be negative."}
+                )
         elif self.price is not None:
             raise ValidationError(
                 {"price": "Only Gear Market posts may set a price."}
@@ -143,7 +147,7 @@ class Comment(TimeStampedModel, Moderatable):
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="forum_comments",
     )
     body = models.TextField()

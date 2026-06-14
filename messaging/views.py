@@ -92,7 +92,7 @@ def reports(request):
     return render(
         request,
         "messaging/reports.html",
-        {"reports": services.open_reports()},
+        {"reports": services.open_reports(request.user)},
     )
 
 
@@ -102,12 +102,15 @@ def resolve_report(request, report_id, action):
     if not request.user.is_at_least(Level.MODERATOR):
         return HttpResponseForbidden()
     report = get_object_or_404(DirectMessageReport, pk=report_id)
-    if action == "dismiss":
-        services.dismiss_report(request.user, report)
-    elif action == "remove":
-        services.remove_reported_message(
-            request.user, report, request.POST.get("reason", "")
-        )
-    else:
-        raise Http404
+    try:
+        if action == "dismiss":
+            services.dismiss_report(request.user, report)
+        elif action == "remove":
+            services.remove_reported_message(
+                request.user, report, request.POST.get("reason", "")
+            )
+        else:
+            raise Http404
+    except PermissionDenied:
+        return HttpResponseForbidden()
     return redirect("messaging:reports")

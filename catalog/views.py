@@ -7,10 +7,12 @@ ones *derived* from components — are plain indexed columns, so this is simple,
 fast ORM filtering.
 """
 
+from decimal import Decimal, InvalidOperation
+
 from django.db.models import F
 from django.shortcuts import get_object_or_404, render
 
-from catalog.constants import ElectronicsType
+from catalog.constants import ElectronicsType, PublicationStatus
 from catalog.models import BodyShape, Country, GuitarModel, NeckConstruction
 
 # (query-param flag, human label) for the boolean facets shown as checkboxes.
@@ -26,6 +28,30 @@ BOOLEAN_FACETS = [
 
 def _truthy(value: str) -> bool:
     return value in ("1", "on", "true", "yes")
+
+
+def _as_int(value):
+    """Parse a query-param value as an int, or ``None`` if it isn't one.
+
+    Keeps junk facet values (``?neck=abc``) from blowing up the FK filters —
+    an unparsable value is treated as "no filter".
+    """
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _as_decimal(value):
+    """Parse a query-param value as a *finite* Decimal, or ``None`` if it isn't
+    one. Treats ``?scale=foo`` as "no filter" rather than crashing — and also
+    rejects the special ``NaN``/``Infinity`` decimals, which parse cleanly but
+    blow up the DB comparison."""
+    try:
+        result = Decimal(value)
+    except (TypeError, ValueError, InvalidOperation):
+        return None
+    return result if result.is_finite() else None
 
 
 def filter_guitars(params):
@@ -49,16 +75,20 @@ def filter_guitars(params):
 
     if params.get("electronics"):
         qs = qs.filter(electronics_type=params["electronics"])
-    if params.get("neck"):
-        qs = qs.filter(neck_construction_id=params["neck"])
-    if params.get("shape"):
-        qs = qs.filter(body_shape_id=params["shape"])
-    if params.get("country"):
-        qs = qs.filter(country_of_origin_id=params["country"])
-    if params.get("scale"):
+    neck = _as_int(params.get("neck"))
+    if neck is not None:
+        qs = qs.filter(neck_construction_id=neck)
+    shape = _as_int(params.get("shape"))
+    if shape is not None:
+        qs = qs.filter(body_shape_id=shape)
+    country = _as_int(params.get("country"))
+    if country is not None:
+        qs = qs.filter(country_of_origin_id=country)
+    scale = _as_decimal(params.get("scale"))
+    if scale is not None:
         qs = qs.filter(
-            scale_length_min_inches=params["scale"],
-            scale_length_max_inches=params["scale"],
+            scale_length_min_inches=scale,
+            scale_length_max_inches=scale,
         )
 
     for field, _label in BOOLEAN_FACETS:
@@ -148,11 +178,35 @@ def guitar_detail(request, pk):
         ),
         pk=pk,
     )
-    pickups = list(
-        guitar.guitar_pickups.select_related("pickup__brand", "pickup__pickup_type")
-    )
+    # Only surface attached components that are themselves PUBLISHED — an
+    # unreviewed or rejected component (or one whose brand is still pending)
+    # must not leak onto the public spec sheet.
+    for attr in ("bridge", "nut", "tuners"):
+        if not _is_published_component(getattr(guitar, attr)):
+            setattr(guitar, attr, None)
+    pickups = [
+        gp
+        for gp in guitar.guitar_pickups.select_related(
+            "pickup__brand", "pickup__pickup_type"
+        )
+        if _is_published_component(gp.pickup)
+    ]
     return render(
         request,
         "catalog/guitar_detail.html",
         {"guitar": guitar, "pickups": pickups},
     )
+
+
+def _is_published_component(component) -> bool:
+    """Whether an attached gear component should render on the public page.
+
+    A component surfaces only when both it and its brand are PUBLISHED; a blank
+    slot (``None``) is treated as nothing to render.
+    """
+    if component is None:
+        return False
+    if component.status != PublicationStatus.PUBLISHED:
+        return False
+    brand = component.brand
+    return brand is not None and brand.status == PublicationStatus.PUBLISHED

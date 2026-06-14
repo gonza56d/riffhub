@@ -18,7 +18,7 @@ class BaseProposal(TimeStampedModel):
 
     proposer = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="%(class)ss",
     )
     proposed_name = models.CharField(max_length=100)
@@ -71,7 +71,7 @@ class ProposalVote(TimeStampedModel):
 
     voter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="forum_proposal_votes",
     )
     topic_proposal = models.ForeignKey(

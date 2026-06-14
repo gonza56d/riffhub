@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
@@ -36,6 +36,24 @@ def _resolve_target(target_type, pk):
     if model is None:
         raise Http404("Unknown engagement target.")
     return get_object_or_404(model, pk=pk)
+
+
+def _visible_or_404(obj, user):
+    """Return ``obj`` unless it's soft-removed content hidden from ``user``.
+
+    Mirrors ``post_detail``'s gate: non-moderators may not engage with a removed
+    Post, a removed Comment, or a Comment whose parent Post is removed. Returns
+    the object for moderators (and for live content); otherwise raises ``Http404``.
+    """
+    is_mod = user.is_authenticated and user.is_at_least(Level.MODERATOR)
+    if is_mod:
+        return obj
+    removed = obj.is_removed
+    if isinstance(obj, Comment):
+        removed = removed or obj.post.is_removed
+    if removed:
+        raise Http404("This content has been removed.")
+    return obj
 
 
 def _my_vote(user, obj):
@@ -98,7 +116,9 @@ def subtopic_detail(request, pk):
     posts = (
         subtopic.posts.filter(is_removed=False)
         .select_related("author")
-        .annotate(num_comments=Count("comments"))
+        .annotate(
+            num_comments=Count("comments", filter=Q(comments__is_removed=False))
+        )
     )
     disclaimer_ok = request.user.is_authenticated and services.has_accepted_market_disclaimer(
         request.user
@@ -153,8 +173,13 @@ def post_detail(request, pk):
 def vote(request, target, pk, value):
     if not request.user.is_authenticated:
         return HttpResponse("Sign in to vote.", status=403)
-    obj = _resolve_target(target, pk)
-    val = VoteValue.UP if value == "up" else VoteValue.DOWN
+    obj = _visible_or_404(_resolve_target(target, pk), request.user)
+    if value == "up":
+        val = VoteValue.UP
+    elif value == "down":
+        val = VoteValue.DOWN
+    else:
+        return HttpResponse("Vote value must be 'up' or 'down'.", status=400)
     try:
         services.cast_vote(request.user, obj, val)
     except PermissionDenied:
@@ -166,7 +191,7 @@ def vote(request, target, pk, value):
 def react(request, target, pk):
     if not request.user.is_authenticated:
         return HttpResponse("Sign in to react.", status=403)
-    obj = _resolve_target(target, pk)
+    obj = _visible_or_404(_resolve_target(target, pk), request.user)
     emoji = (request.POST.get("emoji") or "").strip()
     try:
         services.toggle_reaction(request.user, obj, emoji)
@@ -179,7 +204,7 @@ def react(request, target, pk):
 def comment_create(request, pk):
     if not request.user.is_authenticated:
         return HttpResponse("Sign in to comment.", status=403)
-    post = get_object_or_404(Post, pk=pk)
+    post = _visible_or_404(get_object_or_404(Post, pk=pk), request.user)
     body = (request.POST.get("body") or "").strip()
     if not body:
         return HttpResponse("A comment can't be empty.", status=400)
@@ -297,8 +322,13 @@ def subtopic_create(request, pk):
     _require_creator(request.user)
     topic = get_object_or_404(Topic, pk=pk)
     name = (request.POST.get("name") or "").strip()
+    name_max = Subtopic._meta.get_field("name").max_length
     if not name:
         messages.error(request, "Subtopic name is required.")
+    elif len(name) > name_max:
+        messages.error(
+            request, f"Subtopic name must be at most {name_max} characters."
+        )
     else:
         try:
             with transaction.atomic():

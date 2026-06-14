@@ -25,7 +25,9 @@
     {% for b in active_bans %}
     <div class="mod-entry">
       <strong>{{ b.target }}</strong>
+      {% if is_creator or not b.target.is_community_moderator and not b.target.is_riffhub_creator %}
       <form class="mod-inline" method="post" action="{% url 'moderation:lift_ban_user' b.target.pk %}">{% csrf_token %}<button class="link-btn">lift ban</button></form>
+      {% endif %}
       <div class="muted">{{ b.reason }}</div>
     </div>
     {% empty %}<p class="muted">No active bans.</p>{% endfor %}

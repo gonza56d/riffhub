@@ -73,6 +73,7 @@ def unread_count(user) -> int:
                 Q(user_low=user) | Q(user_high=user)
             ),
             is_read=False,
+            is_removed=False,
         )
         .exclude(sender=user)
         .count()
@@ -93,10 +94,16 @@ def inbox_rows(user) -> list[dict]:
     )
     rows: list[dict] = []
     for conversation in conversations:
-        messages = conversation.messages.all()
-        last_message = messages.last()
+        # Prefer the most recent non-removed message for the preview so a
+        # moderator-removed body never surfaces in the inbox; fall back to the
+        # latest message (rendered as a placeholder by the template) when every
+        # message is removed.
+        last_message = (
+            conversation.messages.filter(is_removed=False).last()
+            or conversation.messages.last()
+        )
         unread = (
-            conversation.messages.filter(is_read=False)
+            conversation.messages.filter(is_read=False, is_removed=False)
             .exclude(sender=user)
             .count()
         )
@@ -115,13 +122,19 @@ def report_message(reporter, message, reason) -> DirectMessageReport:
     """File a report flagging ``message`` for moderator review.
 
     Only a participant in the message's conversation may report, and never
-    their own message. Reporting the same message twice while a prior report is
-    still ``OPEN`` is a no-op that returns the existing report.
+    their own message. An already-removed message can't be reported (it has
+    already been handled), and reporting the same message twice while a prior
+    report is still ``OPEN`` is a no-op that returns the existing report.
 
-    Raises ``PermissionDenied`` if ``reporter`` is not a participant or is the
-    sender, and ``ValidationError`` if ``reason`` is blank/whitespace-only.
+    Raises ``PermissionDenied`` if ``reporter`` is not a participant, is the
+    sender, or the message is already removed, and ``ValidationError`` if
+    ``reason`` is blank/whitespace-only.
     """
-    if not message.conversation.involves(reporter) or reporter == message.sender:
+    if (
+        not message.conversation.involves(reporter)
+        or reporter == message.sender
+        or message.is_removed
+    ):
         raise PermissionDenied("You can't report this message.")
     if not (reason or "").strip():
         raise ValidationError("A report needs a reason.")
@@ -142,13 +155,22 @@ def report_message(reporter, message, reason) -> DirectMessageReport:
     )
 
 
-def open_reports():
-    """Return all unresolved reports (newest first) for the moderation queue."""
-    return DirectMessageReport.objects.filter(
-        status=ReportStatus.OPEN
-    ).select_related(
-        "message__sender", "message__conversation", "reporter"
-    ).order_by("-created_at")
+def open_reports(viewer=None):
+    """Return unresolved reports (newest first) for the moderation queue.
+
+    A report filed *against a moderator* (the reported message's sender is a
+    moderator or above) is visible only to Riffhub Creators — a moderator must
+    never see a report about themselves or a peer moderator. Pass ``viewer`` to
+    apply that visibility filter; omit it for the unfiltered queue.
+    """
+    reports = list(
+        DirectMessageReport.objects.filter(status=ReportStatus.OPEN)
+        .select_related("message__sender", "message__conversation", "reporter")
+        .order_by("-created_at")
+    )
+    if viewer is not None and not viewer.is_at_least(Level.CREATOR):
+        reports = [r for r in reports if not _is_against_moderator(r)]
+    return reports
 
 
 def _require_moderator(user) -> None:
@@ -160,9 +182,34 @@ def _require_moderator(user) -> None:
         raise PermissionDenied("Moderator privileges are required.")
 
 
+def _is_against_moderator(report) -> bool:
+    """True when the reported message was sent by a moderator-or-above — i.e. a
+    report *against* a moderator, which only Riffhub Creators may see or handle.
+    """
+    return report.message.sender.is_at_least(Level.MODERATOR)
+
+
+def _require_can_handle(actor, report) -> None:
+    """Gate report resolution. Moderators handle ordinary reports, but a report
+    against a moderator is reserved for Riffhub Creators, so a moderator can
+    neither act on a report about themselves nor on one about a peer moderator.
+    """
+    _require_moderator(actor)
+    if _is_against_moderator(report) and not actor.is_at_least(Level.CREATOR):
+        raise PermissionDenied(
+            "Only a Riffhub Creator can handle a report against a moderator."
+        )
+
+
 def dismiss_report(moderator, report) -> None:
-    """Close ``report`` as dismissed, recording who handled it and when."""
-    _require_moderator(moderator)
+    """Close ``report`` as dismissed, recording who handled it and when.
+
+    A no-op if the report has already been handled, so a resolved report can't
+    be flipped into a state that contradicts the message's removal.
+    """
+    _require_can_handle(moderator, report)
+    if report.status != ReportStatus.OPEN:
+        return
     report.status = ReportStatus.DISMISSED
     report.handled_by = moderator
     report.handled_at = timezone.now()
@@ -170,8 +217,14 @@ def dismiss_report(moderator, report) -> None:
 
 
 def remove_reported_message(moderator, report, reason="") -> None:
-    """Soft-remove the reported message and mark ``report`` as actioned."""
-    _require_moderator(moderator)
+    """Soft-remove the reported message and mark ``report`` as actioned.
+
+    A no-op if the report has already been handled, so a resolved report can't
+    be re-actioned.
+    """
+    _require_can_handle(moderator, report)
+    if report.status != ReportStatus.OPEN:
+        return
     report.message.mark_removed(by=moderator, reason=reason)
     report.status = ReportStatus.ACTIONED
     report.handled_by = moderator

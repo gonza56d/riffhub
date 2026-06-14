@@ -19,7 +19,7 @@ class ReviewVote(TimeStampedModel):
 
     voter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="review_votes",
     )
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
@@ -75,7 +75,7 @@ class Correction(TimeStampedModel):
 
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         null=True,
         blank=True,
         related_name="corrections",

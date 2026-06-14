@@ -404,24 +404,19 @@ class EvaluateSubmissionTests(CollabServiceTestBase):
         self.assertEqual(self.brand.status, PublicationStatus.PUBLISHED)
 
     def test_evaluate_is_idempotent_when_re_run(self):
-        # Re-running evaluate on an already-published, still-qualifying entry
-        # publishes again and credits again (the service does not guard against
-        # double-credit; recompute keeps the count truthful but reputation
-        # stacks). Document the observed behaviour.
+        # Once an entry is published, re-running evaluate must be a true no-op:
+        # it does not re-publish or re-award reputation. This guards against
+        # reputation farming via repeated/toggled votes on an already-published
+        # entry (only an UNDER_REVISION entry is ever evaluated).
         self._three_upvotes(self.brand)
         self.assertTrue(evaluate_submission(self.brand))
         self.submitter.refresh_from_db()
         rep_after_first = self.submitter.reputation_score
-        # Second evaluation while votes still clear the bar.
-        self.assertTrue(evaluate_submission(self.brand))
+        # Second evaluation on the already-published entry changes nothing.
+        self.assertFalse(evaluate_submission(self.brand))
         self.submitter.refresh_from_db()
-        # accepted count stays truthful (still 1 published brand)...
         self.assertEqual(self.submitter.accepted_submissions_count, 1)
-        # ...but reputation is awarded a second time (no double-credit guard).
-        self.assertEqual(
-            self.submitter.reputation_score,
-            rep_after_first + REP_ACCEPTED_SUBMISSION,
-        )
+        self.assertEqual(self.submitter.reputation_score, rep_after_first)
 
 
 # ---------------------------------------------------------------------------

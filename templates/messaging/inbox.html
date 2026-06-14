@@ -9,7 +9,7 @@
     <li class="dm-conv-row{% if row.unread %} unread{% endif %}">
       <a class="dm-conv-link" href="{% url 'messaging:thread' row.other.username %}">
         <span class="dm-conv-name">{{ row.other.username }}</span>
-        <span class="dm-conv-preview">{% if row.last_message %}{{ row.last_message.body|truncatechars:60 }}{% else %}No messages yet{% endif %}</span>
+        <span class="dm-conv-preview">{% if row.last_message %}{% if row.last_message.is_removed %}[removed by a moderator]{% else %}{{ row.last_message.body|truncatechars:60 }}{% endif %}{% else %}No messages yet{% endif %}</span>
         {% if row.unread %}<span class="dm-badge">{{ row.unread }}</span>{% endif %}
       </a>
     </li>

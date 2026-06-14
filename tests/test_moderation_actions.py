@@ -240,10 +240,18 @@ class SilencePermissionTests(ModerationTestBase):
         with self.assertRaises(PermissionDenied):
             mod.silence(self.creator, self.creator, reason="nope")
 
-    def test_moderator_can_silence_another_moderator(self):
-        # Only Creators are protected from silencing; moderators are not.
+    def test_moderator_cannot_silence_another_moderator(self):
+        # Silence respects the same authority rule as ban: only a Creator may
+        # sanction a Community Moderator, so a peer moderator cannot.
         other_mod = make_user("mod2", is_community_moderator=True)
-        silence = mod.silence(self.moderator, other_mod, reason="threats in DMs")
+        with self.assertRaises(PermissionDenied):
+            mod.silence(self.moderator, other_mod, reason="threats in DMs")
+        self.assertEqual(Silence.objects.filter(target=other_mod).count(), 0)
+
+    def test_creator_can_silence_a_moderator(self):
+        # A Creator outranks a moderator and may silence one.
+        other_mod = make_user("mod3", is_community_moderator=True)
+        silence = mod.silence(self.creator, other_mod, reason="threats in DMs")
         self.assertEqual(silence.target, other_mod)
 
     def test_moderator_can_silence_a_founder(self):

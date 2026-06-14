@@ -30,7 +30,7 @@ class Vote(TimeStampedModel):
 
     voter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="forum_votes",
     )
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
@@ -63,13 +63,13 @@ class Reaction(TimeStampedModel):
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="forum_reactions",
     )
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     target = GenericForeignKey("content_type", "object_id")
-    emoji = models.CharField(max_length=8)
+    emoji = models.CharField(max_length=32)
 
     class Meta:
         constraints = [
@@ -143,7 +143,7 @@ class Attachment(TimeStampedModel):
 
     uploaded_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="forum_attachments",
     )
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)

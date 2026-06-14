@@ -12,7 +12,7 @@ class Warning(TimeStampedModel):
     """A moderator's recorded warning to a user (optionally about some content)."""
 
     target = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="warnings"
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="warnings"
     )
     issued_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="+"
@@ -39,7 +39,7 @@ class Silence(TimeStampedModel):
     """
 
     target = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="silences"
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="silences"
     )
     issued_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="+"
@@ -73,7 +73,7 @@ class Ban(TimeStampedModel):
     """A ban. The user's account is deactivated; can be lifted."""
 
     target = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="bans"
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="bans"
     )
     issued_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="+"

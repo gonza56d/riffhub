@@ -14,7 +14,7 @@ class MarketDisclaimerAcceptance(models.Model):
 
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="market_disclaimer_acceptance",
     )
     accepted_at = models.DateTimeField(default=timezone.now)

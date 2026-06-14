@@ -25,6 +25,21 @@ def _require_moderator(user) -> None:
         raise PermissionDenied("Moderator privileges are required.")
 
 
+def _assert_can_sanction(actor, target) -> None:
+    """Authority check shared by silence/ban/lift_ban (PRODUCT.md).
+
+    Nobody sanctions themselves; Riffhub Creators cannot be sanctioned at all
+    (this mirrors the original ``ban`` rule — even another Creator can't); only a
+    Riffhub Creator may sanction a Community Moderator.
+    """
+    if target.pk == actor.pk:
+        raise PermissionDenied("You cannot sanction yourself.")
+    if target.is_at_least(Level.CREATOR):
+        raise PermissionDenied("Riffhub Creators cannot be sanctioned.")
+    if target.is_at_least(Level.MODERATOR) and not actor.is_at_least(Level.CREATOR):
+        raise PermissionDenied("Only a Riffhub Creator can sanction a Community Moderator.")
+
+
 # --- enforcement queries ---------------------------------------------------
 def is_banned(user) -> bool:
     if not getattr(user, "is_authenticated", False):
@@ -65,10 +80,7 @@ def warn(moderator, target, reason, content=None) -> Warning:
 
 def silence(moderator, target, reason) -> Silence:
     _require_moderator(moderator)
-    if target.pk == moderator.pk:
-        raise PermissionDenied("You cannot silence yourself.")
-    if target.is_at_least(Level.CREATOR):
-        raise PermissionDenied("Riffhub Creators cannot be silenced.")
+    _assert_can_sanction(moderator, target)
 
     sequence = target.silences.count() + 1
     now = timezone.now()
@@ -88,12 +100,11 @@ def silence(moderator, target, reason) -> Silence:
 
 def ban(moderator, target, reason) -> Ban:
     _require_moderator(moderator)
-    if target.pk == moderator.pk:
-        raise PermissionDenied("You cannot ban yourself.")
-    if target.is_at_least(Level.CREATOR):
-        raise PermissionDenied("Riffhub Creators cannot be banned.")
-    if target.is_at_least(Level.MODERATOR) and not moderator.is_at_least(Level.CREATOR):
-        raise PermissionDenied("Only a Riffhub Creator can ban a Community Moderator.")
+    _assert_can_sanction(moderator, target)
+
+    existing = Ban.objects.filter(target=target, lifted_at__isnull=True).first()
+    if existing is not None:
+        return existing
 
     ban = Ban.objects.create(target=target, issued_by=moderator, reason=reason)
     target.is_active = False
@@ -103,6 +114,7 @@ def ban(moderator, target, reason) -> Ban:
 
 def lift_ban(moderator, target) -> None:
     _require_moderator(moderator)
+    _assert_can_sanction(moderator, target)
     Ban.objects.filter(target=target, lifted_at__isnull=True).update(
         lifted_at=timezone.now()
     )

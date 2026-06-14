@@ -133,3 +133,14 @@ class GuitarForm(forms.ModelForm):
             "nut",
             "tuners",
         ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Only already-published brands/components may be chosen at creation, so
+        # the submit form can't smuggle in an un-reviewed dependency (the
+        # review-gate bypass). Reassigning the queryset leaves each field's
+        # required/optional flag (brand required; the components optional) intact.
+        self.fields["brand"].queryset = Brand.objects.published()
+        self.fields["bridge"].queryset = Bridge.objects.published()
+        self.fields["nut"].queryset = Nut.objects.published()
+        self.fields["tuners"].queryset = Tuner.objects.published()

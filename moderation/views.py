@@ -11,7 +11,9 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
 from accounts.models import Level
@@ -29,7 +31,12 @@ def _require_moderator(user) -> None:
 
 
 def _back(request, default="moderation:dashboard"):
-    return redirect(request.META.get("HTTP_REFERER") or default)
+    referer = request.META.get("HTTP_REFERER")
+    if referer and url_has_allowed_host_and_scheme(
+        referer, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+    ):
+        return redirect(referer)
+    return redirect(reverse(default))
 
 
 def dashboard(request):
@@ -104,7 +111,11 @@ def lift_ban_user(request, pk):
 def move_post(request, pk):
     _require_moderator(request.user)
     post = get_object_or_404(Post, pk=pk)
-    to = get_object_or_404(Subtopic, pk=request.POST.get("subtopic"))
+    try:
+        subtopic_pk = int(request.POST.get("subtopic") or "")
+    except (TypeError, ValueError):
+        raise Http404("Invalid subtopic.")
+    to = get_object_or_404(Subtopic, pk=subtopic_pk)
     try:
         services.move_content(request.user, post, to, _reason(request))
         messages.success(request, f"Moved “{post.title}” to {to}.")
