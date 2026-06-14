@@ -11,7 +11,7 @@ target *unrelated/illegal* content and threats:
               Creators may ban Moderators
 """
 
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.utils import timezone
 
 from accounts.models import Level
@@ -115,16 +115,32 @@ def ban(moderator, target, reason) -> Ban:
 def lift_ban(moderator, target) -> None:
     _require_moderator(moderator)
     _assert_can_sanction(moderator, target)
-    Ban.objects.filter(target=target, lifted_at__isnull=True).update(
+    lifted = Ban.objects.filter(target=target, lifted_at__isnull=True).update(
         lifted_at=timezone.now()
     )
-    target.is_active = True
-    target.save(update_fields=["is_active"])
+    # Only reactivate if we actually lifted an active ban — don't silently
+    # re-enable an account that was deactivated for some other reason.
+    if lifted:
+        target.is_active = True
+        target.save(update_fields=["is_active"])
 
 
 # --- content actions -------------------------------------------------------
 def move_content(moderator, post, to_subtopic, reason="") -> None:
     _require_moderator(moderator)
+    # A move must not leave the post in a state Post.clean() forbids: a price
+    # only belongs in the Gear Market. Reject a move that would create an
+    # invalid listing (priceless in the market, or priced outside it) rather
+    # than silently bypassing the coupling via update_fields.
+    to_is_market = to_subtopic.topic.is_market
+    if to_is_market and post.price is None:
+        raise ValidationError(
+            "Can't move a post without a price into the Gear Market."
+        )
+    if not to_is_market and post.price is not None:
+        raise ValidationError(
+            "Can't move a priced Gear Market listing out of the market."
+        )
     from_subtopic = post.subtopic
     post.subtopic = to_subtopic
     post.save(update_fields=["subtopic"])
@@ -139,6 +155,11 @@ def move_content(moderator, post, to_subtopic, reason="") -> None:
 
 def remove_content(moderator, obj, reason="") -> None:
     _require_moderator(moderator)
+    # Re-removing already-removed content would overwrite the original
+    # who/why/when and stack a duplicate audit row — the soft-delete record is
+    # meant to preserve the first removal. No-op if already removed.
+    if obj.is_removed:
+        return
     obj.mark_removed(by=moderator, reason=reason)
     ContentAction.objects.create(
         moderator=moderator, action=ContentActionType.REMOVE, content=obj, reason=reason
@@ -147,6 +168,10 @@ def remove_content(moderator, obj, reason="") -> None:
 
 def restore_content(moderator, obj) -> None:
     _require_moderator(moderator)
+    # Restoring content that was never removed is a no-op — don't pollute the
+    # audit trail with a RESTORE that restored nothing.
+    if not obj.is_removed:
+        return
     obj.restore()
     ContentAction.objects.create(
         moderator=moderator, action=ContentActionType.RESTORE, content=obj

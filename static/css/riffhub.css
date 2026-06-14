@@ -165,6 +165,32 @@ h1, h2, h3, legend, .wordmark, .brand { font-family: var(--slab); }
 }
 .empty strong { color: var(--walnut); }
 
+/* --- Pagination -----------------------------------------------------------*/
+.pager {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 6px; margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid var(--rule);
+}
+.page-link {
+  font-family: var(--slab); font-size: .9rem; line-height: 1;
+  color: var(--walnut); background: var(--paper-2);
+  border: 1px solid var(--rule); border-radius: 5px;
+  padding: 7px 11px; min-width: 38px; text-align: center;
+  text-decoration: none; cursor: pointer;
+}
+.page-link:hover { background: var(--walnut); color: var(--paper); border-color: var(--walnut); }
+.page-link.current,
+.page-link.current:hover {
+  background: var(--amber); color: var(--paper);
+  border-color: var(--amber); cursor: default;
+}
+.page-link.disabled,
+.page-link.disabled:hover {
+  background: transparent; color: var(--ink-soft);
+  border-color: var(--rule); cursor: default; opacity: .55;
+}
+.page-ellipsis { color: var(--ink-soft); padding: 0 4px; }
+
 /* --- Footer ---------------------------------------------------------------*/
 .site-footer {
   border-top: 1px solid var(--rule); margin-top: 20px; padding: 18px 0;

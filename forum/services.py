@@ -25,7 +25,7 @@ from django.utils import timezone
 
 from accounts.models import Level
 from core.models import SiteConfiguration
-from moderation.services import can_participate
+from moderation.services import can_participate, is_banned
 
 from forum.constants import (
     ACTIVITY_INCREMENT,
@@ -137,6 +137,9 @@ def cast_vote(user, target, value: int) -> Vote | None:
     if value not in (VoteValue.UP, VoteValue.DOWN):
         raise ValidationError("Vote value must be +1 (up) or -1 (down).")
 
+    if is_banned(user):
+        raise PermissionDenied("Banned users cannot vote.")
+
     if target.author_id == getattr(user, "pk", None):
         raise PermissionDenied("You cannot vote on your own content.")
 
@@ -214,6 +217,9 @@ def toggle_reaction(user, target, emoji: str) -> Reaction | None:
     emoji_max_length = Reaction._meta.get_field("emoji").max_length
     if len(emoji) > emoji_max_length:
         raise ValidationError("That emoji is too long to react with.")
+
+    if is_banned(user):
+        raise PermissionDenied("Banned users cannot react.")
 
     if target.author_id == getattr(user, "pk", None):
         raise PermissionDenied("You cannot react to your own content.")

@@ -22,7 +22,14 @@ from messaging.models import (
 
 
 def get_conversation(a, b) -> Conversation:
-    """Return the canonical conversation between two users (created if needed)."""
+    """Return the canonical conversation between two users (created if needed).
+
+    A conversation is always between two *distinct* users — guard against a
+    degenerate self-pair (``user_low == user_high``) that ``for_pair`` would
+    otherwise persist, since nothing at the data layer forbids it.
+    """
+    if a == b or getattr(a, "pk", None) == getattr(b, "pk", None):
+        raise PermissionDenied("You can't open a conversation with yourself.")
     conversation, _ = Conversation.for_pair(a, b)
     return conversation
 

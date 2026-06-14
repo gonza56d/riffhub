@@ -183,7 +183,7 @@ class FilterGuitarsGarbageFacetTests(TestCase):
         response = self.client.get(url, {"neck": str(self.neck_bolt.pk)})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            [g.name for g in response.context["guitars"]], ["Strat"]
+            [g.name for g in response.context["page_obj"]], ["Strat"]
         )
 
 
