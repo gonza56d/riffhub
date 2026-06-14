@@ -408,3 +408,29 @@ def add_catalog_comment(request, kind, pk):
     if kind == "guitar":
         return redirect("catalog:detail", pk=target.pk)
     return redirect("catalog:gear_detail", kind=kind, pk=target.pk)
+
+
+def _redirect_to_comment_page(comment):
+    """Redirect to the detail page a comment lives on (used after a delete)."""
+    target = comment.target
+    if isinstance(target, GuitarModel):
+        return redirect("catalog:detail", pk=target.pk)
+    kind = {Bridge: "bridge", Pickup: "pickup", Tuner: "tuner", Nut: "nut"}[type(target)]
+    return redirect("catalog:gear_detail", kind=kind, pk=target.pk)
+
+
+@require_POST
+def delete_catalog_comment(request, pk):
+    """Author-delete one's own catalog comment/reply (soft), then redirect back.
+
+    Author-only is enforced in the service; deleted comments stay in the thread
+    as a "This message was deleted." placeholder rather than vanishing.
+    """
+    if not request.user.is_authenticated:
+        return redirect("login")
+    comment = get_object_or_404(CatalogComment, pk=pk)
+    try:
+        services.delete_catalog_comment(request.user, comment)
+    except PermissionDenied as exc:
+        messages.error(request, str(exc) or "You can't delete that comment.")
+    return _redirect_to_comment_page(comment)

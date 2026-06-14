@@ -36,3 +36,15 @@
 .used-on { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .used-on a { color: var(--walnut); }
 .gear-desc { margin-top: 12px; color: var(--ink-soft); }
+
+/* Author self-delete: placeholder + the delete affordance + mod reveal. */
+.catalog-comments .deleted-msg { color: var(--ink-soft); font-style: italic; }
+.catalog-comments .comment-original {
+  margin-top: 4px; padding: 6px 10px; font-size: .85rem;
+  border-left: 2px dashed var(--rule); color: var(--ink-soft);
+}
+.catalog-comments .delete-form { margin-top: 4px; }
+.catalog-comments .link-btn {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--amber-2); font-size: .8rem; text-decoration: underline;
+}

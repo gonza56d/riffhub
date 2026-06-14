@@ -23,18 +23,34 @@ comments_total, comment_target_kind, comment_target_pk.
       <div class="comment-meta">
         {% include "accounts/_userlink.html" with u=c.author label=c.author %} · {{ c.created_at|date:"M j, Y" }}
       </div>
+      {% if c.is_deleted %}
+      <div class="comment-body deleted-msg">This message was deleted.</div>
+      {% if is_moderator or is_creator %}<div class="comment-original">original (moderators only): {{ c.body|linebreaks }}</div>{% endif %}
+      {% else %}
       <div class="comment-body">{{ c.body|linebreaks }}</div>
+      {% if user.pk == c.author_id %}
+      <form class="delete-form" method="post" action="{% url 'catalog:delete_comment' c.pk %}">{% csrf_token %}<button class="link-btn" type="submit">Delete</button></form>
+      {% endif %}
+      {% endif %}
 
       {% for r in c.replies.all %}
       <div class="catalog-reply" id="comment-{{ r.pk }}">
         <div class="comment-meta">
           {% include "accounts/_userlink.html" with u=r.author label=r.author %} · {{ r.created_at|date:"M j, Y" }}
         </div>
+        {% if r.is_deleted %}
+        <div class="comment-body deleted-msg">This message was deleted.</div>
+        {% if is_moderator or is_creator %}<div class="comment-original">original (moderators only): {{ r.body|linebreaks }}</div>{% endif %}
+        {% else %}
         <div class="comment-body">{{ r.body|linebreaks }}</div>
+        {% if user.pk == r.author_id %}
+        <form class="delete-form" method="post" action="{% url 'catalog:delete_comment' r.pk %}">{% csrf_token %}<button class="link-btn" type="submit">Delete</button></form>
+        {% endif %}
+        {% endif %}
       </div>
       {% endfor %}
 
-      {% if user.is_authenticated %}
+      {% if user.is_authenticated and not c.is_deleted %}
       <details class="catalog-reply-box">
         <summary>Reply</summary>
         <form class="comment-form reply-form" method="post"

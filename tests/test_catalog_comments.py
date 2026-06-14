@@ -116,3 +116,57 @@ class CatalogCommentServiceTests(TestCase):
         services.add_catalog_comment(target=g2, author=self.bob, body="on g3")
         self.assertEqual(services.catalog_comment_thread(self.guitar).count(), 1)
         self.assertEqual(services.catalog_comment_thread(g2).count(), 1)
+
+
+class CatalogCommentDeletionTests(TestCase):
+    """Author self-delete (the shared Deletable mixin) for catalog comments."""
+
+    def setUp(self):
+        cfg = SiteConfiguration.get_solo()
+        cfg.collaborator_promotion_threshold = 3
+        cfg.founder_threshold = 30
+        cfg.save()
+        self.brand = Brand.objects.create(name="Acme", status=PublicationStatus.PUBLISHED)
+        self.guitar = make_guitar(self.brand, "GTR-1")
+        self.alice = make_user("alice")
+        self.bob = make_user("bob")
+
+    def test_author_can_delete_own_comment(self):
+        c = services.add_catalog_comment(target=self.guitar, author=self.alice, body="oops")
+        services.delete_catalog_comment(self.alice, c)
+        c.refresh_from_db()
+        self.assertTrue(c.is_deleted)
+        self.assertEqual(c.deleted_by, self.alice)
+        self.assertIsNotNone(c.deleted_at)
+
+    def test_non_author_cannot_delete(self):
+        c = services.add_catalog_comment(target=self.guitar, author=self.alice, body="mine")
+        with self.assertRaises(PermissionDenied):
+            services.delete_catalog_comment(self.bob, c)
+        c.refresh_from_db()
+        self.assertFalse(c.is_deleted)
+
+    def test_delete_is_idempotent(self):
+        c = services.add_catalog_comment(target=self.guitar, author=self.alice, body="x")
+        services.delete_catalog_comment(self.alice, c)
+        first_at = CatalogComment.objects.get(pk=c.pk).deleted_at
+        services.delete_catalog_comment(self.alice, c)  # no error, no change
+        self.assertEqual(CatalogComment.objects.get(pk=c.pk).deleted_at, first_at)
+
+    def test_deleted_comment_stays_in_thread_with_replies(self):
+        c = services.add_catalog_comment(target=self.guitar, author=self.alice, body="top")
+        r = services.add_catalog_comment(target=self.guitar, author=self.bob, body="reply", parent=c)
+        services.delete_catalog_comment(self.alice, c)
+        thread = list(services.catalog_comment_thread(self.guitar))
+        # The deleted comment is NOT hidden (delete != moderator-remove); its
+        # reply survives so the conversation stays intact.
+        self.assertEqual([x.pk for x in thread], [c.pk])
+        self.assertTrue(thread[0].is_deleted)
+        self.assertEqual([x.pk for x in thread[0].replies.all()], [r.pk])
+
+    def test_author_can_delete_own_reply(self):
+        c = services.add_catalog_comment(target=self.guitar, author=self.alice, body="top")
+        r = services.add_catalog_comment(target=self.guitar, author=self.bob, body="reply", parent=c)
+        services.delete_catalog_comment(self.bob, r)
+        r.refresh_from_db()
+        self.assertTrue(r.is_deleted)

@@ -157,3 +157,22 @@ class CatalogCommentViewTests(TestCase):
         # page 2 holds the remaining one
         page2 = self.client.get(self.url, {"page": 2}).context["comments_page"]
         self.assertEqual(len(page2.object_list), 1)
+
+    def test_author_deletes_comment_via_endpoint(self):
+        c = services.add_catalog_comment(target=self.guitar, author=self.user, body="secret plans")
+        self.client.force_login(self.user)
+        resp = self.client.post(reverse("catalog:delete_comment", args=[c.pk]))
+        self.assertEqual(resp.status_code, 302)
+        from catalog.models import CatalogComment as CC
+        self.assertTrue(CC.objects.get(pk=c.pk).is_deleted)
+        # Page now shows the placeholder, not the original body.
+        page = self.client.get(self.url)
+        self.assertContains(page, "This message was deleted.")
+        self.assertNotContains(page, "secret plans")
+
+    def test_non_author_cannot_delete_via_endpoint(self):
+        c = services.add_catalog_comment(target=self.guitar, author=self.user, body="mine")
+        self.client.force_login(make_user("intruder"))
+        self.client.post(reverse("catalog:delete_comment", args=[c.pk]))
+        from catalog.models import CatalogComment as CC
+        self.assertFalse(CC.objects.get(pk=c.pk).is_deleted)

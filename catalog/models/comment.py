@@ -3,10 +3,10 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from core.models import Moderatable, TimeStampedModel
+from core.models import Deletable, Moderatable, TimeStampedModel
 
 
-class CatalogComment(TimeStampedModel, Moderatable):
+class CatalogComment(TimeStampedModel, Moderatable, Deletable):
     """A user comment (or one-level reply) on a catalog entity.
 
     Attaches generically to any catalog object with a detail page — a
@@ -16,9 +16,12 @@ class CatalogComment(TimeStampedModel, Moderatable):
     thread model.
 
     Replies are a single level deep — a reply points at a top-level comment via
-    ``parent``; replying to a reply is rejected in the service layer. Inherits
-    ``is_removed`` from ``Moderatable`` so removed comments can be hidden and
-    future moderation composes (no deletion UI is built here).
+    ``parent``; replying to a reply is rejected in the service layer.
+
+    Two independent soft states (mirroring the forum): ``Deletable.is_deleted``
+    is an *author* self-delete (the comment is replaced by a placeholder while
+    its row is kept for moderator audit), and ``Moderatable.is_removed`` is a
+    *moderator* remove. Views decide how each renders.
     """
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)

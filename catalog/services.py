@@ -218,3 +218,20 @@ def catalog_comment_thread(target):
         .prefetch_related(Prefetch("replies", queryset=visible_replies))
         .order_by("-created_at")
     )
+
+
+def delete_catalog_comment(user, comment):
+    """Author-delete a catalog comment or reply (soft delete).
+
+    Mirrors the forum's ``delete_comment``: only the author may delete; the
+    comment is then replaced by a "This message was deleted." placeholder for
+    everyone, while the row is kept so moderators / Creators can still audit and
+    reveal the original. A deleted comment keeps its replies (they stay visible).
+    Idempotent if already deleted.
+    """
+    if not getattr(user, "is_authenticated", False) or comment.author_id != user.pk:
+        raise PermissionDenied("You can only delete your own comments.")
+    if comment.is_deleted:
+        return comment
+    comment.mark_deleted(by=user)
+    return comment
