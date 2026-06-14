@@ -9,11 +9,15 @@ fast ORM filtering.
 
 from decimal import Decimal, InvalidOperation
 
+from django.core.paginator import Paginator
 from django.db.models import F
 from django.shortcuts import get_object_or_404, render
 
 from catalog.constants import ElectronicsType, PublicationStatus
 from catalog.models import BodyShape, Country, GuitarModel, NeckConstruction
+
+# How many guitars to show per page on the browse list.
+PAGE_SIZE = 24
 
 # (query-param flag, human label) for the boolean facets shown as checkboxes.
 BOOLEAN_FACETS = [
@@ -124,12 +128,47 @@ def _active_filter_count(params) -> int:
     return sum(1 for k in keys if params.get(k))
 
 
+def _page_number(raw):
+    """Normalise the ``?page`` value before handing it to ``Paginator``.
+
+    A sub-1 page (``0``, ``-3``) should mean the first page — the same fallback
+    a non-numeric value gets. Left as-is, ``get_page`` raises ``EmptyPage`` for
+    ``< 1`` and clamps to the *last* page, a surprising place to land. Non-numeric
+    values are passed through so ``get_page`` runs its own page-1 fallback.
+    """
+    try:
+        return max(int(raw), 1)
+    except (TypeError, ValueError):
+        return raw
+
+
 def guitar_browse(request):
     params = request.GET
     guitars = filter_guitars(params)
+    paginator = Paginator(guitars, PAGE_SIZE)
+    # get_page is forgiving: a non-integer page falls back to 1, an out-of-range
+    # (too-high) page clamps to the last page — so junk/stale ?page values never
+    # 404. _page_number additionally maps a sub-1 page to the first page.
+    page_obj = paginator.get_page(_page_number(params.get("page")))
+
+    # The active filters as a query string, minus the page number, so the pager
+    # links carry the current selection. Changing a filter submits the form
+    # *without* a page param, which naturally resets the user to page 1.
+    filter_params = params.copy()
+    filter_params.pop("page", None)
+    base_qs = filter_params.urlencode()
+
     context = {
-        "guitars": guitars,
-        "total": guitars.count(),
+        "page_obj": page_obj,
+        "base_qs": base_qs,
+        # A compact page range with ellipses (… for skipped runs) for the pager.
+        "page_range": list(
+            paginator.get_elided_page_range(
+                page_obj.number, on_each_side=1, on_ends=1
+            )
+        ),
+        "ellipsis": paginator.ELLIPSIS,
+        "total": paginator.count,
         # facet option lists
         "strings_options": list(_distinct("num_strings")),
         "frets_options": list(_distinct("num_frets")),

@@ -510,7 +510,7 @@ class ReviewVoteTests(ReviewUITestBase):
         self.client.force_login(self.regular)
         resp = self.client.get(reverse("catalog:browse"))
         self.assertNotIn(
-            guitar.pk, [g.pk for g in resp.context["guitars"]]
+            guitar.pk, [g.pk for g in resp.context["page_obj"]]
         )
 
         # Three collaborator up-votes auto-publish it.
@@ -523,7 +523,7 @@ class ReviewVoteTests(ReviewUITestBase):
         # Now it shows up in the public browse for anyone (anonymous too).
         self.client.logout()
         resp = self.client.get(reverse("catalog:browse"))
-        self.assertIn(guitar.pk, [g.pk for g in resp.context["guitars"]])
+        self.assertIn(guitar.pk, [g.pk for g in resp.context["page_obj"]])
         self.assertContains(resp, "Browsable RG")
 
         # ...and its detail page becomes reachable (was 404 while under revision).

@@ -4,9 +4,9 @@
   <span id="busy" class="htmx-indicator">filtering…</span>
 </div>
 
-{% if guitars %}
+{% if page_obj.object_list %}
 <ul class="guitar-list">
-  {% for g in guitars %}
+  {% for g in page_obj %}
   <li class="guitar-card">
     <a class="card-link" href="{% url 'catalog:detail' g.pk %}">
     <div class="card-top">
@@ -34,6 +34,40 @@
   </li>
   {% endfor %}
 </ul>
+
+{% if page_obj.paginator.num_pages > 1 %}
+{# hx-* attrs are inherited by the child links, so each page link swaps #results
+   and pushes the URL. The real href keeps them shareable + keyboard-accessible
+   and lets them work as a full page load if JS is off. #}
+<nav class="pager" aria-label="Pagination"
+     hx-boost="true" hx-target="#results" hx-swap="innerHTML show:top"
+     hx-push-url="true" hx-indicator="#busy">
+  {% if page_obj.has_previous %}
+    <a class="page-link" rel="prev"
+       href="{% url 'catalog:browse' %}?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ page_obj.previous_page_number }}">‹ Prev</a>
+  {% else %}
+    <span class="page-link disabled" aria-hidden="true">‹ Prev</span>
+  {% endif %}
+
+  {% for num in page_range %}
+    {% if num == ellipsis %}
+      <span class="page-ellipsis">{{ ellipsis }}</span>
+    {% elif num == page_obj.number %}
+      <span class="page-link current" aria-current="page">{{ num }}</span>
+    {% else %}
+      <a class="page-link" aria-label="Page {{ num }}"
+         href="{% url 'catalog:browse' %}?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ num }}">{{ num }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+    <a class="page-link" rel="next"
+       href="{% url 'catalog:browse' %}?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ page_obj.next_page_number }}">Next ›</a>
+  {% else %}
+    <span class="page-link disabled" aria-hidden="true">Next ›</span>
+  {% endif %}
+</nav>
+{% endif %}
 {% else %}
 <div class="empty">
   <p><strong>No guitars match those filters.</strong></p>

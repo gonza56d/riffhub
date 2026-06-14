@@ -31,7 +31,7 @@ from catalog.models import (
     GuitarModel,
     NeckConstruction,
 )
-from catalog.views import filter_guitars
+from catalog.views import PAGE_SIZE, filter_guitars
 from core.models import SiteConfiguration
 
 
@@ -432,7 +432,9 @@ class GuitarBrowseViewTests(TestCase):
 
     def test_context_total_and_active_count(self):
         resp = self.client.get(self.url, {"strings": "7", "has_tremolo": "1"})
-        self.assertEqual(resp.context["total"], resp.context["guitars"].count())
+        self.assertEqual(
+            resp.context["total"], resp.context["page_obj"].paginator.count
+        )
         # two distinct active facet keys selected
         self.assertEqual(resp.context["active_count"], 2)
 
@@ -469,6 +471,95 @@ class GuitarBrowseViewTests(TestCase):
         resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, "catalog/guitar_browse.html")
+
+
+class GuitarBrowsePaginationTests(TestCase):
+    """The browse list is paginated (``PAGE_SIZE`` per page). The pager carries
+    the active filters and tolerates junk / out-of-range ``?page`` values."""
+
+    # Enough rows to span three pages, so has_next/has_previous and the elided
+    # range all have something to exercise.
+    TOTAL = PAGE_SIZE * 2 + 3
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.brand = _published_brand("Bulk")
+        cls.url = reverse("catalog:browse")
+        # Zero-padded names so the model's ("brand__name", "name") ordering is
+        # deterministic and page boundaries are stable.
+        for i in range(cls.TOTAL):
+            make_guitar(cls.brand, f"Model {i:03d}", num_strings=6)
+        cls.last_page = (cls.TOTAL + PAGE_SIZE - 1) // PAGE_SIZE
+
+    def setUp(self):
+        cfg = SiteConfiguration.get_solo()
+        cfg.collaborator_promotion_threshold = 3
+        cfg.founder_threshold = 30
+        cfg.save()
+
+    def test_first_page_caps_at_page_size(self):
+        page = self.client.get(self.url).context["page_obj"]
+        self.assertEqual(page.number, 1)
+        self.assertEqual(len(page.object_list), PAGE_SIZE)
+        self.assertTrue(page.has_next())
+        self.assertFalse(page.has_previous())
+
+    def test_total_reflects_full_match_not_page(self):
+        # The headline count is the full match count, not the page slice.
+        resp = self.client.get(self.url)
+        self.assertEqual(resp.context["total"], self.TOTAL)
+        self.assertContains(resp, f"{self.TOTAL} guitars")
+
+    def test_last_page_has_remainder(self):
+        page = self.client.get(self.url, {"page": self.last_page}).context["page_obj"]
+        self.assertEqual(page.number, self.last_page)
+        self.assertFalse(page.has_next())
+        self.assertEqual(
+            len(page.object_list), self.TOTAL - PAGE_SIZE * (self.last_page - 1)
+        )
+
+    def test_pages_do_not_overlap(self):
+        p1 = self.client.get(self.url).context["page_obj"]
+        p2 = self.client.get(self.url, {"page": 2}).context["page_obj"]
+        self.assertEqual({g.pk for g in p1} & {g.pk for g in p2}, set())
+
+    def test_invalid_page_falls_back_to_first(self):
+        resp = self.client.get(self.url, {"page": "abc"})
+        self.assertEqual(resp.context["page_obj"].number, 1)
+
+    def test_out_of_range_page_clamps_to_last(self):
+        resp = self.client.get(self.url, {"page": 9999})
+        self.assertEqual(resp.context["page_obj"].number, self.last_page)
+
+    def test_pager_rendered_with_links(self):
+        resp = self.client.get(self.url)
+        self.assertContains(resp, 'class="pager"')
+        self.assertContains(resp, "page=2")  # the Next / page-2 link
+
+    def test_pager_hidden_when_single_page(self):
+        # A filter that narrows below one page drops the pager entirely.
+        only = make_guitar(self.brand, "Lonely Seven", num_strings=7)
+        resp = self.client.get(self.url, {"strings": "7"})
+        self.assertContains(resp, only.name)
+        self.assertNotContains(resp, 'class="pager"')
+
+    def test_base_qs_excludes_page_keeps_filters(self):
+        resp = self.client.get(self.url, {"strings": "6", "page": 2})
+        # base_qs drops the page number but keeps the filter, so pager links
+        # stay within the current selection.
+        self.assertEqual(resp.context["base_qs"], "strings=6")
+        self.assertContains(resp, "strings=6")
+
+    def test_filtered_request_without_page_starts_at_first(self):
+        resp = self.client.get(self.url, {"strings": "6"})
+        self.assertEqual(resp.context["page_obj"].number, 1)
+
+    def test_htmx_page_request_returns_partial_with_pager(self):
+        resp = self.client.get(self.url, {"page": 2}, HTTP_HX_REQUEST="true")
+        self.assertTemplateUsed(resp, "catalog/_guitar_results.html")
+        self.assertTemplateNotUsed(resp, "catalog/guitar_browse.html")
+        self.assertEqual(resp.context["page_obj"].number, 2)
+        self.assertContains(resp, 'class="pager"')
 
 
 class GuitarDetailViewTests(TestCase):
