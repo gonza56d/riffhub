@@ -1,0 +1,16 @@
+brand,name,is_locking,ratio,tuner_type,description
+Gotoh,Gotoh SG381,false,16:1,sealed,Sealed-gear machine head with 16:1 ratio and Lubri-Coat coating; available in 3+3 and 6-in-line; mid-range flagship of the SG series
+Gotoh,Gotoh SG301,false,18:1,sealed,Sealed-gear machine head with 18:1 ratio; larger body than SG381 with retention screw below post; not suitable for 6-in-line
+Gotoh,Gotoh SG360,false,14:1,sealed,Sealed-gear machine head with 14:1 ratio; compact SG series tuner available in 3+3 and 6-in-line configurations
+Gotoh,Gotoh SD90,false,15:1,vintage,Vintage-style open-gear machine head with 15:1 ratio; 3+3 array; available with Magnum Lock and HAP post options
+Gotoh,Gotoh SD91,false,15:1,vintage,Vintage-style open-gear machine head with 15:1 ratio; classic Kluson-inspired styling; available for 3+3 and 6-in-line
+Gotoh,Gotoh SDS510,false,15:1,vintage,Vintage-style SD510 series machine head with 15:1 ratio; features DSL mechanism and X-Finish coating
+Gotoh,Gotoh SGS510,false,15:1,sealed,SG510 series sealed-gear machine head with 15:1 ratio; features X-Finish and Lubri-Plate; available in 3+3 and 6-in-line
+Gotoh,Gotoh SGS510Z,false,18:1,sealed,SG510 series sealed-gear machine head with 18:1 ratio; premium precision over SGS510; supports MG and HAP-M post variants
+Gotoh,Gotoh 35G510,false,16:1,open_gear,Classical guitar open-gear machine head with 16:1 ratio; 35G510 series with precision roller nut and multiple plate materials
+Gotoh,Gotoh SG381 MG-T,true,16:1,locking,Sealed-gear Magnum Lock Trad locking tuner based on SG381 with 16:1 ratio; rear thumbwheel locks string post after tuning; fast restringing
+Gotoh,Gotoh SD90 MG-T,true,15:1,locking,Vintage-style Magnum Lock Trad locking tuner based on SD90 with 15:1 ratio; combines open-gear aesthetics with tool-free string locking
+Gotoh,Gotoh SD91 MG-T,true,15:1,locking,Vintage-style Magnum Lock Trad locking tuner based on SD91 with 15:1 ratio; Rock-Solid construction with rear thumbwheel string lock
+Gotoh,Gotoh SG381 HAP-M,true,16:1,locking,SG381 variant combining Magnum Lock and height-adjustable post (HAP) technology; individually tunable post heights for nut break angle optimization
+Gotoh,Gotoh SGS510Z HAP-M,true,18:1,locking,SGS510Z variant with integrated HAP-M locking post; 18:1 ratio; height-adjustable locking posts for precise per-string setup
+Gotoh,Gotoh SD91 HAP-M,true,15:1,locking,Vintage-style SD91 variant with HAP-M locking adjustable-height posts; 15:1 ratio; locking stability with post-height fine-tuning

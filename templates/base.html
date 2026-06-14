@@ -1,6 +1,6 @@
 {% load static %}
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{ active_theme|default:'light' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,6 +10,23 @@
   <link rel="stylesheet" href="{% static 'css/collab_review.css' %}">
   <script defer src="{% static 'js/vendor/htmx.min.js' %}"></script>
   <script defer src="{% static 'js/vendor/alpine.min.js' %}"></script>
+  <script>
+    // Theme toggle: flip <html data-theme> instantly, then persist the choice
+    // (a cookie for everyone + the account for logged-in users) via set_theme.
+    function riffhubToggleTheme() {
+      var root = document.documentElement;
+      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      fetch("{% url 'set_theme' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: "theme=" + next,
+      });
+    }
+  </script>
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
   <header class="site-header">
@@ -24,11 +41,16 @@
           <a href="{% url 'messaging:inbox' %}">messages{% if unread_dm_count %} <span class="dm-badge">{{ unread_dm_count }}</span>{% endif %}</a>
           {% if is_moderator %}<a href="{% url 'moderation:dashboard' %}">moderation</a>{% endif %}
           {% if is_creator %}<a href="{% url 'forum:manage_topics' %}">manage</a>{% endif %}
-          <a class="nav-user" href="{% url 'profile' user.username %}">{{ user.username }}</a>
+          <span class="nav-user">{% include "accounts/_userlink.html" with u=user label=user.username %}</span>
           <form method="post" action="{% url 'logout' %}" class="logout-form">{% csrf_token %}<button type="submit">log out</button></form>
         {% else %}
           <a href="{% url 'login' %}">sign in</a>
         {% endif %}
+        <button type="button" class="theme-toggle" onclick="riffhubToggleTheme()"
+                aria-label="Toggle light or dark theme" title="Toggle light / dark theme">
+          <span class="theme-ico theme-ico--moon" aria-hidden="true">🌙</span>
+          <span class="theme-ico theme-ico--sun" aria-hidden="true">☀️</span>
+        </button>
       </nav>
     </div>
   </header>

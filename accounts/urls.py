@@ -9,4 +9,5 @@ urlpatterns = [
     path("signup/", views.signup, name="signup"),
     path("confirm/<uuid:token>/", views.confirm_email, name="confirm_email"),
     path("resend-confirmation/", views.resend_confirmation, name="resend_confirmation"),
+    path("theme/", views.set_theme, name="set_theme"),
 ]

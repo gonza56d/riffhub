@@ -1,0 +1,23 @@
+brand,name,pickup_type,is_active,description
+Gibson,Burstbucker 1,Humbucker,false,PAF-style humbucker with asymmetric wind and Alnico 2 magnets; slightly underwound neck pickup used on Les Paul Standard 50s
+Gibson,Burstbucker 2,Humbucker,false,PAF-style humbucker with asymmetric wind and Alnico 2 magnets; slightly overwound bridge pickup used on Les Paul Standard 50s
+Gibson,Burstbucker 61R,Humbucker,false,60s-voiced humbucker with Alnico 5 magnets; neck pickup used on Les Paul Standard 60s and SG Standard 61
+Gibson,Burstbucker 61T,Humbucker,false,60s-voiced humbucker with Alnico 5 magnets; bridge pickup used on Les Paul Standard 60s and SG Standard 61
+Gibson,490R,Humbucker,false,Modern-classic Alnico 2 humbucker; neck pickup used on SG Standard and Les Paul Tribute
+Gibson,490T,Humbucker,false,Modern-classic Alnico 2 humbucker calibrated for bridge position; used on SG Standard
+Gibson,498T,Humbucker,false,Higher-output Alnico 5 bridge humbucker; pairs with 490R on Les Paul Custom and Explorer
+Gibson,57 Classic,Humbucker,false,Reproduction of the original PAF with Alnico 2 magnets; used on ES-335 and ES-339 Original Collection
+Gibson,57 Classic Plus,Humbucker,false,Slightly overwound version of the 57 Classic; bridge pickup companion to 57 Classic
+Gibson,Burstbucker Pro,Humbucker,false,Higher-output PAF-voiced humbucker with Alnico 5 magnets; used on Les Paul Modern and SG Modern neck position
+Gibson,Burstbucker Pro+,Humbucker,false,Hotter Alnico 5 bridge humbucker; used on Les Paul Modern and SG Modern bridge position
+Gibson,P-90,P-90,false,Gibson soapbar P-90 single-coil; used on Les Paul Special and SG Special
+Gibson,P-90 Dog Ear,P-90,false,Dog-ear-mounted P-90 single-coil; used on Les Paul Junior and SG Junior
+Gibson,Firebird Mini Humbucker Rhythm,Mini-humbucker,false,Bright-voiced mini humbucker; neck pickup in Firebird reverse-body guitars
+Gibson,Firebird Mini Humbucker Lead,Mini-humbucker,false,Bright-voiced mini humbucker; bridge pickup in Firebird reverse-body guitars
+Gibson,Calibrated T-Type Rhythm,Humbucker,false,Modern T-Type humbucker calibrated for neck position; used on ES-345 and ES-335 Original Collection
+Gibson,Calibrated T-Type Lead,Humbucker,false,Modern T-Type humbucker calibrated for bridge position; used on ES-345 and ES-335 Original Collection
+Epiphone,ProBucker-1,Humbucker,false,Epiphone ProBucker PAF-style neck humbucker with Alnico 2 magnets; used on Epiphone Les Paul Standard 50s
+Epiphone,ProBucker-2,Humbucker,false,Epiphone ProBucker PAF-style neck humbucker with Alnico 2 magnets; used on Epiphone SG Standard neck position
+Epiphone,ProBucker-3,Humbucker,false,Slightly hotter Epiphone ProBucker bridge humbucker; used on Epiphone SG Standard bridge
+Epiphone,P-90 PRO Dog Ear Neck,P-90,false,Epiphone P-90 PRO dog-ear neck pickup used on Casino
+Epiphone,P-90 PRO Dog Ear Bridge,P-90,false,Epiphone P-90 PRO dog-ear bridge pickup used on Casino

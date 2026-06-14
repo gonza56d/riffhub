@@ -1,0 +1,31 @@
+brand,name,pickup_type,is_active,description
+Schecter,Diamond Standard HH,Humbucker,false,Schecter Diamond Standard passive humbucker with black metal cover
+Schecter,Diamond Plus HH,Humbucker,false,Schecter Diamond Plus passive humbucker — mid-output versatile tone
+Schecter,Diamond Heretic,Humbucker,false,Schecter Diamond Heretic passive humbucker for metal
+Schecter,Diamond Decimator,Humbucker,false,Schecter Diamond Decimator high-output passive humbucker
+Schecter,Diamond Nick Johnston Single Coil,Single-coil,false,Schecter Diamond Nick Johnston signature single-coil
+Schecter,Diamond 78,Humbucker,false,Schecter Diamond 78 vintage-voiced passive humbucker
+Schecter,USA Pasadena,Humbucker,false,Schecter USA hand-wound Pasadena passive humbucker (neck)
+Schecter,USA Pasadena Plus,Humbucker,false,Schecter USA hand-wound Pasadena Plus passive humbucker (bridge)
+Schecter,USA Sunset Strip,Humbucker,false,Schecter USA hand-wound Sunset Strip passive humbucker (bridge)
+Schecter,USA Solstice,Humbucker,false,Schecter USA Solstice passive humbucker (bridge) — Aaron Marshall signature
+Schecter,USA Equinox,Humbucker,false,Schecter USA Equinox passive humbucker (neck) — Aaron Marshall signature
+Schecter,USA SuperCharger Mach-6,Humbucker,false,Schecter USA SuperCharger Mach-6 passive humbucker for Banshee Elite-6
+Schecter,USA SuperCharger Mach-7,Humbucker,false,Schecter USA SuperCharger Mach-7 passive humbucker for Banshee Elite-7
+EMG,EMG 81TW,Humbucker,true,EMG 81TW active humbucker with coil-tap to single-coil
+EMG,EMG 89R,Humbucker,true,EMG 89R active humbucker with coil-tap (neck/reverse wound)
+EMG,EMG 707TW,Humbucker,true,EMG 707TW active 7-string humbucker with coil-tap
+EMG,EMG 57,Humbucker,true,EMG 57 active humbucker — classic voiced bridge pickup
+EMG,EMG 66,Humbucker,true,EMG 66 active humbucker — warm-voiced neck pickup
+EMG,EMG 808,Humbucker,true,EMG 808 active 8-string wide-aperture humbucker with Alnico V
+EMG,EMG RetroActive Hot 70,Humbucker,true,EMG RetroActive Hot 70 active vintage-voiced humbucker
+Fishman,Fishman Fluence Modern Ceramic,Humbucker,true,Fishman Fluence Modern humbucker (ceramic magnet) — bridge position multi-voice
+Fishman,Fishman Fluence Modern Alnico,Humbucker,true,Fishman Fluence Modern humbucker (Alnico magnet) — neck position multi-voice
+Seymour Duncan,SH-11 Custom Custom,Humbucker,false,Seymour Duncan Custom Custom SH-11 passive humbucker
+Seymour Duncan,SH-1N 59,Humbucker,false,Seymour Duncan 59 Model SH-1N vintage passive humbucker (neck)
+Seymour Duncan,Nazgul,Humbucker,false,Seymour Duncan Nazgul high-output passive humbucker (bridge)
+Seymour Duncan,Sentient,Humbucker,false,Seymour Duncan Sentient articulate passive humbucker (neck)
+Lundgren,Lundgren M6,Humbucker,false,Lundgren M6 hand-wound Swedish passive humbucker 6-string
+Lundgren,Lundgren M7,Humbucker,false,Lundgren M7 hand-wound Swedish passive humbucker 7-string
+Schecter,Sustainiac,Humbucker,false,Schecter Sustainiac neck pickup system for infinite sustain
+EMG,EMG RetroActive Single Coil,Single-coil,true,EMG RetroActive single-coil active pickup — used in Sun Valley Super Shredder 7 III

@@ -1,0 +1,16 @@
+name,radius_min_inches,radius_max_inches,is_compound,is_flat
+7.25 in,7.25,7.25,false,false
+9.5 in,9.5,9.5,false,false
+10 in,10,10,false,false
+12 in,12,12,false,false
+14 in,14,14,false,false
+15.75 in,15.75,15.75,false,false
+16 in,16,16,false,false
+17 in,17,17,false,false
+20 in,20,20,false,false
+Compound 9.5-14 in,9.5,14,true,false
+Compound 10-16 in,10,16,true,false
+Compound 12-16 in,12,16,true,false
+Compound 14-16 in,14,16,true,false
+Compound 16-20 in,16,20,true,false
+Flat,,,false,true

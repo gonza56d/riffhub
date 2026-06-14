@@ -24,6 +24,22 @@ class Level(models.IntegerChoices):
     CREATOR = 50, "Riffhub Creator"
 
 
+class Theme(models.TextChoices):
+    """Colour themes a user can pick for the site UI.
+
+    ``LIGHT`` is the default and keeps the original "Warm Vintage Workshop"
+    look untouched; ``DARK`` is its dark counterpart.
+    """
+
+    LIGHT = "light", "Light"
+    DARK = "dark", "Dark"
+
+
+# Where an anonymous (or just-logged-out) visitor's theme choice is remembered.
+THEME_COOKIE_NAME = "theme"
+THEME_COOKIE_MAX_AGE = 60 * 60 * 24 * 365  # one year
+
+
 class User(AbstractUser):
     """Riffhub user account.
 
@@ -53,6 +69,14 @@ class User(AbstractUser):
     is_founder = models.BooleanField(default=False)
     is_community_moderator = models.BooleanField(default=False)
     is_riffhub_creator = models.BooleanField(default=False)
+
+    # --- UI preferences ----------------------------------------------------
+    theme = models.CharField(
+        max_length=5,
+        choices=Theme.choices,
+        default=Theme.LIGHT,
+        help_text="Preferred colour theme for the site UI (light or dark).",
+    )
 
     def __str__(self) -> str:
         return self.username
@@ -92,6 +116,16 @@ class User(AbstractUser):
         """Whether this user's level meets or exceeds ``level``."""
         return self.level >= level
 
+    @property
+    def is_banned(self) -> bool:
+        """Whether the user has an active (un-lifted) ban.
+
+        Banned users are never deleted: their name still shows wherever their
+        content appears, but their profile becomes inaccessible (the byline
+        renders as plain text and ``/u/<username>/`` returns 404).
+        """
+        return self.bans.filter(lifted_at__isnull=True).exists()
+
     def add_reputation(self, amount: int) -> None:
         """Adjust the reputation score by ``amount`` (may be negative) and save.
 
@@ -111,7 +145,7 @@ class EmailConfirmation(TimeStampedModel):
 
     user = models.ForeignKey(
         "accounts.User",
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="email_confirmations",
     )
     token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)

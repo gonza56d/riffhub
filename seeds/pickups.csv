@@ -1,0 +1,306 @@
+brand,name,pickup_type,is_active,description
+DiMarzio,Super Distortion,Humbucker,false,Pioneering high-output bridge humbucker with thick boosted mids and fat lows/highs that drives tube amps into overdrive
+DiMarzio,Super 2,Humbucker,false,Bright high-output humbucker that shifts the Super Distortion EQ toward treble for a tighter bottom and snappier top
+DiMarzio,X2N,Humbucker,false,Extreme high-output bridge humbucker with twin wide-bar poles delivering maximum gain and a take-no-prisoners aggressive tone
+DiMarzio,PAF 36th Anniversary Bridge,Humbucker,false,Vintage-voiced bridge humbucker with soft magnetic field and sweet balanced warmth modeled on a 1959 Les Paul reference
+DiMarzio,PAF 36th Anniversary Neck,Humbucker,false,Vintage-voiced neck humbucker companion to the 36th Anniversary Bridge with smooth highs and clear PAF character
+DiMarzio,PAF Master Bridge,Humbucker,false,Quiet bright and dynamic PAF-style bridge humbucker with Alnico 4 magnets delivering snarly vintage rock character
+DiMarzio,PAF Pro,Humbucker,false,Medium-output PAF-voiced humbucker with presence and cut that slices through heavy processing in bridge or neck position
+DiMarzio,Air Norton,Humbucker,false,Warm deep neck humbucker with reduced string-pull for improved sustain and excellent pick-attack dynamics
+DiMarzio,Tone Zone,Humbucker,false,High-output bridge humbucker with wide dynamic range huge bass/low-mid response and dual-resonance coils for rich overtones
+DiMarzio,Norton,Humbucker,false,Medium-output bridge humbucker blending FRED harmonic overtones with Tone Zone midrange power for modern mahogany guitars
+DiMarzio,Evolution Bridge,Humbucker,false,High-output tight aggressive Steve Vai signature bridge humbucker with intense highs and dual-resonance overtone character
+DiMarzio,Evolution Neck,Humbucker,false,Medium-output Steve Vai signature neck humbucker designed for maximum impact and balanced response across the fretboard
+DiMarzio,Evolution 7,Humbucker,false,Seven-string Steve Vai signature humbucker combining Evolution attack with Virtual Vintage technology for clear crunching lows
+DiMarzio,Gravity Storm Bridge,Humbucker,false,Steve Vai signature bridge humbucker with depth warm highs and mids evoking thundering power with dynamic expressiveness
+DiMarzio,Gravity Storm Neck,Humbucker,false,Steve Vai signature neck humbucker with sweet warm tone and a throaty single-coil-like bite within a humbucker body
+DiMarzio,Crunch Lab,Humbucker,false,John Petrucci signature high-output bridge humbucker with big tight articulate sound ideal for progressive metal chords
+DiMarzio,LiquiFire,Humbucker,false,John Petrucci signature neck humbucker with flowing singing solo tone and warm smooth treble for overdriven leads
+DiMarzio,Crunch Lab 7,Humbucker,false,Seven-string version of the Crunch Lab delivering the same tight articulate high-output crunch for 7-string progressive metal
+DiMarzio,LiquiFire 7,Humbucker,false,Seven-string LiquiFire neck humbucker with fat highs and clean lows for smooth solos and tight bass lines
+DiMarzio,Titan Bridge,Humbucker,false,Jake Bowen signature high-output bridge humbucker with tight palm-muted aggression and warm highs suited to modern progressive metal
+DiMarzio,D Activator Bridge,Humbucker,false,Passive bridge humbucker voiced to replicate active-pickup clarity and tight lows without a battery using tuned resonant coils
+DiMarzio,D Activator Neck,Humbucker,false,Passive neck humbucker with big bright open sound and tight lows replicating active-pickup character without battery power
+DiMarzio,D Activator X Bridge,Humbucker,false,High-power passive bridge humbucker combining active-style clarity with wide dynamic range and clean split tones on rolled-back volume
+DiMarzio,D Activator 7 Bridge,Humbucker,false,Seven-string passive bridge humbucker with killer harmonics and attack-focused low B that replicates active clarity without batteries
+DiMarzio,D Activator 7 Neck,Humbucker,false,Seven-string passive neck humbucker with solid low B and singing high strings delivering active-style power in passive form
+DiMarzio,Dominion Bridge,Humbucker,false,Medium-output ceramic bridge humbucker with thick mids and bottom depth maintaining focus for high-gain playing and clean splits
+DiMarzio,Breed Neck,Humbucker,false,Steve Vai signature neck humbucker with fat classic tone slightly louder than a PAF Pro for warm vintage-voiced Jem tones
+DiMarzio,Steve's Special,Humbucker,false,High-output bridge humbucker with a mid-scoop spreading sound over a broad range for note clarity and hi-fi clean chords
+DiMarzio,Fusion Edge Bridge,Humbucker,false,Ibanez-collaboration passive ceramic bridge humbucker with crisp highs tight lows and precise articulation for modern metal
+DiMarzio,Fusion Edge Neck,Humbucker,false,Ibanez-collaboration passive ceramic neck humbucker with clear harmonic character and balanced response for modern high-gain playing
+DiMarzio,Bluesbucker,Humbucker,false,Humbucker-sized pickup with Virtual Vintage technology that replicates P-90 tone and dynamics while canceling 60-cycle hum
+DiMarzio,Area 58,Humbucker,false,Stacked hum-canceling Strat pickup voicing vintage 1958 single-coil dynamics with bright clear tone and wide dynamic range
+DiMarzio,Area 61,Humbucker,false,Stacked hum-canceling Strat pickup that responds strongly to pick attack sounding louder and tougher when played hard
+DiMarzio,Area 67,Humbucker,false,Stacked hum-canceling Strat pickup capturing 1960s chime and quack with light bright 2-and-4-position character
+DiMarzio,Injector Neck,Humbucker,false,Stacked hum-canceling Strat neck pickup warmer and louder than vintage with fast high-gain tracking without thinning out
+DiMarzio,Cruiser Neck,Humbucker,false,Rail hum-canceling Strat neck pickup with open vocal midrange and harmonic overtones that closely mimic true single-coil character
+DiMarzio,Chopper,Humbucker,false,Rail hum-canceling Strat bridge pickup bridging single-coil and humbucker with punchy mids and increased output for a thick tone
+DiMarzio,Pro Track,Humbucker,false,Rail hum-canceling single-coil-sized humbucker with warm vintage PAF tone smooth treble and enough output for any position
+DiMarzio,P90 Super Distortion,P-90,false,Highest-output humbucking P-90 soapbar replacement with 12 adjustable pole pieces and smooth treble for high-gain bridge tones
+EMG,81,Humbucker,true,High-output active humbucker with ceramic magnets and close aperture coils delivering intense highs and fluid sustain; the definitive bridge pickup for hard rock and metal
+EMG,85,Humbucker,true,Active humbucker loaded with Alnico V magnets providing muscular growl and smooth lead tones; versatile from blues to extreme metal in bridge or neck
+EMG,57,Humbucker,true,Active bridge humbucker combining Alnico V magnets and steel pole pieces for PAF-quality warmth with active punch and clarity
+EMG,66,Humbucker,true,Active neck humbucker with ceramic pole pieces delivering articulate highs and expansive lows with warm smooth mid-range
+EMG,57/66 Set,Humbucker,true,Matched set pairing the 57 bridge and 66 neck humbuckers for a complete vintage-voiced active pickup system
+EMG,60,Humbucker,true,Active neck humbucker with ceramic magnets and close aperture coils producing boosted mids thick lows and singing highs ideal for leads
+EMG,60A,Humbucker,true,Active humbucker with Alnico magnets and close aperture coils offering warmer bluesy character in neck or bridge positions
+EMG,89,Humbucker,true,Dual-mode active humbucker with Alnico V magnets switchable to single-coil mode via push-pull pot for rich warm humbucking or bright airy Strat tones
+EMG,89R,Humbucker,true,Reversed-coil version of the 89 dual-mode active pickup placing the single-coil sweet spot closer to the neck for bright airy chimey tones
+EMG,81X,Humbucker,true,X-Series version of the 81 with enhanced preamp providing increased dynamic range and headroom while retaining the ceramic-magnet high-output character
+EMG,85X,Humbucker,true,X-Series 85 with Alnico V magnets and improved preamp delivering organic open voice with added headroom and response
+EMG,57-7,Humbucker,true,Seven-string active bridge humbucker with Alnico V magnets and steel pole pieces voiced for the bridge position of 7-string guitars
+EMG,66-7,Humbucker,true,Seven-string active neck humbucker with Alnico V magnets and ceramic pole pieces delivering warm mids and expansive lows on extended range guitars
+EMG,81-7,Humbucker,true,Seven-string version of the 81 active bridge humbucker with ceramic magnets for high-end cut and fluid sustain on 7-string guitars
+EMG,85-7,Humbucker,true,Seven-string version of the 85 active humbucker with Alnico V magnets providing exceptional versatility in neck or bridge on 7-string guitars
+EMG,707,Humbucker,true,Active 7-string humbucker with Alnico V loaded wide aperture coils eliminating muddy low B string tone while maintaining balanced articulate upper register
+EMG,81-8,Humbucker,true,Eight-string version of the 81 active bridge humbucker using ceramic magnets for detailed high-end cut and fluid sustain on 8-string guitars
+EMG,57-8,Humbucker,true,Eight-string active bridge humbucker combining Alnico V magnets and steel pole pieces for vintage warmth with active clarity on 8-string guitars
+EMG,808,Humbucker,true,Active 8-string humbucker with Alnico V loaded wide aperture coils eliminating muddy low F# string while maintaining clarity across the full range
+EMG,Het Set,Humbucker,true,James Hetfield signature active set (JH-N neck + JH-B bridge) blending clarity and punch of passive pickups with legendary EMG active tone
+EMG,Super 77 Set,Humbucker,true,Retro Active open-coil active humbucker set with ceramic magnets capturing high-output vintage rock tones
+EMG,Hot 70 Set,Humbucker,true,Retro Active set with ceramic bridge and Alnico V neck producing high-output late-70s rock tones
+EMG,Fat 55 Set,Humbucker,true,Retro Active open-coil active humbucker set with Alnico magnets for a warm vintage humbucker tone
+EMG,SA,Single-coil,true,Active single-coil with Alnico V bar magnet delivering classic noiseless Strat tone: bright airy with rich bottom end and creamy mid-range warmth
+EMG,SAV,Single-coil,true,Active single-coil with flat Alnico V pole pieces blending vintage Strat quack with modern flat-radius balance and quiet operation
+EMG,SLV,Single-coil,true,Steve Lukather signature active single-coil with over-wound coils and flat Alnico V poles for a meatier tone and uniform appearance
+EMG,SV,Single-coil,true,Vintage-style active single-coil with staggered Alnico V pole pieces reproducing 1959 Strat tone with classic quack and punch
+EMG,SA/SA/81 Set,Single-coil,true,HSS set pairing two SA Alnico V single-coils with an 81 bridge humbucker for smooth articulate neck/middle and aggressive bridge tones
+EMG,H1A,Humbucker,false,Passive HZ humbucker with Alnico V magnets and over-wound coils for warm full mid-range and smooth top end; vintage humbucker character
+EMG,H2A,Humbucker,false,Passive HZ humbucker with vintage wind and Alnico V magnets; bridge version offers fat punchy lows and neck version delivers warm clear cleans
+EMG,EMG 81,Humbucker,true,High-output active ceramic humbucker; bridge position workhorse for metal
+EMG,EMG 60,Humbucker,true,Warm active alnico humbucker; neck position complement to the 81
+EMG,EMG 85,Humbucker,true,Active alnico humbucker; warm neck tone with output to match the 81
+EMG,EMG 57TW,Humbucker,true,Active twisting humbucker with selectable single-coil mode; bridge
+EMG,EMG 66TW,Humbucker,true,Active twisting humbucker with selectable single-coil mode; neck
+EMG,EMG 81-7H,Humbucker,true,7-string version of the EMG 81 active ceramic humbucker
+EMG,EMG 85-7H,Humbucker,true,7-string version of the EMG 85 active alnico humbucker
+EMG,EMG JH HET Set,Humbucker,true,James Hetfield signature active set (bridge and neck pair)
+EMG,EMG KH Bone Breaker Set,Humbucker,true,Kirk Hammett signature active humbucker set
+Seymour Duncan,SD JB,Humbucker,false,JB model SH-4 high-output humbucker; bridge
+Seymour Duncan,SD Jazz,Humbucker,false,Jazz model SH-2 warm vintage humbucker; neck
+Seymour Duncan,SD 59,Humbucker,false,Model of a vintage PAF-style humbucker; neck
+Seymour Duncan,SD Custom,Humbucker,false,Custom model SH-5 high-output humbucker; bridge
+Seymour Duncan,SD Phat Cat,Single-coil,false,P-90-style single-coil in humbucker housing; neck
+Fishman,Fishman Fluence Modern Ceramic,Humbucker,true,Fluence Modern multi-voice ceramic humbucker; bridge
+Fishman,Fishman Fluence Modern Alnico,Humbucker,true,Fluence Modern multi-voice alnico humbucker; neck
+Fishman,Fishman Fluence Open Core Classic,Humbucker,true,Fluence Open Core Classic multi-voice humbucker; coil-split capable
+Fishman,Fishman Fluence SC 3-Voice Bridge,Humbucker,true,Stephen Carpenter 3-voice Fluence signature ceramic humbucker
+Fishman,Fishman Fluence SC 3-Voice Mid,Humbucker,true,Stephen Carpenter 3-voice Fluence signature alnico humbucker; middle position
+ESP,ESP LH-150B,Humbucker,false,ESP-designed passive humbucker; bridge position
+ESP,ESP LH-150N,Humbucker,false,ESP-designed passive humbucker; neck position
+Fender,V-Mod II Single-Coil Strat,Single-coil,false,V-Mod II voiced Stratocaster single-coil with beveled staggered poles; position-specific voicing
+Fender,V-Mod II Single-Coil Tele Bridge,Single-coil,false,V-Mod II voiced Telecaster bridge single-coil with enhanced output and clarity
+Fender,V-Mod II Single-Coil Tele Neck,Single-coil,false,V-Mod II voiced Telecaster neck single-coil with full warm tone
+Fender,V-Mod II Single-Coil Jazzmaster,Single-coil,false,V-Mod II voiced Jazzmaster single-coil with wide aperture and smooth response
+Fender,Ultra II Noiseless Vintage Strat,Single-coil,false,Noiseless single-coil for American Ultra II; flat poles; hum-free vintage Strat tone
+Fender,Yosemite Single-Coil Strat,Single-coil,false,Performer Series Strat single-coil with flat-staggered poles for increased output
+Fender,Yosemite Single-Coil Tele Bridge,Single-coil,false,Performer Series Tele bridge single-coil with flat-staggered poles
+Fender,Yosemite Single-Coil Tele Neck,Single-coil,false,Performer Series Tele neck single-coil with fat warm tone
+Fender,Pure Vintage 57 Single-Coil Strat,Single-coil,false,Pure Vintage 1957 Stratocaster single-coil with beveled staggered poles and cloth wiring
+Fender,Pure Vintage 61 Single-Coil Strat,Single-coil,false,Pure Vintage 1961 Stratocaster single-coil with beveled staggered poles and cloth wiring
+Fender,Pure Vintage 51 Single-Coil Tele Bridge,Single-coil,false,Pure Vintage 1951 Telecaster bridge single-coil with alnico magnets and cloth wire
+Fender,Pure Vintage 51 Single-Coil Tele Neck,Single-coil,false,Pure Vintage 1951 Telecaster neck single-coil with alnico magnets and cloth wire
+Fender,Player Series Alnico 5 Strat,Single-coil,false,Player Series Stratocaster alnico 5 single-coil with staggered poles
+Fender,Player Series Alnico 5 Tele,Single-coil,false,Player Series Telecaster alnico 5 single-coil
+Fender,Player Series Alnico 2 Humbucker,Humbucker,false,Player Series alnico 2 humbucker for Stratocaster bridge position
+Fender,Player Plus Noiseless Strat,Single-coil,false,Player Plus noiseless Stratocaster single-coil; hum-free with vintage chime
+Fender,Player Plus Noiseless Tele,Single-coil,false,Player Plus noiseless Telecaster single-coil; hum-free with bright Tele twang
+Fender,Vintera 50s Strat Single-Coil,Single-coil,false,Vintage-style 1950s Stratocaster alnico single-coil with staggered poles
+Fender,Vintera 60s Strat Single-Coil,Single-coil,false,Vintage-style 1960s Stratocaster alnico single-coil with staggered poles
+Fender,Vintera 60s Tele Single-Coil,Single-coil,false,Vintage-style 1960s Telecaster single-coil with classic chime and twang
+Fender,Vintera 50s Tele Single-Coil Bridge,Single-coil,false,Vintage-style 1950s Telecaster bridge single-coil with bright steel twang
+Fender,Vintera 50s Tele Single-Coil Neck,Single-coil,false,Vintage-style 1950s Telecaster neck single-coil with warm full tone
+Fender,Wide-Range CuNiFe Humbucker,Humbucker,false,Authentic CuNiFe-magnet wide-range humbucker as designed by Seth Lover for 1972 Telecaster Thinline
+Squier,Fender Designed Alnico Single-Coil Strat,Single-coil,false,Fender-designed alnico single-coil for Squier Classic Vibe Stratocasters
+Squier,Fender Designed Alnico Single-Coil Tele,Single-coil,false,Fender-designed alnico single-coil for Squier Classic Vibe Telecasters
+Squier,SQR Ceramic Humbucker,Humbucker,false,Squier ceramic humbucker for Contemporary series; high-output passive
+Fishman,Fluence Modern Humbucker 6-String Alnico,Humbucker,true,Multi-Voice 3-voice active humbucker set with Alnico V magnets delivering modern high-output tones and an ideal single-coil voice for 6-string guitars
+Fishman,Fluence Modern Humbucker 6-String Ceramic,Humbucker,true,Multi-Voice 3-voice active humbucker set with Ceramic VIII magnets for cutting attack and aggressive crunch with a clean single-coil voice for 6-string guitars
+Fishman,Fluence Modern Humbucker 7-String,Humbucker,true,Multi-Voice 3-voice active humbucker set available in Alnico and Ceramic versions for 7-string extended-range guitars
+Fishman,Fluence Modern Humbucker 8-String,Humbucker,true,Multi-Voice 3-voice active humbucker set available in Alnico and Ceramic versions for 8-string extended-range guitars
+Fishman,Fluence Classic Humbucker 6-String,Humbucker,true,Multi-Voice 3-voice active humbucker set with Alnico V magnets delivering clear vintage-leaning tones with hum-free noise performance
+Fishman,Fluence Open Core Classic 6-String,Humbucker,true,Multi-Voice 3-voice open-core active humbucker set spanning explosive humbucking tones to crystal-clear single-coil sounds for 6-string guitars
+Fishman,Fluence Open Core Classic 7-String,Humbucker,true,Multi-Voice 3-voice open-core active humbucker set for 7-string guitars spanning humbucking to single-coil voices with up to 200 hours battery life
+Fishman,Fluence Single Width 6-String HSH/HSS Set,Single-coil,true,Multi-Voice active single-width pickup set for Strat-style guitars delivering hum-free single-coil tones in HSS and HSH configurations alongside Fluence humbuckers
+Fishman,Fluence Tosin Abasi Signature 6-String,Humbucker,true,Signature 3-voice active humbucker set with ceramic bridge and alnico neck combining modern aggression passive punch and single-coil clarity for 6-string guitars
+Fishman,Fluence Tosin Abasi Signature 7-String,Humbucker,true,Signature 3-voice active humbucker set with ceramic bridge and alnico neck delivering the most diverse tonal mix of any Fluence pickup for 7-string guitars
+Fishman,Fluence Tosin Abasi Signature 8-String,Humbucker,true,Signature 3-voice active humbucker set with ceramic bridge and alnico neck designed for extended-range 8-string articulation and tonal versatility
+Fishman,Fluence Devin Townsend Signature 6-String,Humbucker,true,Signature 2-voice active humbucker set with Ceramic VIII magnets spanning high-output modern metal to low-gain passive single-coil sweetness
+Fishman,Fluence Killswitch Engage Signature 6-String,Humbucker,true,Signature 3-voice active humbucker set designed by Adam Dutkiewicz and Joel Stroetzel with ceramic bridge and alnico neck for tight modern metal tones
+Fishman,Fluence Keith Merrow KM 7-String,Humbucker,true,Signature 3-voice active humbucker set with Alnico V and Open Core Classic neck delivering passive feel dynamics and P.A.F. roots for modern progressive metal
+Fishman,Fluence Will Adler Signature 6-String,Humbucker,true,Signature 2-voice active humbucker set combining a Classic alnico neck with a ceramic bridge hybrid for thick passive drive and high-octane active saturation
+Fishman,Fluence Stephen Carpenter Signature 6-String,Humbucker,true,Signature 3-voice active humbucker set with glow-in-the-dark accents and a crystal-clear single-coil Voice 3 designed by the Deftones guitarist
+Fishman,Fluence Stephen Carpenter Signature 7-String,Humbucker,true,Signature 3-voice active humbucker set for 7-string guitars featuring glow-in-the-dark accents alnico and ceramic options and a single-coil voice
+Fishman,Fluence Stephen Carpenter Signature 8-String,Humbucker,true,Signature 3-voice active humbucker set for 8-string guitars featuring glow-in-the-dark accents alnico and ceramic options and a single-coil voice
+Fishman,Fluence Greg Koch Gristle-Tone Single Width 6-String,Single-coil,true,Signature 2-voice active single-width Strat-style set delivering Dynamic Strat and Midrange Boost voices with hum-free performance across clean to driven tones
+Fishman,Fluence Greg Koch Gristle-Tone Telecaster 6-String,Single-coil,true,Signature 2-voice noiseless Telecaster pickup set with White Guard warmth and Black Guard punch voices for versatile T-style tones
+Fishman,Fluence Greg Koch Gristle-Tone P90 6-String,P-90,true,Signature 3-voice active P90-style set delivering vintage P90 character and modern single-coil clarity with hum-free Fluence Core performance
+Gibson,Burstbucker 1,Humbucker,false,PAF-style humbucker with asymmetric wind and Alnico 2 magnets; slightly underwound neck pickup used on Les Paul Standard 50s
+Gibson,Burstbucker 2,Humbucker,false,PAF-style humbucker with asymmetric wind and Alnico 2 magnets; slightly overwound bridge pickup used on Les Paul Standard 50s
+Gibson,Burstbucker 61R,Humbucker,false,60s-voiced humbucker with Alnico 5 magnets; neck pickup used on Les Paul Standard 60s and SG Standard 61
+Gibson,Burstbucker 61T,Humbucker,false,60s-voiced humbucker with Alnico 5 magnets; bridge pickup used on Les Paul Standard 60s and SG Standard 61
+Gibson,490R,Humbucker,false,Modern-classic Alnico 2 humbucker; neck pickup used on SG Standard and Les Paul Tribute
+Gibson,490T,Humbucker,false,Modern-classic Alnico 2 humbucker calibrated for bridge position; used on SG Standard
+Gibson,498T,Humbucker,false,Higher-output Alnico 5 bridge humbucker; pairs with 490R on Les Paul Custom and Explorer
+Gibson,57 Classic,Humbucker,false,Reproduction of the original PAF with Alnico 2 magnets; used on ES-335 and ES-339 Original Collection
+Gibson,57 Classic Plus,Humbucker,false,Slightly overwound version of the 57 Classic; bridge pickup companion to 57 Classic
+Gibson,Burstbucker Pro,Humbucker,false,Higher-output PAF-voiced humbucker with Alnico 5 magnets; used on Les Paul Modern and SG Modern neck position
+Gibson,Burstbucker Pro+,Humbucker,false,Hotter Alnico 5 bridge humbucker; used on Les Paul Modern and SG Modern bridge position
+Gibson,P-90,P-90,false,Gibson soapbar P-90 single-coil; used on Les Paul Special and SG Special
+Gibson,P-90 Dog Ear,P-90,false,Dog-ear-mounted P-90 single-coil; used on Les Paul Junior and SG Junior
+Gibson,Firebird Mini Humbucker Rhythm,Mini-humbucker,false,Bright-voiced mini humbucker; neck pickup in Firebird reverse-body guitars
+Gibson,Firebird Mini Humbucker Lead,Mini-humbucker,false,Bright-voiced mini humbucker; bridge pickup in Firebird reverse-body guitars
+Gibson,Calibrated T-Type Rhythm,Humbucker,false,Modern T-Type humbucker calibrated for neck position; used on ES-345 and ES-335 Original Collection
+Gibson,Calibrated T-Type Lead,Humbucker,false,Modern T-Type humbucker calibrated for bridge position; used on ES-345 and ES-335 Original Collection
+Epiphone,ProBucker-1,Humbucker,false,Epiphone ProBucker PAF-style neck humbucker with Alnico 2 magnets; used on Epiphone Les Paul Standard 50s
+Epiphone,ProBucker-2,Humbucker,false,Epiphone ProBucker PAF-style neck humbucker with Alnico 2 magnets; used on Epiphone SG Standard neck position
+Epiphone,ProBucker-3,Humbucker,false,Slightly hotter Epiphone ProBucker bridge humbucker; used on Epiphone SG Standard bridge
+Epiphone,P-90 PRO Dog Ear Neck,P-90,false,Epiphone P-90 PRO dog-ear neck pickup used on Casino
+Epiphone,P-90 PRO Dog Ear Bridge,P-90,false,Epiphone P-90 PRO dog-ear bridge pickup used on Casino
+Ibanez,V7,Humbucker,false,Ibanez V7 neck humbucker; used on RG550 Genesis and RG570 models
+Ibanez,V8,Humbucker,false,Ibanez V8 bridge humbucker; used on RG550 Genesis and RG570 models
+Ibanez,S1,Single-coil,false,Ibanez S1 middle single-coil; used in HSH configuration on RG Genesis models
+Ibanez,Quantum Humbucker,Humbucker,false,Ibanez Quantum ceramic humbucker used on RGA and SA Standard series
+Ibanez,Resolution Single,Single-coil,false,Ibanez Resolution single-coil used on SA Standard series
+Ibanez,IBZ-8 Humbucker,Humbucker,false,Ibanez IBZ-8 humbucker for 8-string guitars
+Ibanez,Super 58 Custom,Humbucker,false,Ibanez Super 58 Custom humbucker used on Artcore Expressionist AS93FM
+Ibanez,Artcore Humbucker,Humbucker,false,Ibanez Artcore humbucker used on standard Artcore AF75 models
+Ibanez,Classic Elite,Humbucker,false,Ibanez Classic Elite humbucker used on Artcore AS73
+DiMarzio,The Tone Zone,Humbucker,false,DiMarzio The Tone Zone high-output bridge humbucker used on Prestige RG models
+DiMarzio,True Velvet,Single-coil,false,DiMarzio True Velvet middle single-coil used on RG2550 Prestige
+DiMarzio,PAF 7,Humbucker,false,DiMarzio PAF 7 low-output humbucker for 7-string Prestige models
+DiMarzio,Blaze II Humbucker,Humbucker,false,DiMarzio Blaze II humbucker for 7-string Universe UV777; ceramic magnet
+DiMarzio,Blaze II Single,Single-coil,false,DiMarzio Blaze II single-coil middle for 7-string Universe UV777
+DiMarzio,Evolution Humbucker,Humbucker,false,DiMarzio Evolution humbucker used on JEM7V (bridge and neck)
+DiMarzio,Evolution Single,Single-coil,false,DiMarzio Evolution middle single-coil used on JEM7V
+DiMarzio,Air Norton S7,Humbucker,false,DiMarzio Air Norton humbucker neck for AZ47P1QM (7-string Premium)
+DiMarzio,True Velvet S,Single-coil,false,DiMarzio True Velvet middle single-coil for AZ47P1QM Premium HSH
+DiMarzio,Tone Zone S,Humbucker,false,DiMarzio Tone Zone bridge humbucker for AZ47P1QM Premium
+Seymour Duncan,Hyperion H,Humbucker,false,Seymour Duncan Hyperion humbucker (Alnico 5); used on AZ Prestige and Premium 6-string
+Seymour Duncan,Hyperion S,Single-coil,false,Seymour Duncan Hyperion single-coil; used in middle position on AZ226
+Seymour Duncan,Hyperion H7,Humbucker,false,Seymour Duncan Hyperion 7-string humbucker; used on AZ 7-string Premium
+Fishman,Fluence Modern H,Humbucker,true,Fishman Fluence Modern active humbucker; used on RGD Axion Label and RG5120M Prestige
+Seymour Duncan,JB TB-4,Humbucker,false,Seymour Duncan JB bridge humbucker; high-output alnico 5 bridge pickup used widely across Jackson Pro and American Series
+Seymour Duncan,59 SH-1N,Humbucker,false,Seymour Duncan 59 neck humbucker; vintage-voiced alnico 5 neck pickup used across Jackson Pro and American Series
+Seymour Duncan,Distortion TB-6,Humbucker,false,Seymour Duncan Distortion bridge humbucker; ceramic magnet high-gain bridge pickup used on Jackson King V and Rhoads
+Seymour Duncan,Distortion SH-6N,Humbucker,false,Seymour Duncan Distortion neck humbucker; ceramic magnet high-gain neck pickup used on Jackson King V and Rhoads
+Seymour Duncan,Jazz SH-2N,Humbucker,false,Seymour Duncan Jazz neck humbucker; warm alnico 5 neck pickup used on MJ Series Soloist
+Seymour Duncan,Flat Strat SSL-6,Single-coil,false,Seymour Duncan Flat Strat SSL-6 middle single-coil; used in HSS configuration on American Series Soloist SL3
+Seymour Duncan,Flat Strat SSL-6 RWRP,Single-coil,false,Seymour Duncan Flat Strat SSL-6 RWRP middle position single-coil; reverse wound reverse polarity for hum cancellation in positions 2 and 4
+DiMarzio,CB6 Humbucker,Humbucker,false,DiMarzio Chris Broderick CB6 signature humbucker; custom-voiced for high gain and tight lows on 6-string models
+DiMarzio,CB7 Humbucker,Humbucker,false,DiMarzio Chris Broderick CB7 signature humbucker; custom-voiced for 7-string models with extended range clarity
+Jackson,MM1 Humbucker,Humbucker,false,Jackson MM1 uncovered direct-mount humbucker designed with Misha Mansoor; used on Juggernaut HT6 and HT7 models
+Jackson,High-Output Humbucker,Humbucker,false,Jackson branded ceramic high-output humbucker; used on JS Series Kelly JS32 and Warrior JS32 entry-level models
+Fishman,Fluence Modern PRF-MH7,Humbucker,true,Fishman Fluence Modern active multi-voice humbucker with three selectable voices; used on DK Modern HT6 MS and DK Modern Ash HT6
+Duncan Designed,HB-103B,Humbucker,false,Duncan Designed ceramic bridge humbucker; Seymour Duncan-licensed pickup used on Jackson X Series SLX DX
+Duncan Designed,HB-103N,Humbucker,false,Duncan Designed alnico neck humbucker; Seymour Duncan-licensed pickup used on Jackson X Series SLX DX
+Kramer,Kramer USA Eruption T Humbucker,Humbucker,false,Kramer USA Eruption T single-humbucker voiced for high-gain shred; used on The 84
+Kramer,Kramer Alnico 5 Classic Humbucker,Humbucker,false,Open-coil Alnico 5 humbucker with double white exposed coils; used on Pacer Classic
+Kramer,Kramer USA Golden Classic Humbucker,Humbucker,false,Kramer USA voiced Golden Classic humbucker; bridge position on Pacer Deluxe
+Kramer,Kramer USA Triton Noiseless Single-Coil,Single-coil,false,Kramer USA Triton noiseless single-coil; middle and neck positions on Pacer Deluxe
+Kramer,Kramer Alnico 5 HB-1 Humbucker,Humbucker,false,Alnico 5 zebra-coil humbucker; bridge position on Striker and Baretta Special
+Kramer,Kramer Alnico 5 SC-1 Single-Coil,Single-coil,false,Alnico 5 single-coil; middle and neck positions on Striker and Focus VT-211S
+Seymour Duncan,Seymour Duncan JB SH-4,Humbucker,false,Seymour Duncan JB humbucker; high-output passive bridge pickup used on Baretta and SM-1 H
+Seymour Duncan,Seymour Duncan JN,Humbucker,false,Seymour Duncan Jazz neck humbucker; paired with JB bridge on Pacer Vintage
+Seymour Duncan,Seymour Duncan Cool Rails,Humbucker,false,Seymour Duncan Cool Rails stacked humbucker-in-single-coil form factor; used on SM-1 middle and neck
+EMG,EMG 57,Humbucker,true,EMG 57 active humbucker; bridge position on Charlie Parra Vanguard
+EMG,EMG 66,Humbucker,true,EMG 66 active humbucker; neck position on Charlie Parra Vanguard
+Mayones,Velvetrone Ironside 6,Humbucker,false,Mayones Velvetrone Ironside bridge humbucker 6-string; high-output Alnico V; used on Regius Core / Duvell Elite / Regius 6
+Mayones,Velvetrone Solium 6,Humbucker,false,Mayones Velvetrone Solium neck humbucker 6-string; warm Alnico V; used on Regius Core / Duvell Elite / Regius 6
+Mayones,Velvetrone Ironside 7,Humbucker,false,Mayones Velvetrone Ironside bridge humbucker 7-string; high-output Alnico V; used on Regius Core 7 / Duvell Elite 7
+Mayones,Velvetrone Solium 7,Humbucker,false,Mayones Velvetrone Solium neck humbucker 7-string; warm Alnico V; used on Regius Core 7 / Duvell Elite 7
+Mayones,Velvetrone Ironside 8,Humbucker,false,Mayones Velvetrone Ironside bridge humbucker 8-string; used on Regius 8
+Mayones,Velvetrone Solium 8,Humbucker,false,Mayones Velvetrone Solium neck humbucker 8-string; used on Regius 8
+Mayones,Velvetrone Chori,Humbucker,false,Mayones Velvetrone Chori moderate-output bridge humbucker; vintage-voiced Alnico V; used on Aquila Elite HSS
+Mayones,Velvetrone Lionheart,Single-coil,false,Mayones Velvetrone Lionheart single-coil; Alnico V; used in middle and neck positions on Aquila Elite HSS
+Bare Knuckle,BKP TKO 6 Bridge,Humbucker,false,Bare Knuckle TKO 6-string bridge humbucker; ceramic magnet; voiced specifically for Mayones guitars
+Bare Knuckle,BKP TKO 6 Neck,Humbucker,false,Bare Knuckle TKO 6-string neck humbucker; Alnico V; voiced specifically for Mayones guitars
+Bare Knuckle,BKP TKO 7 Bridge,Humbucker,false,Bare Knuckle TKO 7-string bridge humbucker; ceramic magnet; used on Regius 7 and Duvell Elite 7
+Bare Knuckle,BKP TKO 7 Neck,Humbucker,false,Bare Knuckle TKO 7-string neck humbucker; Alnico V; used on Regius 7 and Duvell Elite 7
+Bare Knuckle,BKP TKO 8,Humbucker,false,Bare Knuckle TKO 8-string humbucker set; used on Regius Core Classic 8
+Bare Knuckle,BKP Aftermath 7 Bridge,Humbucker,false,Bare Knuckle Aftermath 7-string bridge humbucker; aggressive high-output; used on Duvell Elite VF 7 multiscale
+Bare Knuckle,BKP Aftermath 7 Neck,Humbucker,false,Bare Knuckle Aftermath 7-string neck humbucker; used on Duvell Elite VF 7 multiscale
+Bare Knuckle,BKP Rebel Yell 7 Bridge,Humbucker,false,Bare Knuckle Rebel Yell 7-string bridge humbucker; used on Setius GTM 7
+Bare Knuckle,BKP VHII 7 Neck,Humbucker,false,Bare Knuckle VHII 7-string neck humbucker; PAF-voiced; used on Setius GTM 7
+Seymour Duncan,SD TB-4 JB,Humbucker,false,Seymour Duncan TB-4 JB bridge humbucker; high-output Alnico V; used on Regius Core 6 and Legend V22
+Seymour Duncan,SD SH-2 Jazz,Humbucker,false,Seymour Duncan SH-2 Jazz neck humbucker; warm low-output; used on Regius Core 6 and Legend V22
+Seymour Duncan,SD Nazgul 7,Humbucker,false,Seymour Duncan Nazgul 7-string bridge humbucker; high-output ceramic; used on Duvell BL 7
+Seymour Duncan,SD Sentient 7,Humbucker,false,Seymour Duncan Sentient 7-string neck humbucker; Alnico V; used on Duvell BL 7 and Hydra Elite 7
+Seymour Duncan,SD Nazgul Bridge,Humbucker,false,Seymour Duncan Nazgul 6-string bridge humbucker; ceramic; used on Duvell BL 6
+Seymour Duncan,SD Sentient Neck,Humbucker,false,Seymour Duncan Sentient 6-string neck humbucker; used on Duvell BL 6
+Seymour Duncan,SD SH-4 JB,Humbucker,false,Seymour Duncan SH-4 JB 6-string bridge humbucker; used on Setius GTM 6
+Seymour Duncan,SD Nazgul 7 Bridge,Humbucker,false,Seymour Duncan Nazgul 7-string bridge humbucker used on Hydra Elite 7
+Fishman,Fishman Fluence Modern 6,Humbucker,true,Fishman Fluence Modern active humbucker 6-string dual-voice; used on Hydra Elite VF 6
+Fishman,Fishman Fluence Modern 7,Humbucker,true,Fishman Fluence Modern active humbucker 7-string dual-voice; used on Hydra Elite VF 7
+Schecter,Diamond Standard HH,Humbucker,false,Schecter Diamond Standard passive humbucker with black metal cover
+Schecter,Diamond Plus HH,Humbucker,false,Schecter Diamond Plus passive humbucker — mid-output versatile tone
+Schecter,Diamond Heretic,Humbucker,false,Schecter Diamond Heretic passive humbucker for metal
+Schecter,Diamond Decimator,Humbucker,false,Schecter Diamond Decimator high-output passive humbucker
+Schecter,Diamond Nick Johnston Single Coil,Single-coil,false,Schecter Diamond Nick Johnston signature single-coil
+Schecter,Diamond 78,Humbucker,false,Schecter Diamond 78 vintage-voiced passive humbucker
+Schecter,USA Pasadena,Humbucker,false,Schecter USA hand-wound Pasadena passive humbucker (neck)
+Schecter,USA Pasadena Plus,Humbucker,false,Schecter USA hand-wound Pasadena Plus passive humbucker (bridge)
+Schecter,USA Sunset Strip,Humbucker,false,Schecter USA hand-wound Sunset Strip passive humbucker (bridge)
+Schecter,USA Solstice,Humbucker,false,Schecter USA Solstice passive humbucker (bridge) — Aaron Marshall signature
+Schecter,USA Equinox,Humbucker,false,Schecter USA Equinox passive humbucker (neck) — Aaron Marshall signature
+Schecter,USA SuperCharger Mach-6,Humbucker,false,Schecter USA SuperCharger Mach-6 passive humbucker for Banshee Elite-6
+Schecter,USA SuperCharger Mach-7,Humbucker,false,Schecter USA SuperCharger Mach-7 passive humbucker for Banshee Elite-7
+EMG,EMG 81TW,Humbucker,true,EMG 81TW active humbucker with coil-tap to single-coil
+EMG,EMG 89R,Humbucker,true,EMG 89R active humbucker with coil-tap (neck/reverse wound)
+EMG,EMG 707TW,Humbucker,true,EMG 707TW active 7-string humbucker with coil-tap
+EMG,EMG 808,Humbucker,true,EMG 808 active 8-string wide-aperture humbucker with Alnico V
+EMG,EMG RetroActive Hot 70,Humbucker,true,EMG RetroActive Hot 70 active vintage-voiced humbucker
+Seymour Duncan,SH-11 Custom Custom,Humbucker,false,Seymour Duncan Custom Custom SH-11 passive humbucker
+Seymour Duncan,SH-1N 59,Humbucker,false,Seymour Duncan 59 Model SH-1N vintage passive humbucker (neck)
+Seymour Duncan,Nazgul,Humbucker,false,Seymour Duncan Nazgul high-output passive humbucker (bridge)
+Seymour Duncan,Sentient,Humbucker,false,Seymour Duncan Sentient articulate passive humbucker (neck)
+Lundgren,Lundgren M6,Humbucker,false,Lundgren M6 hand-wound Swedish passive humbucker 6-string
+Lundgren,Lundgren M7,Humbucker,false,Lundgren M7 hand-wound Swedish passive humbucker 7-string
+Schecter,Sustainiac,Humbucker,false,Schecter Sustainiac neck pickup system for infinite sustain
+EMG,EMG RetroActive Single Coil,Single-coil,true,EMG RetroActive single-coil active pickup — used in Sun Valley Super Shredder 7 III
+Seymour Duncan,'59 Model SH-1,Humbucker,false,Vintage-output PAF-inspired humbucker with alnico 5; open detailed sound and sweet top end for rock and blues
+Seymour Duncan,Jazz Model SH-2,Humbucker,false,Classic moderate-output alnico 5 humbucker; bright clear tone with glassy treble and scooped mids ideal for neck position
+Seymour Duncan,JB Model SH-4,Humbucker,false,Iconic high-output humbucker; versatile from creamy cleans through classic rock crunch to searing metal lead tones
+Seymour Duncan,Duncan Custom SH-5,Humbucker,false,Medium-output ceramic humbucker with tight lows and upper-midrange bump; cuts through heavy distortion while retaining clean clarity
+Seymour Duncan,Duncan Distortion SH-6,Humbucker,false,High-output passive ceramic humbucker with rich upper-midrange harmonics; tight mean lows and searing top end for rock and metal
+Seymour Duncan,Invader SH-8,Humbucker,false,Ultra-high-output passive humbucker with three ceramic magnets and oversized pole pieces; thickest deepest low-end of any SD passive pickup
+Seymour Duncan,Full Shred SH-10,Humbucker,false,Bright medium-output alnico 5 humbucker with tight low end and scooped mids; highly articulate and clear for shred playing
+Seymour Duncan,Custom Custom SH-11,Humbucker,false,Medium-hot alnico 2 humbucker with full fat sound; warm lower-midrange growl and sweet singing highs for chords and leads
+Seymour Duncan,Dimebucker SH-13,Humbucker,false,Dimebag Darrell signature ceramic blade humbucker; crunchy pick attack with scooped mids and tight full low-end response
+Seymour Duncan,Alnico II Pro APH-1,Humbucker,false,Slash signature alnico 2 humbucker; warm sweet tone with smooth sustain and spongy lows for classic rock and blues
+Seymour Duncan,Pearly Gates,Humbucker,false,Billy Gibbons 1959 Les Paul inspired alnico 2 humbucker; unique Texas sizzle at the bridge with more midrange than typical PAFs
+Seymour Duncan,Saturday Night Special,Humbucker,false,Alnico 4 humbucker voiced for late-70s arena rock; balanced vintage tonality with vocal-like overdriven leads and full-bodied cleans
+Seymour Duncan,Whole Lotta Humbucker,Humbucker,false,Early-1970s London PAF rewind recipe; vintage-hot alnico 5 output with natural compression and sustain inspired by British rock
+Seymour Duncan,Pegasus,Humbucker,false,Medium-output alnico 5 humbucker for progressive metal; warm balanced lush tone with prominent midrange and focused low end
+Seymour Duncan,Black Winter,Humbucker,false,Savagely high-output passive ceramic humbucker with three magnets; extreme clarity in mids and highs with controlled focused low end for extreme metal
+Seymour Duncan,Nazgul 7,Humbucker,false,7-string ceramic bridge humbucker for drop-tuned modern metal; voiced to bring out definition from B and F# strings with tight bass
+Seymour Duncan,Sentient 7,Humbucker,false,7-string alnico 5 neck humbucker; pristine cleans and fluid leads under high gain designed to pair with the Nazgul 7 bridge
+Seymour Duncan,Pegasus 7,Humbucker,false,7-string alnico 5 bridge humbucker; evenly accentuates every note across the fretboard for progressive metal chords and arpeggios
+Seymour Duncan,Blackouts AHB-1,Humbucker,true,Original active humbucker flagship; massive crunch with quiet operation chunky lows balanced mids and clear articulate top end
+Seymour Duncan,SSL-1 Vintage Staggered,Single-coil,false,Vintage-output Strat single-coil with alnico 5 hand-ground staggered poles; authentic 1950s chime bell tone and glassy sparkle
+Seymour Duncan,SSL-4 Quarter Pound,Single-coil,false,High-output Strat single-coil with quarter-inch alnico 5 rods; fat punchy midrange with top-end sparkle and more than twice standard output
+Seymour Duncan,SSL-5 Custom Staggered,Single-coil,false,Medium-output overwound Strat single-coil developed for David Gilmour; bigger fatter chords with singing solos and classic Strat character
+Seymour Duncan,SSL-6 Custom Flat,Single-coil,false,High-output flat-pole Strat single-coil with alnico 5 for flatter fretboards; balanced beefed-up punchy tone with classic sparkle
+Seymour Duncan,Hot Rails SHR-1,Humbucker,false,Single-coil-sized high-output rail humbucker for Strat; ceramic magnet with rich mids and aggressive crunch ideal for rock and metal
+Seymour Duncan,Little '59 SL59-1,Humbucker,false,Single-coil-sized passive humbucker for Strat; warm smooth PAF tone with medium output and scooped mids like a Les Paul in a Strat body
+Seymour Duncan,Cool Rails SCR-1,Humbucker,false,Single-coil-sized medium-output rail humbucker; smooth bluesy tone with bright dynamic highs and slightly scooped midrange
+Seymour Duncan,Phat Cat,P-90,false,Humbucker-sized P-90 with alnico 2 bar magnet; authentic P-90 grit and growl that fits standard humbucker routes without modification
+Seymour Duncan,Antiquity P-90,P-90,false,Vintage-correct early-1950s P-90 recreation with calibrated alnico 2 magnets; gritty vintage growl at bridge and sweet singing quality at neck
+Seymour Duncan,Vintage P-90,P-90,false,Classic 1946 Gibson-style P-90 recreation wound on original Leesona machines; powerful midrange with alnico 5 and higher output than most single-coils
+Suhr,Suhr SSV,Humbucker,false,Suhr SSV PAF-style alnico humbucker; neck position on Boden Original NX 6 and Prog NX 6
+Suhr,Suhr SSH+,Humbucker,false,Suhr SSH+ high-output alnico humbucker; bridge position on Boden Original NX 6 and Prog NX 6
+Fishman,Fishman Fluence Modern 7 Ceramic,Humbucker,true,Fishman Fluence Modern 7 Ceramic HB Mount humbucker; bridge position on 7-string Boden Original/Prog/Metal NX
+Fishman,Fishman Fluence Modern 7 Alnico,Humbucker,true,Fishman Fluence Modern 7 Alnico Soapbar humbucker; neck position on 7-string Boden Original/Prog/Metal NX
+Fishman,Fishman Fluence Modern 8 Ceramic,Humbucker,true,Fishman Fluence Modern 8 Ceramic Soapbar humbucker; bridge position on 8-string Boden Original/Metal NX
+Fishman,Fishman Fluence Modern 8 Alnico,Humbucker,true,Fishman Fluence Modern 8 Alnico Soapbar humbucker; neck position on 8-string Boden Original/Metal NX
+Suhr,Suhr Aldrich Bridge,Humbucker,false,Suhr Aldrich high-gain passive humbucker; bridge position on Boden Metal NX 6
+Suhr,Suhr Aldrich Neck,Humbucker,false,Suhr Aldrich high-gain passive humbucker; neck position on Boden Metal NX 6
+Suhr,Suhr V60LP,Single-coil,false,Suhr V60LP vintage-voiced single-coil; middle position on Boden Fusion NX 6 and Classic NX 6
+Suhr,Suhr SSV+ Bridge,Humbucker,false,Suhr SSV+ high-output alnico humbucker; bridge position on Boden Fusion NX 6
+Suhr,Suhr SSV Neck,Humbucker,false,Suhr SSV alnico humbucker; neck position on Boden Fusion NX 6
+Suhr,Suhr Thornbucker+,Humbucker,false,Suhr Thornbucker+ nickel-covered humbucker; bridge position on Boden Classic NX 6 and Salen Classic NX 6
+Suhr,Suhr Thornbucker,Humbucker,false,Suhr Thornbucker nickel-covered humbucker; neck position on Boden Classic NX 6 and Salen Jazz NX 6
+Suhr,Suhr Classic T Bridge,Single-coil,false,Suhr Classic T Alnico V bridge single-coil; bridge on Salen Classic NX 6
+Suhr,Suhr Classic T Neck,Single-coil,false,Suhr Classic T Alnico V neck single-coil; neck on Salen Classic NX 6
+Strandberg,Strandberg OEM Humbucker,Humbucker,false,Strandberg custom OEM humbucker wound to Strandberg specifications; used on Boden Standard NX and Salen Jazz NX series

@@ -1,0 +1,12 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Fender,Fender 2-Point Synchronized Tremolo,2-point synchronized tremolo,false,false,Standard 2-point pivot tremolo used on Player and Player Plus series; block saddles
+Fender,Fender 2-Point Synchronized Tremolo Cold-Roll Steel,2-point synchronized tremolo,false,false,American Professional II 2-point tremolo with cold-rolled steel block for enhanced sustain
+Fender,Fender 2-Point Ultra Synchronized Tremolo,2-point synchronized tremolo,false,false,American Ultra II 2-point tremolo with cold-rolled steel block; works with S-1 switching
+Fender,Fender Vintage Synchronized Tremolo 6-Screw,Vintage synchronized tremolo,false,false,6-screw vintage-style synchronized tremolo; bent steel saddles; used on Vintera and AV II series
+Fender,Fender Vintage Synchronized Tremolo Chrome Cover,Vintage synchronized tremolo,false,false,Pure Vintage-style 6-screw synchronized tremolo with chrome bridge cover; cold-rolled steel block
+Fender,Fender 3-Saddle Tele Vintage Bridge,String-through hardtail,false,false,3-saddle vintage-style Telecaster string-through bridge with brass barrel saddles
+Fender,Fender 3-Saddle Tele Compensated Bridge,String-through hardtail,false,false,American Performer 3-saddle Tele string-through bridge with vintage barrel saddles
+Fender,Fender 3-Saddle AP II Tele Bridge,String-through hardtail,false,false,American Professional II Tele top-load/string-through bridge with compensated brass bullet saddles
+Fender,Fender 6-Saddle Tele String-Through,String-through hardtail,false,false,Modern 6-saddle string-through Telecaster bridge with block steel saddles
+Fender,Fender Pure Vintage 3-Saddle Tele Bridge,String-through hardtail,false,false,Pure Vintage serialized 3-saddle Telecaster bridge with brass barrel saddles; American Vintage II 1951
+Fender,Fender 6-Saddle String-Through Tele Hardtail,String-through hardtail,false,false,6-saddle string-through hardtail Tele bridge for American Vintage II 1972 Thinline

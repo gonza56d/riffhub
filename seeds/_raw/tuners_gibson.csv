@@ -1,0 +1,8 @@
+brand,name,is_locking,ratio,tuner_type,description
+Gibson,Gibson Vintage Deluxe Tuners,false,14:1,vintage,Kluson-style keystone-button tuners; used on Les Paul Standard 50s and ES-345
+Grover,Grover Rotomatic Kidney,false,18:1,sealed,Grover Rotomatic tuners with kidney buttons; used on Les Paul Standard 60s and SG Standard
+Grover,Grover Rotomatic Locking,true,18:1,locking,Grover locking Rotomatic tuners; used on Les Paul Modern and SG Modern
+Grover,Grover Rotomatic Mini,false,18:1,sealed,Grover Mini Rotomatic tuners; used on Gibson Firebird (banjo-style mounting)
+Grover,Grover Rotomatic Keystone,false,18:1,sealed,Grover Rotomatic tuners with keystone buttons; used on Les Paul Custom and Explorer
+Epiphone,Epiphone Vintage Deluxe Tuners,false,18:1,vintage,Epiphone Vintage Deluxe tuners; used on Epiphone Les Paul Standard 50s and Casino
+Grover,Grover Rotomatic 3+3,false,18:1,sealed,Grover Rotomatic 3+3 tuners; used on Epiphone SG Standard

@@ -1,0 +1,8 @@
+brand,name,is_locking,ratio,tuner_type,description
+Wilkinson,Wilkinson EZ-LOK,true,19:1,locking,6-inline locking tuner with mechanical string-lock mechanism; drop-in upgrade for Fender-style headstocks with 10mm holes
+Wilkinson,Wilkinson EZ-POST,false,15:1,sealed,6-inline sealed tuner with dual 90-degree string holes for improved tuning stability without a locking nut; for Fender-style headstocks
+Wilkinson,Wilkinson WJ55,false,15:1,vintage,Deluxe Kluson-style vintage open-gear tuner with split posts and oval buttons; 6-inline for Fender Stratocaster and Telecaster
+Wilkinson,Wilkinson WJ44,false,15:1,vintage,Deluxe Kluson-style vintage open-gear tuner with tulip buttons; 3+3 for Les Paul SG and ES-style guitars with 3-a-side headstocks
+Wilkinson,Wilkinson WJ07,true,15:1,locking,6-inline EZ-LOK locking tuner for Fender-style headstocks; dual post hole system locks string without mechanical clamp
+Wilkinson,Wilkinson WJ309,false,,open_gear,Art Deco style 3+3 open-gear tuner with sealed gear mechanism and ornate housing; for Gibson-style headstocks
+Wilkinson,Wilkinson WJ303,true,19:1,locking,3+3 EZ-LOK locking tuner with sealed housing for Les Paul SG and ES-style headstocks; 19:1 ratio for fine tuning accuracy

@@ -1,0 +1,11 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Gotoh,Gotoh 510TS-FE1,2-point synchronized tremolo,false,false,2-point fulcrum synchronized tremolo with steel block and steel saddles; Stud Lock patent for pivot stability; 10.8mm string spacing
+Gotoh,Gotoh 510T-FE2,Vintage synchronized tremolo,false,false,6-point vintage-style tremolo with FST mechanism preventing string contact with plate; steel saddles; improved return-to-pitch
+Gotoh,Gotoh GE1996T,Locking tremolo (Floyd Rose),false,true,Floyd Rose licensed double-locking tremolo with hardened steel plate and saddles; patented stud lock; available in 33/36/40mm block heights
+Gotoh,Gotoh GE1996T-7,Locking tremolo (Floyd Rose),false,true,Floyd Rose licensed double-locking tremolo for 7-string guitar; steel saddles; 430mm saddle radius; 33/36/40mm block height options
+Gotoh,Gotoh 510UB,Wraparound,false,false,Adjustable wraparound bridge-tailpiece combo with individually intonatable saddles; Stud Lock patent; 52.5mm string spacing
+Gotoh,Gotoh GTC101,String-through hardtail,false,false,Hardtail S-style string-through bridge with plated brass saddles; 52.5mm string spacing; ideal replacement for non-tremolo Strat-style guitars
+Gotoh,Gotoh GTC102,String-through hardtail,false,false,Hardtail ST-style string-through bridge with steel saddles; 52.5mm string spacing; 5-screw mounting for maximum sustain
+Gotoh,Gotoh NS510TS-FE1,2-point synchronized tremolo,false,false,Narrow-spacing 2-point synchronized tremolo with steel block and steel saddles; 10.5mm string spacing for 7-string and narrow-neck guitars
+Gotoh,Gotoh GE103B-T,Tune-o-matic & Stopbar,false,false,Nashville-style Tune-o-matic with large metric posts and pre-notched hard zinc saddles; 12-inch saddle radius; drop-in replacement for Gibson Nashville
+Gotoh,Gotoh GE104B,Tune-o-matic & Stopbar,false,false,ABR-1 style Tune-o-matic with threaded M4 posts; hard zinc saddles; rattle-free design without retainer wire; 400mm saddle radius

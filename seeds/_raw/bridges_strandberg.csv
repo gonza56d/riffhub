@@ -1,0 +1,3 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Strandberg,Strandberg EGS Rev7 Fixed,Multiscale fixed,false,false,Strandberg EGS Rev 7 headless fixed bridge with integrated string locks; used on Boden Original/Standard/Metal/Fusion/Prog NX fixed-bridge models and Salen Jazz NX
+Strandberg,Strandberg EGS Rev7 Tremolo,Multiscale fixed,false,false,Strandberg EGS Pro Rev7 tremolo machined from aircraft-grade aluminum; used on Boden Fusion NX 6 and Prog NX tremolo models

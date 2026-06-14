@@ -1,0 +1,27 @@
+brand,name,pickup_type,is_active,description
+Fender,V-Mod II Single-Coil Strat,Single-coil,false,V-Mod II voiced Stratocaster single-coil with beveled staggered poles; position-specific voicing
+Fender,V-Mod II Single-Coil Tele Bridge,Single-coil,false,V-Mod II voiced Telecaster bridge single-coil with enhanced output and clarity
+Fender,V-Mod II Single-Coil Tele Neck,Single-coil,false,V-Mod II voiced Telecaster neck single-coil with full warm tone
+Fender,V-Mod II Single-Coil Jazzmaster,Single-coil,false,V-Mod II voiced Jazzmaster single-coil with wide aperture and smooth response
+Fender,Ultra II Noiseless Vintage Strat,Single-coil,false,Noiseless single-coil for American Ultra II; flat poles; hum-free vintage Strat tone
+Fender,Yosemite Single-Coil Strat,Single-coil,false,Performer Series Strat single-coil with flat-staggered poles for increased output
+Fender,Yosemite Single-Coil Tele Bridge,Single-coil,false,Performer Series Tele bridge single-coil with flat-staggered poles
+Fender,Yosemite Single-Coil Tele Neck,Single-coil,false,Performer Series Tele neck single-coil with fat warm tone
+Fender,Pure Vintage 57 Single-Coil Strat,Single-coil,false,Pure Vintage 1957 Stratocaster single-coil with beveled staggered poles and cloth wiring
+Fender,Pure Vintage 61 Single-Coil Strat,Single-coil,false,Pure Vintage 1961 Stratocaster single-coil with beveled staggered poles and cloth wiring
+Fender,Pure Vintage 51 Single-Coil Tele Bridge,Single-coil,false,Pure Vintage 1951 Telecaster bridge single-coil with alnico magnets and cloth wire
+Fender,Pure Vintage 51 Single-Coil Tele Neck,Single-coil,false,Pure Vintage 1951 Telecaster neck single-coil with alnico magnets and cloth wire
+Fender,Player Series Alnico 5 Strat,Single-coil,false,Player Series Stratocaster alnico 5 single-coil with staggered poles
+Fender,Player Series Alnico 5 Tele,Single-coil,false,Player Series Telecaster alnico 5 single-coil
+Fender,Player Series Alnico 2 Humbucker,Humbucker,false,Player Series alnico 2 humbucker for Stratocaster bridge position
+Fender,Player Plus Noiseless Strat,Single-coil,false,Player Plus noiseless Stratocaster single-coil; hum-free with vintage chime
+Fender,Player Plus Noiseless Tele,Single-coil,false,Player Plus noiseless Telecaster single-coil; hum-free with bright Tele twang
+Fender,Vintera 50s Strat Single-Coil,Single-coil,false,Vintage-style 1950s Stratocaster alnico single-coil with staggered poles
+Fender,Vintera 60s Strat Single-Coil,Single-coil,false,Vintage-style 1960s Stratocaster alnico single-coil with staggered poles
+Fender,Vintera 60s Tele Single-Coil,Single-coil,false,Vintage-style 1960s Telecaster single-coil with classic chime and twang
+Fender,Vintera 50s Tele Single-Coil Bridge,Single-coil,false,Vintage-style 1950s Telecaster bridge single-coil with bright steel twang
+Fender,Vintera 50s Tele Single-Coil Neck,Single-coil,false,Vintage-style 1950s Telecaster neck single-coil with warm full tone
+Fender,Wide-Range CuNiFe Humbucker,Humbucker,false,Authentic CuNiFe-magnet wide-range humbucker as designed by Seth Lover for 1972 Telecaster Thinline
+Squier,Fender Designed Alnico Single-Coil Strat,Single-coil,false,Fender-designed alnico single-coil for Squier Classic Vibe Stratocasters
+Squier,Fender Designed Alnico Single-Coil Tele,Single-coil,false,Fender-designed alnico single-coil for Squier Classic Vibe Telecasters
+Squier,SQR Ceramic Humbucker,Humbucker,false,Squier ceramic humbucker for Contemporary series; high-output passive

@@ -1,0 +1,5 @@
+brand,name,is_locking,ratio,tuner_type,description
+Gotoh,Gotoh Locking Tuners,true,,locking,Gotoh sealed locking tuning machines
+Grover,Grover Tuners,false,,sealed,Grover sealed machine heads
+Generic,LTD Locking Tuners,true,,locking,ESP LTD branded locking tuning machines
+Generic,LTD Tuners,false,,sealed,ESP LTD branded standard tuning machines

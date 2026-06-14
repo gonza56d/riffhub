@@ -1,0 +1,28 @@
+brand,name,pickup_type,is_active,description
+Mayones,Velvetrone Ironside 6,Humbucker,false,Mayones Velvetrone Ironside bridge humbucker 6-string; high-output Alnico V; used on Regius Core / Duvell Elite / Regius 6
+Mayones,Velvetrone Solium 6,Humbucker,false,Mayones Velvetrone Solium neck humbucker 6-string; warm Alnico V; used on Regius Core / Duvell Elite / Regius 6
+Mayones,Velvetrone Ironside 7,Humbucker,false,Mayones Velvetrone Ironside bridge humbucker 7-string; high-output Alnico V; used on Regius Core 7 / Duvell Elite 7
+Mayones,Velvetrone Solium 7,Humbucker,false,Mayones Velvetrone Solium neck humbucker 7-string; warm Alnico V; used on Regius Core 7 / Duvell Elite 7
+Mayones,Velvetrone Ironside 8,Humbucker,false,Mayones Velvetrone Ironside bridge humbucker 8-string; used on Regius 8
+Mayones,Velvetrone Solium 8,Humbucker,false,Mayones Velvetrone Solium neck humbucker 8-string; used on Regius 8
+Mayones,Velvetrone Chori,Humbucker,false,Mayones Velvetrone Chori moderate-output bridge humbucker; vintage-voiced Alnico V; used on Aquila Elite HSS
+Mayones,Velvetrone Lionheart,Single-coil,false,Mayones Velvetrone Lionheart single-coil; Alnico V; used in middle and neck positions on Aquila Elite HSS
+Bare Knuckle,BKP TKO 6 Bridge,Humbucker,false,Bare Knuckle TKO 6-string bridge humbucker; ceramic magnet; voiced specifically for Mayones guitars
+Bare Knuckle,BKP TKO 6 Neck,Humbucker,false,Bare Knuckle TKO 6-string neck humbucker; Alnico V; voiced specifically for Mayones guitars
+Bare Knuckle,BKP TKO 7 Bridge,Humbucker,false,Bare Knuckle TKO 7-string bridge humbucker; ceramic magnet; used on Regius 7 and Duvell Elite 7
+Bare Knuckle,BKP TKO 7 Neck,Humbucker,false,Bare Knuckle TKO 7-string neck humbucker; Alnico V; used on Regius 7 and Duvell Elite 7
+Bare Knuckle,BKP TKO 8,Humbucker,false,Bare Knuckle TKO 8-string humbucker set; used on Regius Core Classic 8
+Bare Knuckle,BKP Aftermath 7 Bridge,Humbucker,false,Bare Knuckle Aftermath 7-string bridge humbucker; aggressive high-output; used on Duvell Elite VF 7 multiscale
+Bare Knuckle,BKP Aftermath 7 Neck,Humbucker,false,Bare Knuckle Aftermath 7-string neck humbucker; used on Duvell Elite VF 7 multiscale
+Bare Knuckle,BKP Rebel Yell 7 Bridge,Humbucker,false,Bare Knuckle Rebel Yell 7-string bridge humbucker; used on Setius GTM 7
+Bare Knuckle,BKP VHII 7 Neck,Humbucker,false,Bare Knuckle VHII 7-string neck humbucker; PAF-voiced; used on Setius GTM 7
+Seymour Duncan,SD TB-4 JB,Humbucker,false,Seymour Duncan TB-4 JB bridge humbucker; high-output Alnico V; used on Regius Core 6 and Legend V22
+Seymour Duncan,SD SH-2 Jazz,Humbucker,false,Seymour Duncan SH-2 Jazz neck humbucker; warm low-output; used on Regius Core 6 and Legend V22
+Seymour Duncan,SD Nazgul 7,Humbucker,false,Seymour Duncan Nazgul 7-string bridge humbucker; high-output ceramic; used on Duvell BL 7
+Seymour Duncan,SD Sentient 7,Humbucker,false,Seymour Duncan Sentient 7-string neck humbucker; Alnico V; used on Duvell BL 7 and Hydra Elite 7
+Seymour Duncan,SD Nazgul Bridge,Humbucker,false,Seymour Duncan Nazgul 6-string bridge humbucker; ceramic; used on Duvell BL 6
+Seymour Duncan,SD Sentient Neck,Humbucker,false,Seymour Duncan Sentient 6-string neck humbucker; used on Duvell BL 6
+Seymour Duncan,SD SH-4 JB,Humbucker,false,Seymour Duncan SH-4 JB 6-string bridge humbucker; used on Setius GTM 6
+Seymour Duncan,SD Nazgul 7 Bridge,Humbucker,false,Seymour Duncan Nazgul 7-string bridge humbucker used on Hydra Elite 7
+Fishman,Fishman Fluence Modern 6,Humbucker,true,Fishman Fluence Modern active humbucker 6-string dual-voice; used on Hydra Elite VF 6
+Fishman,Fishman Fluence Modern 7,Humbucker,true,Fishman Fluence Modern active humbucker 7-string dual-voice; used on Hydra Elite VF 7

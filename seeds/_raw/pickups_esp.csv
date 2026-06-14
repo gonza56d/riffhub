@@ -1,0 +1,22 @@
+brand,name,pickup_type,is_active,description
+EMG,EMG 81,Humbucker,true,High-output active ceramic humbucker; bridge position workhorse for metal
+EMG,EMG 60,Humbucker,true,Warm active alnico humbucker; neck position complement to the 81
+EMG,EMG 85,Humbucker,true,Active alnico humbucker; warm neck tone with output to match the 81
+EMG,EMG 57TW,Humbucker,true,Active twisting humbucker with selectable single-coil mode; bridge
+EMG,EMG 66TW,Humbucker,true,Active twisting humbucker with selectable single-coil mode; neck
+EMG,EMG 81-7H,Humbucker,true,7-string version of the EMG 81 active ceramic humbucker
+EMG,EMG 85-7H,Humbucker,true,7-string version of the EMG 85 active alnico humbucker
+EMG,EMG JH HET Set,Humbucker,true,James Hetfield signature active set (bridge and neck pair)
+EMG,EMG KH Bone Breaker Set,Humbucker,true,Kirk Hammett signature active humbucker set
+Seymour Duncan,SD JB,Humbucker,false,JB model SH-4 high-output humbucker; bridge
+Seymour Duncan,SD Jazz,Humbucker,false,Jazz model SH-2 warm vintage humbucker; neck
+Seymour Duncan,SD 59,Humbucker,false,Model of a vintage PAF-style humbucker; neck
+Seymour Duncan,SD Custom,Humbucker,false,Custom model SH-5 high-output humbucker; bridge
+Seymour Duncan,SD Phat Cat,Single-coil,false,P-90-style single-coil in humbucker housing; neck
+Fishman,Fishman Fluence Modern Ceramic,Humbucker,true,Fluence Modern multi-voice ceramic humbucker; bridge
+Fishman,Fishman Fluence Modern Alnico,Humbucker,true,Fluence Modern multi-voice alnico humbucker; neck
+Fishman,Fishman Fluence Open Core Classic,Humbucker,true,Fluence Open Core Classic multi-voice humbucker; coil-split capable
+Fishman,Fishman Fluence SC 3-Voice Bridge,Humbucker,true,Stephen Carpenter 3-voice Fluence signature ceramic humbucker
+Fishman,Fishman Fluence SC 3-Voice Mid,Humbucker,true,Stephen Carpenter 3-voice Fluence signature alnico humbucker; middle position
+ESP,ESP LH-150B,Humbucker,false,ESP-designed passive humbucker; bridge position
+ESP,ESP LH-150N,Humbucker,false,ESP-designed passive humbucker; neck position

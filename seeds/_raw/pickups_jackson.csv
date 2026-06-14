@@ -1,0 +1,17 @@
+brand,name,pickup_type,is_active,description
+Seymour Duncan,JB TB-4,Humbucker,false,Seymour Duncan JB bridge humbucker; high-output alnico 5 bridge pickup used widely across Jackson Pro and American Series
+Seymour Duncan,59 SH-1N,Humbucker,false,Seymour Duncan 59 neck humbucker; vintage-voiced alnico 5 neck pickup used across Jackson Pro and American Series
+Seymour Duncan,Distortion TB-6,Humbucker,false,Seymour Duncan Distortion bridge humbucker; ceramic magnet high-gain bridge pickup used on Jackson King V and Rhoads
+Seymour Duncan,Distortion SH-6N,Humbucker,false,Seymour Duncan Distortion neck humbucker; ceramic magnet high-gain neck pickup used on Jackson King V and Rhoads
+Seymour Duncan,Jazz SH-2N,Humbucker,false,Seymour Duncan Jazz neck humbucker; warm alnico 5 neck pickup used on MJ Series Soloist
+Seymour Duncan,Flat Strat SSL-6,Single-coil,false,Seymour Duncan Flat Strat SSL-6 middle single-coil; used in HSS configuration on American Series Soloist SL3
+Seymour Duncan,Flat Strat SSL-6 RWRP,Single-coil,false,Seymour Duncan Flat Strat SSL-6 RWRP middle position single-coil; reverse wound reverse polarity for hum cancellation in positions 2 and 4
+DiMarzio,CB6 Humbucker,Humbucker,false,DiMarzio Chris Broderick CB6 signature humbucker; custom-voiced for high gain and tight lows on 6-string models
+DiMarzio,CB7 Humbucker,Humbucker,false,DiMarzio Chris Broderick CB7 signature humbucker; custom-voiced for 7-string models with extended range clarity
+EMG,81,Humbucker,true,EMG 81 active ceramic bridge humbucker; high-output active pickup used on Jackson American Series Soloist SL2MG HT
+EMG,85,Humbucker,true,EMG 85 active alnico neck humbucker; warm active neck pickup used alongside EMG 81 on Jackson American Series models
+Jackson,MM1 Humbucker,Humbucker,false,Jackson MM1 uncovered direct-mount humbucker designed with Misha Mansoor; used on Juggernaut HT6 and HT7 models
+Jackson,High-Output Humbucker,Humbucker,false,Jackson branded ceramic high-output humbucker; used on JS Series Kelly JS32 and Warrior JS32 entry-level models
+Fishman,Fluence Modern PRF-MH7,Humbucker,true,Fishman Fluence Modern active multi-voice humbucker with three selectable voices; used on DK Modern HT6 MS and DK Modern Ash HT6
+Duncan Designed,HB-103B,Humbucker,false,Duncan Designed ceramic bridge humbucker; Seymour Duncan-licensed pickup used on Jackson X Series SLX DX
+Duncan Designed,HB-103N,Humbucker,false,Duncan Designed alnico neck humbucker; Seymour Duncan-licensed pickup used on Jackson X Series SLX DX

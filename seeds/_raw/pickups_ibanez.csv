@@ -1,0 +1,25 @@
+brand,name,pickup_type,is_active,description
+Ibanez,V7,Humbucker,false,Ibanez V7 neck humbucker; used on RG550 Genesis and RG570 models
+Ibanez,V8,Humbucker,false,Ibanez V8 bridge humbucker; used on RG550 Genesis and RG570 models
+Ibanez,S1,Single-coil,false,Ibanez S1 middle single-coil; used in HSH configuration on RG Genesis models
+Ibanez,Quantum Humbucker,Humbucker,false,Ibanez Quantum ceramic humbucker used on RGA and SA Standard series
+Ibanez,Resolution Single,Single-coil,false,Ibanez Resolution single-coil used on SA Standard series
+Ibanez,IBZ-8 Humbucker,Humbucker,false,Ibanez IBZ-8 humbucker for 8-string guitars
+Ibanez,Super 58 Custom,Humbucker,false,Ibanez Super 58 Custom humbucker used on Artcore Expressionist AS93FM
+Ibanez,Artcore Humbucker,Humbucker,false,Ibanez Artcore humbucker used on standard Artcore AF75 models
+Ibanez,Classic Elite,Humbucker,false,Ibanez Classic Elite humbucker used on Artcore AS73
+DiMarzio,Air Norton,Humbucker,false,DiMarzio Air Norton PAF-style humbucker; warm neck pickup used on Prestige models
+DiMarzio,The Tone Zone,Humbucker,false,DiMarzio The Tone Zone high-output bridge humbucker used on Prestige RG models
+DiMarzio,True Velvet,Single-coil,false,DiMarzio True Velvet middle single-coil used on RG2550 Prestige
+DiMarzio,PAF 7,Humbucker,false,DiMarzio PAF 7 low-output humbucker for 7-string Prestige models
+DiMarzio,Blaze II Humbucker,Humbucker,false,DiMarzio Blaze II humbucker for 7-string Universe UV777; ceramic magnet
+DiMarzio,Blaze II Single,Single-coil,false,DiMarzio Blaze II single-coil middle for 7-string Universe UV777
+DiMarzio,Evolution Humbucker,Humbucker,false,DiMarzio Evolution humbucker used on JEM7V (bridge and neck)
+DiMarzio,Evolution Single,Single-coil,false,DiMarzio Evolution middle single-coil used on JEM7V
+DiMarzio,Air Norton S7,Humbucker,false,DiMarzio Air Norton humbucker neck for AZ47P1QM (7-string Premium)
+DiMarzio,True Velvet S,Single-coil,false,DiMarzio True Velvet middle single-coil for AZ47P1QM Premium HSH
+DiMarzio,Tone Zone S,Humbucker,false,DiMarzio Tone Zone bridge humbucker for AZ47P1QM Premium
+Seymour Duncan,Hyperion H,Humbucker,false,Seymour Duncan Hyperion humbucker (Alnico 5); used on AZ Prestige and Premium 6-string
+Seymour Duncan,Hyperion S,Single-coil,false,Seymour Duncan Hyperion single-coil; used in middle position on AZ226
+Seymour Duncan,Hyperion H7,Humbucker,false,Seymour Duncan Hyperion 7-string humbucker; used on AZ 7-string Premium
+Fishman,Fluence Modern H,Humbucker,true,Fishman Fluence Modern active humbucker; used on RGD Axion Label and RG5120M Prestige

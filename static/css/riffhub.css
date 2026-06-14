@@ -231,6 +231,8 @@ h1, h2, h3, legend, .wordmark, .brand { font-family: var(--slab); }
 
 /* --- Header auth ----------------------------------------------------------*/
 .nav-user { margin-left: 20px; font-family: var(--slab); color: var(--walnut); }
+/* Banned users keep their name but lose the profile link: muted, not a link. */
+.user-banned { color: var(--ink-soft); text-decoration: none; }
 .logout-form { display: inline; margin-left: 10px; }
 .logout-form button {
   background: none; border: 0; cursor: pointer; padding: 0;
@@ -578,3 +580,78 @@ button.vote:hover { border-color: var(--walnut); }
   font-family: var(--body); font-size: .85rem; padding: 3px 7px;
   background: var(--paper-3); border: 1px solid var(--rule); border-radius: 5px;
 }
+
+/* --- Theme toggle ---------------------------------------------------------*/
+.theme-toggle {
+  margin-left: 20px; cursor: pointer; padding: 0; line-height: 1;
+  width: 30px; height: 30px; vertical-align: middle; font-size: .95rem;
+  background: transparent; border: 1px solid var(--rule); border-radius: 999px;
+  transition: border-color .12s, background .12s;
+}
+.theme-toggle:hover { border-color: var(--walnut); background: var(--paper-3); }
+.theme-ico { display: none; }
+.theme-ico--moon { display: inline; }   /* light mode shows a moon (→ go dark) */
+html[data-theme="dark"] .theme-ico--moon { display: none; }
+html[data-theme="dark"] .theme-ico--sun { display: inline; }
+
+/* ===========================================================================
+   DARK THEME — "Warm Vintage Workshop, after hours"
+   The dark counterpart to the light palette above: espresso/walnut grounds,
+   warm parchment-cream text, the same amber accent (brightened for contrast).
+   The light theme is left untouched — everything here applies only under
+   <html data-theme="dark">. Most rules adapt for free because they read the
+   CSS variables redefined here; the blocks afterwards patch the handful of
+   places that hard-code a light colour (including the submit/review cards).
+   ===========================================================================*/
+html[data-theme="dark"] {
+  --paper:    #1e1711;   /* espresso page */
+  --paper-2:  #271f17;   /* raised cards */
+  --paper-3:  #33271a;   /* inputs / wells */
+  --ink:      #ece0c8;   /* primary text (warm parchment) */
+  --ink-soft: #b2a082;   /* secondary text */
+  --walnut:   #e4cfa3;   /* headings, frames (warm light, so they read on dark) */
+  --walnut-2: #d2b888;
+  --amber:    #e0a32f;   /* accent */
+  --amber-2:  #d4922a;   /* links (hover brightens to --amber) */
+  --rule:     #463829;   /* hairlines */
+  --rule-2:   #55432e;
+  --good:     #87a85b;   /* sage, lifted for the dark ground */
+
+  --shadow: 0 1px 0 #ffffff0d inset, 0 2px 8px #00000059;
+}
+
+/* Header: a dark walnut gradient instead of the light parchment one. */
+html[data-theme="dark"] .site-header {
+  background: linear-gradient(#2a2017, #211a12);
+}
+
+/* Card / row hover shadows hard-code a white inset + dark drop in the light
+   theme; swap for a faint light inset + a deeper shadow on dark. */
+html[data-theme="dark"] .guitar-card:hover,
+html[data-theme="dark"] .dm-conv-row:hover,
+html[data-theme="dark"] .kind-card:hover,
+html[data-theme="dark"] .review-card:hover {
+  box-shadow: 0 1px 0 #ffffff0d inset, 0 4px 16px #00000066;
+}
+
+/* The confirm banner and profile flag bake in light tints. */
+html[data-theme="dark"] .confirm-banner { background: #342a12; color: var(--walnut); }
+html[data-theme="dark"] .profile-flag {
+  background: #3a201b; border-color: #c14a36; color: #f0b3a6;
+}
+
+/* Brighten the brick-red used as error/danger TEXT so it stays legible on the
+   dark grounds (where the same colour is a fill it is already fine). */
+html[data-theme="dark"] .auth-error,
+html[data-theme="dark"] .field-error,
+html[data-theme="dark"] .removed-badge,
+html[data-theme="dark"] .danger-link,
+html[data-theme="dark"] .mod-panel h2,
+html[data-theme="dark"] .dm-report-link:hover,
+html[data-theme="dark"] .review-net.neg,
+html[data-theme="dark"] .review-tally .net.neg {
+  color: #e5775f;
+}
+
+/* Keep the paper grain from lifting the blacks. */
+html[data-theme="dark"] body::before { opacity: .22; }

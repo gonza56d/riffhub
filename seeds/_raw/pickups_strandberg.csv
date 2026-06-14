@@ -1,0 +1,17 @@
+brand,name,pickup_type,is_active,description
+Suhr,Suhr SSV,Humbucker,false,Suhr SSV PAF-style alnico humbucker; neck position on Boden Original NX 6 and Prog NX 6
+Suhr,Suhr SSH+,Humbucker,false,Suhr SSH+ high-output alnico humbucker; bridge position on Boden Original NX 6 and Prog NX 6
+Fishman,Fishman Fluence Modern 7 Ceramic,Humbucker,true,Fishman Fluence Modern 7 Ceramic HB Mount humbucker; bridge position on 7-string Boden Original/Prog/Metal NX
+Fishman,Fishman Fluence Modern 7 Alnico,Humbucker,true,Fishman Fluence Modern 7 Alnico Soapbar humbucker; neck position on 7-string Boden Original/Prog/Metal NX
+Fishman,Fishman Fluence Modern 8 Ceramic,Humbucker,true,Fishman Fluence Modern 8 Ceramic Soapbar humbucker; bridge position on 8-string Boden Original/Metal NX
+Fishman,Fishman Fluence Modern 8 Alnico,Humbucker,true,Fishman Fluence Modern 8 Alnico Soapbar humbucker; neck position on 8-string Boden Original/Metal NX
+Suhr,Suhr Aldrich Bridge,Humbucker,false,Suhr Aldrich high-gain passive humbucker; bridge position on Boden Metal NX 6
+Suhr,Suhr Aldrich Neck,Humbucker,false,Suhr Aldrich high-gain passive humbucker; neck position on Boden Metal NX 6
+Suhr,Suhr V60LP,Single-coil,false,Suhr V60LP vintage-voiced single-coil; middle position on Boden Fusion NX 6 and Classic NX 6
+Suhr,Suhr SSV+ Bridge,Humbucker,false,Suhr SSV+ high-output alnico humbucker; bridge position on Boden Fusion NX 6
+Suhr,Suhr SSV Neck,Humbucker,false,Suhr SSV alnico humbucker; neck position on Boden Fusion NX 6
+Suhr,Suhr Thornbucker+,Humbucker,false,Suhr Thornbucker+ nickel-covered humbucker; bridge position on Boden Classic NX 6 and Salen Classic NX 6
+Suhr,Suhr Thornbucker,Humbucker,false,Suhr Thornbucker nickel-covered humbucker; neck position on Boden Classic NX 6 and Salen Jazz NX 6
+Suhr,Suhr Classic T Bridge,Single-coil,false,Suhr Classic T Alnico V bridge single-coil; bridge on Salen Classic NX 6
+Suhr,Suhr Classic T Neck,Single-coil,false,Suhr Classic T Alnico V neck single-coil; neck on Salen Classic NX 6
+Strandberg,Strandberg OEM Humbucker,Humbucker,false,Strandberg custom OEM humbucker wound to Strandberg specifications; used on Boden Standard NX and Salen Jazz NX series

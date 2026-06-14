@@ -1,0 +1,13 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Floyd Rose,Original Tremolo,Locking tremolo (Floyd Rose),false,true,The original double-locking tremolo; hardened steel base plate and CNC-machined steel saddles with a 37mm nickel-plated brass sustain block
+Floyd Rose,1000 Series Tremolo,Locking tremolo (Floyd Rose),false,true,Korean-made Original-spec tremolo with hardened steel saddles and 37mm nickel-plated brass block; sold direct-to-consumer
+Floyd Rose,Special Tremolo,Locking tremolo (Floyd Rose),false,true,Budget double-locking tremolo matching the Original design but using zinc alloy saddles and a zinc alloy sustain block
+Floyd Rose,1500 Series Tremolo,Locking tremolo (Floyd Rose),false,true,Enhanced 1000 Series with stainless steel screws and push-in tremolo arm; available to guitar manufacturers only
+Floyd Rose,Pro Tremolo,Locking tremolo (Floyd Rose),false,true,Low-profile double-locking tremolo with narrower .400 inch string spacing; requires a dedicated cavity route
+Floyd Rose,FRX Tremolo,Locking tremolo (Floyd Rose),false,true,Surface-mount double-locking tremolo for Tune-o-matic guitars; swaps the existing bridge and stopbar with no body routing required
+Floyd Rose,Rail Tail Bridge,Hardtail (fixed),false,false,Full-contact hardtail bridge that retrofits a Strat-style 6-point tremolo route; available in narrow (2-1/16 inch) and wide (2-7/32 inch) variants
+Floyd Rose,Original Hot Rod Tremolo,Locking tremolo (Floyd Rose),false,true,Original-dimension double-locking tremolo upgraded with a fat brass sustain block and stainless steel screws for enhanced sustain
+Floyd Rose,7-String Original Tremolo,Locking tremolo (Floyd Rose),false,true,Original-spec double-locking tremolo scaled for seven strings; hardened steel construction with 37mm nickel-plated brass block
+Floyd Rose,8-String Tremolo,Locking tremolo (Floyd Rose),false,true,Double-locking tremolo for eight-string guitars; 53.8mm nut width and 112.75mm bridge width to cover the extended string spread
+Floyd Rose,Titanium Tremolo,Locking tremolo (Floyd Rose),false,true,Full-titanium double-locking tremolo developed with TiSonix; tested to 12000+ cycles with no measurable knife-edge wear
+Floyd Rose,FRX Titanium Tremolo,Locking tremolo (Floyd Rose),false,true,Limited-edition US-made all-titanium surface-mount FRX tremolo; individually numbered for traceability

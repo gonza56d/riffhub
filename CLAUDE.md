@@ -26,7 +26,11 @@ updated when you add or change a domain.
   and small controlled-vocabulary lookup tables. **Derived guitar facets** (pickup combo, tremolo,
   electronics, …) are recomputed from the attached components via signals and denormalised into indexed
   columns for filtering. Submission/review workflow (`ReviewVote`, `Correction`, `evaluate_submission`);
-  browse/filter at `/`, submit UI at `/submit/`, review queue at `/review/`.
+  browse/filter at `/`, submit UI at `/submit/`, review queue at `/review/`. Bulk **initial seed data**
+  (205 real guitars + gear, one CSV per model) lives in **`seeds/`** — read `seeds/README.md` for the
+  schema contract + how to extend/regenerate; validate with `python3 seeds/validate_seeds.py`.
+  Load it with **`manage.py seed_catalog_csv`** (idempotent; distinct from `manage.py seed_catalog`,
+  which loads only ~6 illustrative guitars).
 - **forum** — `Topic → Subtopic → Post → Comment`, generic up/down votes + emoji reactions, the Gear
   Market (price + disclaimer), community topic/subtopic proposals, and Creator-only management at
   `/forum/manage/`.

@@ -1,0 +1,12 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Floyd Rose,FR Original Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose Original double-locking tremolo; top-tier Floyd Rose used on Jackson USA Select KV2
+Floyd Rose,FR 1000 Series Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1000 Series double-locking tremolo; mid-level Floyd Rose used on Jackson Pro Series Soloist and King V
+Floyd Rose,FR 1500 Series Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1500 Series double-locking tremolo; used on Jackson American Series Rhoads RR24 and Soloist SL3
+Floyd Rose,FR Special Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose Special double-locking tremolo; used on Jackson X Series SLX DX and Chris Broderick Soloist 6
+Floyd Rose,FR Special 7-String Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose Special 7-string double-locking tremolo; used on Jackson Pro Series Chris Broderick Soloist 7
+Floyd Rose,FR Licensed Jackson Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Jackson-branded Floyd Rose licensed double-locking tremolo; used on JS Series Kelly JS32 and Warrior JS32
+Gotoh,GE1996T Double-Locking Tremolo,Locking tremolo (non-Floyd),false,true,Gotoh GE1996T Series double-locking tremolo; used on MJ Series Soloist SL2
+Gotoh,GE1996T-7 Double-Locking Tremolo,Locking tremolo (non-Floyd),false,true,Gotoh GE1996T-7 Series 7-string double-locking tremolo; used on Pro Plus Chris Broderick Soloist 7
+Hipshot,Hipshot 6 Fixed Bridge,Hardtail (fixed),false,false,Hipshot 6-string fixed hardtail bridge; used on Jackson American Series Soloist SL2MG HT and DK Modern Ash HT6
+Jackson,HT6 String-Through Hardtail,String-through hardtail,false,false,Jackson HT6 string-through-body hardtail bridge; used on Juggernaut HT6
+Jackson,HT7 String-Through Hardtail,String-through hardtail,false,false,Jackson HT7 string-through-body hardtail bridge; used on Juggernaut HT7 and HT7P

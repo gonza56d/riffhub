@@ -17,3 +17,19 @@ class SignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ("username", "email")
+
+    def clean_email(self) -> str:
+        """Normalise the e-mail to lowercase and reject case-insensitive dupes.
+
+        The model's ``unique`` constraint is enforced case-sensitively by
+        Postgres, so without this two addresses that differ only in case (e.g.
+        ``rt_user@example.com`` / ``RT_USER@EXAMPLE.COM``) would create distinct
+        accounts. Lowercasing the whole address and checking ``email__iexact``
+        keeps a single canonical account per address.
+        """
+        email = self.cleaned_data["email"].lower()
+        if User.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError(
+                "A user with that e-mail already exists."
+            )
+        return email

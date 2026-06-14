@@ -6,7 +6,7 @@
 
 <section class="dm-thread">
   <div class="dm-thread-head">
-    <h1><a href="{% url 'profile' other.username %}">{{ other.username }}</a></h1>
+    <h1>{% include "accounts/_userlink.html" with u=other label=other.username %}</h1>
   </div>
 
   <div id="messages" class="dm-messages">

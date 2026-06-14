@@ -1,0 +1,16 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Ibanez,Edge Tremolo,Locking tremolo (non-Floyd),false,true,Original Ibanez double-locking tremolo introduced 1987; used on Prestige and premium RG/S models
+Ibanez,Lo-Pro Edge,Locking tremolo (non-Floyd),false,true,Lower-profile variant of the Edge tremolo designed by Gotoh; introduced 1991
+Ibanez,Edge Zero II,Locking tremolo (non-Floyd),false,true,Ibanez double-locking tremolo with ZPS3Fe tuning stabilizer; used on S and RG Prestige models
+Ibanez,Lo-Pro Edge 7,Locking tremolo (non-Floyd),false,true,7-string version of the Lo-Pro Edge locking tremolo
+Ibanez,Gibraltar Standard II,Hardtail (fixed),false,false,Fixed hardtail bridge used on Prestige RG models; high-mass steel construction
+Ibanez,Gibraltar Standard II-7,Hardtail (fixed),false,false,7-string version of the Gibraltar Standard II fixed bridge
+Ibanez,Mono-rail,Hardtail (fixed),false,false,Individual saddle fixed bridge used on S and RG models; one saddle per string
+Ibanez,Mono-rail 7,Hardtail (fixed),false,false,7-string version of the Mono-rail individual saddle fixed bridge
+Ibanez,Mono-rail 8,Multiscale fixed,false,false,8-string version of the Mono-rail fixed bridge; used on multiscale Axion Label models
+Ibanez,F106,Hardtail (fixed),false,false,Economy fixed bridge used on RGA Standard and AZES models
+Ibanez,T102,Vintage synchronized tremolo,false,false,2-point synchronized tremolo used on SA Standard series
+Ibanez,ART-1,Tune-o-matic & Stopbar,false,false,Tune-o-matic style bridge with stopbar tailpiece used on Artcore AS series
+Gotoh,T1802,2-point synchronized tremolo,false,false,Gotoh 2-point tremolo with titanium saddles; used on AZ Prestige models
+Gotoh,T1502,2-point synchronized tremolo,false,false,Gotoh 2-point tremolo used on AZ Premium models
+Gotoh,T1872S,Hardtail (fixed),false,false,Gotoh 7-string fixed bridge with steel saddles; used on AZ47P1QM Premium 7-string

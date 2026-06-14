@@ -1,0 +1,8 @@
+{% comment %}
+Render a user's display name, linking to their public profile — unless the user
+is banned, in which case the name shows as plain text (the profile is 404).
+
+Params:
+  u      — the user object (needs .username and .is_banned)
+  label  — the display string to show (e.g. u.username or u as __str__)
+{% endcomment %}{% if u.is_banned %}<span class="user-banned">{{ label }}</span>{% else %}<a href="{% url 'profile' u.username %}">{{ label }}</a>{% endif %}

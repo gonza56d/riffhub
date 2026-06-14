@@ -1,0 +1,40 @@
+brand,name,pickup_type,is_active,description
+DiMarzio,Super Distortion,Humbucker,false,Pioneering high-output bridge humbucker with thick boosted mids and fat lows/highs that drives tube amps into overdrive
+DiMarzio,Super 2,Humbucker,false,Bright high-output humbucker that shifts the Super Distortion EQ toward treble for a tighter bottom and snappier top
+DiMarzio,X2N,Humbucker,false,Extreme high-output bridge humbucker with twin wide-bar poles delivering maximum gain and a take-no-prisoners aggressive tone
+DiMarzio,PAF 36th Anniversary Bridge,Humbucker,false,Vintage-voiced bridge humbucker with soft magnetic field and sweet balanced warmth modeled on a 1959 Les Paul reference
+DiMarzio,PAF 36th Anniversary Neck,Humbucker,false,Vintage-voiced neck humbucker companion to the 36th Anniversary Bridge with smooth highs and clear PAF character
+DiMarzio,PAF Master Bridge,Humbucker,false,Quiet bright and dynamic PAF-style bridge humbucker with Alnico 4 magnets delivering snarly vintage rock character
+DiMarzio,PAF Pro,Humbucker,false,Medium-output PAF-voiced humbucker with presence and cut that slices through heavy processing in bridge or neck position
+DiMarzio,Air Norton,Humbucker,false,Warm deep neck humbucker with reduced string-pull for improved sustain and excellent pick-attack dynamics
+DiMarzio,Tone Zone,Humbucker,false,High-output bridge humbucker with wide dynamic range huge bass/low-mid response and dual-resonance coils for rich overtones
+DiMarzio,Norton,Humbucker,false,Medium-output bridge humbucker blending FRED harmonic overtones with Tone Zone midrange power for modern mahogany guitars
+DiMarzio,Evolution Bridge,Humbucker,false,High-output tight aggressive Steve Vai signature bridge humbucker with intense highs and dual-resonance overtone character
+DiMarzio,Evolution Neck,Humbucker,false,Medium-output Steve Vai signature neck humbucker designed for maximum impact and balanced response across the fretboard
+DiMarzio,Evolution 7,Humbucker,false,Seven-string Steve Vai signature humbucker combining Evolution attack with Virtual Vintage technology for clear crunching lows
+DiMarzio,Gravity Storm Bridge,Humbucker,false,Steve Vai signature bridge humbucker with depth warm highs and mids evoking thundering power with dynamic expressiveness
+DiMarzio,Gravity Storm Neck,Humbucker,false,Steve Vai signature neck humbucker with sweet warm tone and a throaty single-coil-like bite within a humbucker body
+DiMarzio,Crunch Lab,Humbucker,false,John Petrucci signature high-output bridge humbucker with big tight articulate sound ideal for progressive metal chords
+DiMarzio,LiquiFire,Humbucker,false,John Petrucci signature neck humbucker with flowing singing solo tone and warm smooth treble for overdriven leads
+DiMarzio,Crunch Lab 7,Humbucker,false,Seven-string version of the Crunch Lab delivering the same tight articulate high-output crunch for 7-string progressive metal
+DiMarzio,LiquiFire 7,Humbucker,false,Seven-string LiquiFire neck humbucker with fat highs and clean lows for smooth solos and tight bass lines
+DiMarzio,Titan Bridge,Humbucker,false,Jake Bowen signature high-output bridge humbucker with tight palm-muted aggression and warm highs suited to modern progressive metal
+DiMarzio,D Activator Bridge,Humbucker,false,Passive bridge humbucker voiced to replicate active-pickup clarity and tight lows without a battery using tuned resonant coils
+DiMarzio,D Activator Neck,Humbucker,false,Passive neck humbucker with big bright open sound and tight lows replicating active-pickup character without battery power
+DiMarzio,D Activator X Bridge,Humbucker,false,High-power passive bridge humbucker combining active-style clarity with wide dynamic range and clean split tones on rolled-back volume
+DiMarzio,D Activator 7 Bridge,Humbucker,false,Seven-string passive bridge humbucker with killer harmonics and attack-focused low B that replicates active clarity without batteries
+DiMarzio,D Activator 7 Neck,Humbucker,false,Seven-string passive neck humbucker with solid low B and singing high strings delivering active-style power in passive form
+DiMarzio,Dominion Bridge,Humbucker,false,Medium-output ceramic bridge humbucker with thick mids and bottom depth maintaining focus for high-gain playing and clean splits
+DiMarzio,Breed Neck,Humbucker,false,Steve Vai signature neck humbucker with fat classic tone slightly louder than a PAF Pro for warm vintage-voiced Jem tones
+DiMarzio,Steve's Special,Humbucker,false,High-output bridge humbucker with a mid-scoop spreading sound over a broad range for note clarity and hi-fi clean chords
+DiMarzio,Fusion Edge Bridge,Humbucker,false,Ibanez-collaboration passive ceramic bridge humbucker with crisp highs tight lows and precise articulation for modern metal
+DiMarzio,Fusion Edge Neck,Humbucker,false,Ibanez-collaboration passive ceramic neck humbucker with clear harmonic character and balanced response for modern high-gain playing
+DiMarzio,Bluesbucker,Humbucker,false,Humbucker-sized pickup with Virtual Vintage technology that replicates P-90 tone and dynamics while canceling 60-cycle hum
+DiMarzio,Area 58,Humbucker,false,Stacked hum-canceling Strat pickup voicing vintage 1958 single-coil dynamics with bright clear tone and wide dynamic range
+DiMarzio,Area 61,Humbucker,false,Stacked hum-canceling Strat pickup that responds strongly to pick attack sounding louder and tougher when played hard
+DiMarzio,Area 67,Humbucker,false,Stacked hum-canceling Strat pickup capturing 1960s chime and quack with light bright 2-and-4-position character
+DiMarzio,Injector Neck,Humbucker,false,Stacked hum-canceling Strat neck pickup warmer and louder than vintage with fast high-gain tracking without thinning out
+DiMarzio,Cruiser Neck,Humbucker,false,Rail hum-canceling Strat neck pickup with open vocal midrange and harmonic overtones that closely mimic true single-coil character
+DiMarzio,Chopper,Humbucker,false,Rail hum-canceling Strat bridge pickup bridging single-coil and humbucker with punchy mids and increased output for a thick tone
+DiMarzio,Pro Track,Humbucker,false,Rail hum-canceling single-coil-sized humbucker with warm vintage PAF tone smooth treble and enough output for any position
+DiMarzio,P90 Super Distortion,P-90,false,Highest-output humbucking P-90 soapbar replacement with 12 adjustable pole pieces and smooth treble for high-gain bridge tones

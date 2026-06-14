@@ -12,7 +12,7 @@
   <div class="mod-entry dm-report-row">
     <blockquote class="dm-report-body">{{ report.message.body|linebreaksbr }}</blockquote>
     <div class="muted dm-report-meta">
-      from <a href="{% url 'profile' report.message.sender.username %}">{{ report.message.sender.username }}</a>
+      from {% include "accounts/_userlink.html" with u=report.message.sender label=report.message.sender.username %}
       · reported by {{ report.reporter.username }}
       · {{ report.handled_at|default:report.message.created_at|date:"M j, Y, g:i a" }}
     </div>

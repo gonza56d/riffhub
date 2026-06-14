@@ -1,0 +1,5 @@
+name,symbol,is_humbucking
+Humbucker,H,true
+Single-coil,S,false
+P-90,P,false
+Mini-humbucker,H,true

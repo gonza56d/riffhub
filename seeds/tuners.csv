@@ -1,0 +1,64 @@
+brand,name,is_locking,ratio,tuner_type,description
+Gotoh,Gotoh Locking Tuners,true,,locking,Gotoh sealed locking tuning machines
+Grover,Grover Tuners,false,,sealed,Grover sealed machine heads
+Generic,LTD Locking Tuners,true,,locking,ESP LTD branded locking tuning machines
+Generic,LTD Tuners,false,,sealed,ESP LTD branded standard tuning machines
+Fender,Fender ClassicGear,false,18:1,sealed,Sealed vintage-style ClassicGear tuner with 18:1 ratio; used on Player and Performer series
+Fender,Fender Standard Cast Sealed Staggered,false,,sealed,Fender standard cast/sealed staggered tuner; used on American Professional II series
+Fender,Fender Deluxe Cast Sealed Locking,true,,locking,Deluxe cast/sealed locking tuner with all-short posts; used on American Professional II and Player Plus series
+Fender,Fender Pure Vintage Single Line Fender,false,,vintage,Pure vintage single-line Fender-stamped open-gear tuner; reproduction of 1950s-60s Kluson-style machines
+Fender,Fender Vintage Style No Logo,false,,vintage,Vintage-style open-gear tuner without logo; used on Vintera II series
+Gibson,Gibson Vintage Deluxe Tuners,false,14:1,vintage,Kluson-style keystone-button tuners; used on Les Paul Standard 50s and ES-345
+Grover,Grover Rotomatic Kidney,false,18:1,sealed,Grover Rotomatic tuners with kidney buttons; used on Les Paul Standard 60s and SG Standard
+Grover,Grover Rotomatic Locking,true,18:1,locking,Grover locking Rotomatic tuners; used on Les Paul Modern and SG Modern
+Grover,Grover Rotomatic Mini,false,18:1,sealed,Grover Mini Rotomatic tuners; used on Gibson Firebird (banjo-style mounting)
+Grover,Grover Rotomatic Keystone,false,18:1,sealed,Grover Rotomatic tuners with keystone buttons; used on Les Paul Custom and Explorer
+Epiphone,Epiphone Vintage Deluxe Tuners,false,18:1,vintage,Epiphone Vintage Deluxe tuners; used on Epiphone Les Paul Standard 50s and Casino
+Grover,Grover Rotomatic 3+3,false,18:1,sealed,Grover Rotomatic 3+3 tuners; used on Epiphone SG Standard
+Gotoh,Gotoh SG381,false,16:1,sealed,Sealed-gear machine head with 16:1 ratio and Lubri-Coat coating; available in 3+3 and 6-in-line; mid-range flagship of the SG series
+Gotoh,Gotoh SG301,false,18:1,sealed,Sealed-gear machine head with 18:1 ratio; larger body than SG381 with retention screw below post; not suitable for 6-in-line
+Gotoh,Gotoh SG360,false,14:1,sealed,Sealed-gear machine head with 14:1 ratio; compact SG series tuner available in 3+3 and 6-in-line configurations
+Gotoh,Gotoh SD90,false,15:1,vintage,Vintage-style open-gear machine head with 15:1 ratio; 3+3 array; available with Magnum Lock and HAP post options
+Gotoh,Gotoh SD91,false,15:1,vintage,Vintage-style open-gear machine head with 15:1 ratio; classic Kluson-inspired styling; available for 3+3 and 6-in-line
+Gotoh,Gotoh SDS510,false,15:1,vintage,Vintage-style SD510 series machine head with 15:1 ratio; features DSL mechanism and X-Finish coating
+Gotoh,Gotoh SGS510,false,15:1,sealed,SG510 series sealed-gear machine head with 15:1 ratio; features X-Finish and Lubri-Plate; available in 3+3 and 6-in-line
+Gotoh,Gotoh SGS510Z,false,18:1,sealed,SG510 series sealed-gear machine head with 18:1 ratio; premium precision over SGS510; supports MG and HAP-M post variants
+Gotoh,Gotoh 35G510,false,16:1,open_gear,Classical guitar open-gear machine head with 16:1 ratio; 35G510 series with precision roller nut and multiple plate materials
+Gotoh,Gotoh SG381 MG-T,true,16:1,locking,Sealed-gear Magnum Lock Trad locking tuner based on SG381 with 16:1 ratio; rear thumbwheel locks string post after tuning; fast restringing
+Gotoh,Gotoh SD90 MG-T,true,15:1,locking,Vintage-style Magnum Lock Trad locking tuner based on SD90 with 15:1 ratio; combines open-gear aesthetics with tool-free string locking
+Gotoh,Gotoh SD91 MG-T,true,15:1,locking,Vintage-style Magnum Lock Trad locking tuner based on SD91 with 15:1 ratio; Rock-Solid construction with rear thumbwheel string lock
+Gotoh,Gotoh SG381 HAP-M,true,16:1,locking,SG381 variant combining Magnum Lock and height-adjustable post (HAP) technology; individually tunable post heights for nut break angle optimization
+Gotoh,Gotoh SGS510Z HAP-M,true,18:1,locking,SGS510Z variant with integrated HAP-M locking post; 18:1 ratio; height-adjustable locking posts for precise per-string setup
+Gotoh,Gotoh SD91 HAP-M,true,15:1,locking,Vintage-style SD91 variant with HAP-M locking adjustable-height posts; 15:1 ratio; locking stability with post-height fine-tuning
+Gotoh,Gotoh MG-T Locking,true,,locking,Gotoh locking tuners with height-adjustable posts; used on AZ Prestige and Axion Label models
+Gotoh,Gotoh MG-T Locking 7,true,,locking,7-string set of Gotoh MG-T locking tuners
+Gotoh,Gotoh MG-T Locking 8,true,,locking,8-string set of Gotoh MG-T locking tuners
+Ibanez,Ibanez Die-Cast Tuners,false,,sealed,Standard sealed die-cast tuners used on mid-range Ibanez models
+Ibanez,Ibanez Locking Tuners,true,,locking,Ibanez-branded locking tuners used on select Premium and Standard models
+Jackson,Jackson Sealed Die-Cast,false,,sealed,Jackson branded sealed die-cast tuning machines; standard tuners used across Pro Series and JS Series models
+Jackson,Jackson Sealed Die-Cast Locking,true,,sealed,Jackson branded sealed die-cast locking tuners; used on Juggernaut HT6 and HT7 models
+Gotoh,Gotoh Sealed Die-Cast,false,,sealed,Gotoh sealed die-cast tuners; used on MJ Series Soloist SL2 (Japan-made)
+Gotoh,Gotoh Locking,true,,locking,Gotoh locking tuners; used on DK Modern HT6 MS and DK Modern Ash HT6
+Kramer,Kramer Die Cast Mini Tuners,false,14:1,sealed,Kramer black chrome mini die-cast sealed tuners; 14:1 ratio; used on SM-1 / SM-1 H / Assault 220 / Nightswan
+Kramer,Kramer Die Cast Tuners,false,,sealed,Kramer standard die-cast sealed tuners; used on Focus VT-211S and Pacer Classic
+Kramer,Kramer Deluxe Die-Cast Tuners,false,14:1,sealed,Kramer deluxe die-cast sealed tuners with 14:1 ratio; used on Baretta Special and Pacer Vintage
+Floyd Rose,Floyd Rose R2 Locking Nut Tuners,false,,sealed,Standard die-cast mini tuners paired with Floyd Rose R2 locking nut; used on The 84 / Baretta / Pacer Deluxe
+Hipshot,Hipshot GripLock 6,true,18:1,locking,Hipshot GripLock locking tuners 6-string; used on Regius 6 / Duvell Elite 6 / Regius Core 6
+Hipshot,Hipshot GripLock 7,true,18:1,locking,Hipshot GripLock locking tuners 7-string; used on Regius 7 / Duvell Elite 7 / Regius Core 7
+Hipshot,Hipshot GripLock 8,true,18:1,locking,Hipshot GripLock locking tuners 8-string; used on Regius 8 / Regius Core Classic 8
+Gotoh,Gotoh 510 Locking 6,true,18:1,locking,Gotoh 510 locking tuners 6-string; used on Aquila Elite V24 6
+Schaller,Schaller M6 Mini 4+3,true,,locking,Schaller M6 Mini locking tuners 4+3 for 7-string; used on Setius GTM 7
+Schaller,Schaller Locking 6,true,,locking,Schaller locking tuners 6-string; used on Legend V22 6
+Schaller,Schaller M6 Mini 3+3,false,,sealed,Schaller M6 Mini tuners 3+3 for 6-string; used on Setius GTM 6
+Schecter,Schecter Locking Tuners 6,true,18:1,locking,Schecter-branded locking tuners for 6-string — standard on Diamond Series
+Schecter,Schecter Locking Tuners 7,true,18:1,locking,Schecter-branded locking tuners for 7-string
+Schecter,Schecter Locking Tuners 8,true,18:1,locking,Schecter-branded locking tuners for 8-string — Hellraiser C-8
+Hipshot,Hipshot Grip-Lock 6,true,18:1,locking,Hipshot Grip-Lock locking tuners 6-string — Aaron Marshall AM-6
+Hipshot,Hipshot Grip-Lock 7,true,18:1,locking,Hipshot Grip-Lock locking tuners 7-string — Aaron Marshall AM-7
+Wilkinson,Wilkinson EZ-LOK,true,19:1,locking,6-inline locking tuner with mechanical string-lock mechanism; drop-in upgrade for Fender-style headstocks with 10mm holes
+Wilkinson,Wilkinson EZ-POST,false,15:1,sealed,6-inline sealed tuner with dual 90-degree string holes for improved tuning stability without a locking nut; for Fender-style headstocks
+Wilkinson,Wilkinson WJ55,false,15:1,vintage,Deluxe Kluson-style vintage open-gear tuner with split posts and oval buttons; 6-inline for Fender Stratocaster and Telecaster
+Wilkinson,Wilkinson WJ44,false,15:1,vintage,Deluxe Kluson-style vintage open-gear tuner with tulip buttons; 3+3 for Les Paul SG and ES-style guitars with 3-a-side headstocks
+Wilkinson,Wilkinson WJ07,true,15:1,locking,6-inline EZ-LOK locking tuner for Fender-style headstocks; dual post hole system locks string without mechanical clamp
+Wilkinson,Wilkinson WJ309,false,,open_gear,Art Deco style 3+3 open-gear tuner with sealed gear mechanism and ornate housing; for Gibson-style headstocks
+Wilkinson,Wilkinson WJ303,true,19:1,locking,3+3 EZ-LOK locking tuner with sealed housing for Les Paul SG and ES-style headstocks; 19:1 ratio for fine tuning accuracy

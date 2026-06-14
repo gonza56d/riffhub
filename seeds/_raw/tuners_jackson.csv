@@ -1,0 +1,6 @@
+brand,name,is_locking,ratio,tuner_type,description
+Jackson,Jackson Sealed Die-Cast,false,,sealed,Jackson branded sealed die-cast tuning machines; standard tuners used across Pro Series and JS Series models
+Jackson,Jackson Sealed Die-Cast Locking,true,,sealed,Jackson branded sealed die-cast locking tuners; used on Juggernaut HT6 and HT7 models
+Gotoh,Gotoh MG-T Locking,true,,locking,Gotoh MG-T locking tuners; used on Jackson American Series Rhoads RR24 and Soloist SL3
+Gotoh,Gotoh Sealed Die-Cast,false,,sealed,Gotoh sealed die-cast tuners; used on MJ Series Soloist SL2 (Japan-made)
+Gotoh,Gotoh Locking,true,,locking,Gotoh locking tuners; used on DK Modern HT6 MS and DK Modern Ash HT6

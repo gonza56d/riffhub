@@ -1,0 +1,8 @@
+brand,name,is_locking,ratio,tuner_type,description
+Hipshot,Hipshot GripLock 6,true,18:1,locking,Hipshot GripLock locking tuners 6-string; used on Regius 6 / Duvell Elite 6 / Regius Core 6
+Hipshot,Hipshot GripLock 7,true,18:1,locking,Hipshot GripLock locking tuners 7-string; used on Regius 7 / Duvell Elite 7 / Regius Core 7
+Hipshot,Hipshot GripLock 8,true,18:1,locking,Hipshot GripLock locking tuners 8-string; used on Regius 8 / Regius Core Classic 8
+Gotoh,Gotoh 510 Locking 6,true,18:1,locking,Gotoh 510 locking tuners 6-string; used on Aquila Elite V24 6
+Schaller,Schaller M6 Mini 4+3,true,,locking,Schaller M6 Mini locking tuners 4+3 for 7-string; used on Setius GTM 7
+Schaller,Schaller Locking 6,true,,locking,Schaller locking tuners 6-string; used on Legend V22 6
+Schaller,Schaller M6 Mini 3+3,false,,sealed,Schaller M6 Mini tuners 3+3 for 6-string; used on Setius GTM 6

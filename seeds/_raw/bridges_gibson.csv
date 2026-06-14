@@ -1,0 +1,6 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Gibson,Gibson ABR-1 Tune-o-matic,Tune-o-matic & Stopbar,false,false,Classic ABR-1 Tune-O-Matic bridge with aluminum stop bar tailpiece; used on Les Paul Standard 50s/60s and ES series
+Gibson,Gibson Nashville Tune-o-matic,Tune-o-matic & Stopbar,false,false,Nashville-style Tune-O-Matic bridge with aluminum stop bar; used on Les Paul Custom and SG Standard
+Gibson,Gibson Wraparound Bridge,Wraparound,false,false,Lightweight aluminum wraparound bridge/tailpiece used on Les Paul Junior/Special and SG Junior/Special
+Epiphone,Epiphone LockTone Tune-o-matic,Tune-o-matic & Stopbar,false,false,Epiphone LockTone locking Tune-O-Matic with stop bar tailpiece; used on Epiphone Les Paul Standard and SG Standard
+Epiphone,Epiphone LockTone Tune-o-matic Trapeze,Tune-o-matic & Stopbar,false,false,Epiphone LockTone Tune-O-Matic with diamond trapeze tailpiece; used on Epiphone Casino

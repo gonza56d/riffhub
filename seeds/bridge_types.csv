@@ -1,0 +1,13 @@
+name,is_tremolo,is_locking
+Hardtail (fixed),false,false
+String-through hardtail,false,false
+Tune-o-matic & Stopbar,false,false
+Wraparound,false,false
+Vintage synchronized tremolo,true,false
+2-point synchronized tremolo,true,false
+Locking tremolo (Floyd Rose),true,true
+Locking tremolo (non-Floyd),true,true
+Bigsby vibrato,true,false
+Kahler tremolo,true,false
+Evertune (fixed),false,false
+Multiscale fixed,false,false

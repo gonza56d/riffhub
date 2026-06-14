@@ -1,0 +1,10 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Hipshot,Hipshot Hardtail String-Thru,String-through hardtail,false,false,Hipshot .125 hardtail bridge with string-through-body design — used on Hellraiser C-8 and Reaper
+Hipshot,Hipshot Ibby HM,Hardtail (fixed),false,false,Hipshot Ibby HM top-loading hardtail machined from billet brass — used on Banshee Mach and KM series
+Hipshot,Hipshot Fixed Bridge 7-String,String-through hardtail,false,false,Hipshot 7-string fixed bridge with string-through-body — Aaron Marshall AM-7
+Schecter,Schecter Custom Hardtail String-Thru,String-through hardtail,false,false,Schecter Custom branded hardtail with string-through-body design
+Generic,TonePros T3BT TOM,Tune-o-matic & Stopbar,false,false,TonePros T3BT locking Tune-o-matic with T1Z locking tailpiece — used on Hellraiser C-1/C-7 and V-1/E-1
+Floyd Rose,Floyd Rose 1500 Series,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1500 Series double-locking tremolo — Schecter factory fitment
+Floyd Rose,Floyd Rose Special Hot Rod,Locking tremolo (Floyd Rose),false,true,Floyd Rose Special Hot Rod double-locking tremolo — Schecter exclusive version
+Schecter,Schecter Diamond Vintage Tremolo,2-point synchronized tremolo,false,false,Schecter Diamond 2-point synchronized tremolo based on Gotoh 510 design — Nick Johnston signature
+Gotoh,Gotoh Vintage 2-Point Tremolo,2-point synchronized tremolo,false,false,Gotoh 510-series 2-point synchronized tremolo — Aaron Marshall AM-6

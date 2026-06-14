@@ -7,7 +7,7 @@
 <article class="post">
   <h1>{{ post.title }}</h1>
   <div class="post-meta">
-    by <a href="{% url 'profile' post.author.username %}">{{ post.author }}</a> · {{ post.created_at|date:"M j, Y, g:i a" }}
+    by {% include "accounts/_userlink.html" with u=post.author label=post.author %} · {{ post.created_at|date:"M j, Y, g:i a" }}
     {% if is_market %} · <span class="price">{{ post.price }} {{ post.currency }}</span>{% endif %}
   </div>
   <div class="post-body">{{ post.body|linebreaks }}</div>

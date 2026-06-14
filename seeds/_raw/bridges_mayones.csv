@@ -1,0 +1,11 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Hipshot,Hipshot Fixed 6,String-through hardtail,false,false,Hipshot 6-string fixed hardtail bridge; used on Regius 6 / Duvell Elite 6 / Duvell BL 6
+Hipshot,Hipshot Fixed 7,String-through hardtail,false,false,Hipshot 7-string fixed hardtail bridge; used on Regius 7 / Duvell Elite 7 / Duvell BL 7
+Hipshot,Hipshot Fixed 8,String-through hardtail,false,false,Hipshot 8-string fixed hardtail bridge; used on Regius 8 / Regius Core Classic 8
+Gotoh,Gotoh 510 6-String Fixed,String-through hardtail,false,false,Gotoh 510 hardtail 6-string bridge; used on Regius Core V24 6
+ABM,ABM Single Saddle 6,Multiscale fixed,false,false,ABM individual saddle 6-string headless bridge; used on Hydra Elite 6
+ABM,ABM Single Saddle 7,Multiscale fixed,false,false,ABM individual saddle 7-string headless bridge; used on Hydra Elite 7 non-multiscale
+ABM,ABM Single Saddle VF 7,Multiscale fixed,false,false,ABM individual saddle 7-string multiscale headless bridge; used on Hydra Elite VF 7
+ABM,ABM Single Saddle VF 6,Multiscale fixed,false,false,ABM individual saddle 6-string multiscale headless bridge; used on Hydra Elite VF 6
+Gotoh,Gotoh 510 Tremolo,2-point synchronized tremolo,false,false,Gotoh 510 2-point tremolo; used on Aquila Elite V24 6 HSS / S variants
+Mayones,Mayones TOM String-Thru,Tune-o-matic & Stopbar,false,false,Recessed tune-o-matic with strings-through-body; used on Setius GTM 6 and GTM 7

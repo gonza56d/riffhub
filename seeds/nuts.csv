@@ -1,0 +1,48 @@
+brand,name,material,is_locking,description
+Generic,Bone Nut 42mm,Bone,false,42mm bone nut used on E-II models
+Generic,Bone Nut 48mm,Bone,false,48mm bone nut used on 7-string E-II models
+Generic,Locking Nut 42mm,Locking,true,42mm Floyd Rose-style locking nut
+Generic,Locking Nut 43mm,Locking,true,43mm Floyd Rose-style locking nut
+Generic,Locking Nut 48mm,Locking,true,48mm locking nut for 7-string models
+Generic,Graphite Nut 48mm,Graphite,false,48mm graphite nut used on E-II Horizon NT-7 EverTune
+Generic,Molded Nut 42mm,Plastic,false,42mm molded plastic nut used on LTD production models
+Generic,Molded Nut 43mm,Plastic,false,43mm molded plastic nut used on LTD M-series
+Generic,Molded Nut 48mm,Plastic,false,48mm molded plastic nut for 7-string LTD models
+Generic,Molded Nut 54mm,Plastic,false,54mm molded plastic nut for 8-string LTD models
+Fender,Fender Bone Nut,Bone,false,Bone string nut; used on American Professional II and American Vintage II series
+Fender,Fender Synthetic Bone Nut,Synthetic Bone,false,Synthetic bone string nut; used on Player II and Performer series
+Fender,Fender TUSQ Nut,TUSQ,false,Graph Tech TUSQ nut; used on American Ultra II series
+Floyd Rose,R2 Locking Nut,Locking,true,Original-style hardened steel locking nut; 41.3mm overall width for necks with a 1-5/8 inch nut slot
+Floyd Rose,R3 Locking Nut,Locking,true,Hardened steel locking nut; 42.85mm overall width with reduced string spacing matching the R2 for necks with a 1-11/16 inch nut slot
+Floyd Rose,R4 Locking Nut,Locking,true,Hardened steel locking nut; 43mm overall width with standard wider string spacing for necks with a 1-11/16 inch nut slot
+Floyd Rose,1000 Series Locking Nut,Locking,true,Hardened steel locking nut for Korean-made 1000 Series and Special tremolo systems; same dimensions as the Original nut
+Floyd Rose,FRX Top-Mount Locking Nut,Locking,true,Locking nut designed for the FRX surface-mount system; mounts above the existing nut in place of the truss rod cover using two wood screws
+Floyd Rose,8-String Locking Nut,Locking,true,Hardened steel locking nut for the Floyd Rose 8-String Tremolo System; 18 inch radius to match extended-range neck profiles
+Graph Tech,Gibson Graph Tech Nut,TUSQ,false,Graph Tech TUSQ synthetic nut; used on Les Paul Standard 50s/60s and Studio
+Graph Tech,Gibson Graph Tech Nut Wide,TUSQ,false,Graph Tech TUSQ nut (42.85 mm) used on Les Paul Custom
+Graph Tech,SG Graph Tech Nut,TUSQ,false,Graph Tech TUSQ nut used on SG Modern and ES-339
+Gibson,Gibson Corian Nut,Corian,false,Corian composite nut used on Les Paul Custom 70s and some USA Gibson models
+Graph Tech,Epiphone Graph Tech Nut,TUSQ,false,Graph Tech TUSQ nut used on Epiphone SG Standard
+Graph Tech,Epiphone Casino Graph Tech Nut,TUSQ,false,Graph Tech TUSQ nut (1.68 in / 42.7 mm) used on Epiphone Casino
+Ibanez,Ibanez Locking Nut,Locking,true,43 mm Ibanez locking nut (made by Gotoh) for Edge and Lo-Pro Edge tremolos
+Graph Tech,Graph Tech TUSQ Nut,TUSQ,false,Graph Tech TUSQ synthetic nut used on AZ series guitars
+Ibanez,Ibanez Plastic Nut,Plastic,false,Standard plastic nut used on entry-level and mid-range models
+Ibanez,Oil-Impregnated Bone Nut,Bone,false,Self-lubricating bone nut used on AZ Prestige models
+Floyd Rose,FR Original Locking Nut,Locking,true,Floyd Rose Original locking nut; used with FR Original tremolo on USA Select models
+Floyd Rose,FR 1000 Series Locking Nut,Locking,true,Floyd Rose 1000 Series locking nut; used with FR 1000 tremolo on Pro Series models
+Floyd Rose,FR 1500 Series Locking Nut,Locking,true,Floyd Rose 1500 Series locking nut; used with FR 1500 tremolo on American Series models
+Floyd Rose,FR Special Locking Nut,Locking,true,Floyd Rose Special locking nut; used with FR Special tremolo on X Series and Pro Plus Soloist SL2
+Floyd Rose,FR R3 Locking Nut,Locking,true,Floyd Rose R3 locking nut (1.6875 in width); used on Pro Series DK2 and MJ Series Soloist SL2
+Floyd Rose,FR Locking Nut,Locking,true,Floyd Rose locking nut; generic designation used on Chris Broderick Soloist 6 and 7
+Floyd Rose,FR Licensed Jackson Locking Nut,Locking,true,Jackson-branded Floyd Rose licensed locking nut; used on JS Series Warrior and Rhoads
+Graph Tech,TUSQ XL Nut,Black TUSQ XL,false,Graph Tech TUSQ XL self-lubricating nut; used on DK Modern HT6 MS and American Series SL2MG HT
+Floyd Rose,Floyd Rose R2 Locking Nut,Locking,true,Floyd Rose R2 double-locking nut; pairs with Floyd Rose 1000 Series tremolo; used across Kramer Floyd Rose models
+Kramer,Kramer Plastic Nut,Plastic,false,Standard plastic nut; used on Baretta Special / Focus VT-211S / Pacer Classic
+Graph Tech,Graph Tech Black TUSQ 6,Black TUSQ XL,false,Graph Tech Black TUSQ XL self-lubricating nut 6-string (43 mm); used on Regius Core 6 / Duvell Elite 6 / Aquila
+Graph Tech,Graph Tech Black TUSQ 7,Black TUSQ XL,false,Graph Tech Black TUSQ XL self-lubricating nut 7-string (48.5 mm); used on Regius 7 / Duvell BL 7 / Hydra Elite 7
+Graph Tech,Graph Tech Black TUSQ 8,Black TUSQ XL,false,Graph Tech Black TUSQ XL self-lubricating nut 8-string; used on Regius 8 / Regius Core Classic 8
+Graph Tech,Black TUSQ XL Nut,Black TUSQ XL,false,Graph Tech Black TUSQ XL self-lubricating nut — standard Schecter fitment
+Graph Tech,Ivory TUSQ Nut,TUSQ,false,Graph Tech Ivory TUSQ man-made bone nut
+Schecter,Schecter Graphite Nut,Graphite,false,Schecter-branded graphite nut — Solo-II Standard
+Floyd Rose,Floyd Rose 1500 Locking Nut,Locking,true,Floyd Rose 1500 Series locking nut paired with FR1500 tremolo
+Strandberg,Strandberg EGS Headless Nut,Locking,true,Integrated headless locking nut/string-lock block; part of the EGS Rev7 system on all Boden NX and Salen NX headless models

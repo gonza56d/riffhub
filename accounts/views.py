@@ -10,12 +10,19 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
 from django.core.mail import send_mail
+from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
 from accounts.forms import SignUpForm
-from accounts.models import EmailConfirmation
+from accounts.models import (
+    THEME_COOKIE_MAX_AGE,
+    THEME_COOKIE_NAME,
+    EmailConfirmation,
+    Theme,
+)
 from catalog.models import GuitarModel
 from forum.models import Comment, Post
 from moderation.models import Silence
@@ -87,13 +94,59 @@ def resend_confirmation(request):
             messages.info(request, f"Confirmation re-sent. Dev link: {link}")
         else:
             messages.success(request, "Confirmation e-mail re-sent.")
-    return redirect(request.META.get("HTTP_REFERER") or "forum:index")
+    referer = request.META.get("HTTP_REFERER")
+    if referer and url_has_allowed_host_and_scheme(
+        referer, allowed_hosts={request.get_host()}
+    ):
+        return redirect(referer)
+    return redirect("forum:index")
+
+
+@require_POST
+def set_theme(request):
+    """Persist the visitor's light/dark theme choice.
+
+    Logged-in users get it saved on their account (so it follows them across
+    devices); everyone also gets a long-lived cookie, so anonymous visitors and
+    just-logged-out users keep their choice. The frontend toggle posts here via
+    ``fetch`` and flips ``<html data-theme>`` itself, so the normal response is
+    an empty ``204``; a ``next`` field (used by a no-JS fallback form) makes it
+    redirect back instead.
+    """
+    theme = request.POST.get("theme", "")
+    if theme not in Theme.values:
+        return HttpResponseBadRequest("Unknown theme.")
+
+    user = request.user
+    if user.is_authenticated and user.theme != theme:
+        user.theme = theme
+        user.save(update_fields=["theme"])
+
+    next_url = request.POST.get("next", "")
+    if next_url and url_has_allowed_host_and_scheme(
+        next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+    ):
+        response = redirect(next_url)
+    else:
+        response = HttpResponse(status=204)
+    response.set_cookie(
+        THEME_COOKIE_NAME,
+        theme,
+        max_age=THEME_COOKIE_MAX_AGE,
+        samesite="Lax",
+    )
+    return response
 
 
 def profile(request, username):
     """Public profile: standing (level, reputation, role badges), the public
     silence flag (if any), and recent DB contributions + forum activity."""
     profile_user = get_object_or_404(get_user_model(), username=username)
+    # Banned users are never deleted, but their profile is inaccessible to
+    # everyone (no moderator exception) — their name still shows on their
+    # content, just without a link back here.
+    if profile_user.is_banned:
+        raise Http404("This profile is unavailable.")
     posts = (
         Post.objects.filter(author=profile_user, is_removed=False)
         .select_related("subtopic__topic")

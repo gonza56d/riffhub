@@ -1,0 +1,10 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Gotoh,Gotoh TOM & Tailpiece,Tune-o-matic & Stopbar,false,false,Gotoh tune-o-matic bridge with separate stop tailpiece
+TonePros,TonePros Locking TOM & Tailpiece,Tune-o-matic & Stopbar,false,false,TonePros locking tune-o-matic bridge with locking posts and stop tailpiece
+Floyd Rose,Floyd Rose Original,Locking tremolo (Floyd Rose),false,true,Original Floyd Rose double-locking tremolo system
+Floyd Rose,Floyd Rose 1000,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1000 series double-locking tremolo; mid-range
+Floyd Rose,Floyd Rose 1000SE,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1000SE special edition double-locking tremolo
+Evertune,Evertune F Model,Evertune (fixed),false,false,Evertune constant-tension fixed bridge (F model)
+Hipshot,Hipshot Fixed String-Thru,String-through hardtail,false,false,Hipshot hardtail bridge with string-through body design
+TonePros,TonePros Locking TOM String-Thru,String-through hardtail,false,false,TonePros recessed locking TOM with string-through body
+Generic,TOM & Tailpiece,Tune-o-matic & Stopbar,false,false,Generic tune-o-matic bridge with stop tailpiece

@@ -1,0 +1,109 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Gotoh,Gotoh TOM & Tailpiece,Tune-o-matic & Stopbar,false,false,Gotoh tune-o-matic bridge with separate stop tailpiece
+TonePros,TonePros Locking TOM & Tailpiece,Tune-o-matic & Stopbar,false,false,TonePros locking tune-o-matic bridge with locking posts and stop tailpiece
+Floyd Rose,Floyd Rose Original,Locking tremolo (Floyd Rose),false,true,Original Floyd Rose double-locking tremolo system
+Floyd Rose,Floyd Rose 1000,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1000 series double-locking tremolo; mid-range
+Floyd Rose,Floyd Rose 1000SE,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1000SE special edition double-locking tremolo
+Evertune,Evertune F Model,Evertune (fixed),false,false,Evertune constant-tension fixed bridge (F model)
+Hipshot,Hipshot Fixed String-Thru,String-through hardtail,false,false,Hipshot hardtail bridge with string-through body design
+TonePros,TonePros Locking TOM String-Thru,String-through hardtail,false,false,TonePros recessed locking TOM with string-through body
+Generic,TOM & Tailpiece,Tune-o-matic & Stopbar,false,false,Generic tune-o-matic bridge with stop tailpiece
+Fender,Fender 2-Point Synchronized Tremolo,2-point synchronized tremolo,false,false,Standard 2-point pivot tremolo used on Player and Player Plus series; block saddles
+Fender,Fender 2-Point Synchronized Tremolo Cold-Roll Steel,2-point synchronized tremolo,false,false,American Professional II 2-point tremolo with cold-rolled steel block for enhanced sustain
+Fender,Fender 2-Point Ultra Synchronized Tremolo,2-point synchronized tremolo,false,false,American Ultra II 2-point tremolo with cold-rolled steel block; works with S-1 switching
+Fender,Fender Vintage Synchronized Tremolo 6-Screw,Vintage synchronized tremolo,false,false,6-screw vintage-style synchronized tremolo; bent steel saddles; used on Vintera and AV II series
+Fender,Fender Vintage Synchronized Tremolo Chrome Cover,Vintage synchronized tremolo,false,false,Pure Vintage-style 6-screw synchronized tremolo with chrome bridge cover; cold-rolled steel block
+Fender,Fender 3-Saddle Tele Vintage Bridge,String-through hardtail,false,false,3-saddle vintage-style Telecaster string-through bridge with brass barrel saddles
+Fender,Fender 3-Saddle Tele Compensated Bridge,String-through hardtail,false,false,American Performer 3-saddle Tele string-through bridge with vintage barrel saddles
+Fender,Fender 3-Saddle AP II Tele Bridge,String-through hardtail,false,false,American Professional II Tele top-load/string-through bridge with compensated brass bullet saddles
+Fender,Fender 6-Saddle Tele String-Through,String-through hardtail,false,false,Modern 6-saddle string-through Telecaster bridge with block steel saddles
+Fender,Fender Pure Vintage 3-Saddle Tele Bridge,String-through hardtail,false,false,Pure Vintage serialized 3-saddle Telecaster bridge with brass barrel saddles; American Vintage II 1951
+Fender,Fender 6-Saddle String-Through Tele Hardtail,String-through hardtail,false,false,6-saddle string-through hardtail Tele bridge for American Vintage II 1972 Thinline
+Floyd Rose,Original Tremolo,Locking tremolo (Floyd Rose),false,true,The original double-locking tremolo; hardened steel base plate and CNC-machined steel saddles with a 37mm nickel-plated brass sustain block
+Floyd Rose,1000 Series Tremolo,Locking tremolo (Floyd Rose),false,true,Korean-made Original-spec tremolo with hardened steel saddles and 37mm nickel-plated brass block; sold direct-to-consumer
+Floyd Rose,Special Tremolo,Locking tremolo (Floyd Rose),false,true,Budget double-locking tremolo matching the Original design but using zinc alloy saddles and a zinc alloy sustain block
+Floyd Rose,1500 Series Tremolo,Locking tremolo (Floyd Rose),false,true,Enhanced 1000 Series with stainless steel screws and push-in tremolo arm; available to guitar manufacturers only
+Floyd Rose,Pro Tremolo,Locking tremolo (Floyd Rose),false,true,Low-profile double-locking tremolo with narrower .400 inch string spacing; requires a dedicated cavity route
+Floyd Rose,FRX Tremolo,Locking tremolo (Floyd Rose),false,true,Surface-mount double-locking tremolo for Tune-o-matic guitars; swaps the existing bridge and stopbar with no body routing required
+Floyd Rose,Rail Tail Bridge,Hardtail (fixed),false,false,Full-contact hardtail bridge that retrofits a Strat-style 6-point tremolo route; available in narrow (2-1/16 inch) and wide (2-7/32 inch) variants
+Floyd Rose,Original Hot Rod Tremolo,Locking tremolo (Floyd Rose),false,true,Original-dimension double-locking tremolo upgraded with a fat brass sustain block and stainless steel screws for enhanced sustain
+Floyd Rose,7-String Original Tremolo,Locking tremolo (Floyd Rose),false,true,Original-spec double-locking tremolo scaled for seven strings; hardened steel construction with 37mm nickel-plated brass block
+Floyd Rose,8-String Tremolo,Locking tremolo (Floyd Rose),false,true,Double-locking tremolo for eight-string guitars; 53.8mm nut width and 112.75mm bridge width to cover the extended string spread
+Floyd Rose,Titanium Tremolo,Locking tremolo (Floyd Rose),false,true,Full-titanium double-locking tremolo developed with TiSonix; tested to 12000+ cycles with no measurable knife-edge wear
+Floyd Rose,FRX Titanium Tremolo,Locking tremolo (Floyd Rose),false,true,Limited-edition US-made all-titanium surface-mount FRX tremolo; individually numbered for traceability
+Gibson,Gibson ABR-1 Tune-o-matic,Tune-o-matic & Stopbar,false,false,Classic ABR-1 Tune-O-Matic bridge with aluminum stop bar tailpiece; used on Les Paul Standard 50s/60s and ES series
+Gibson,Gibson Nashville Tune-o-matic,Tune-o-matic & Stopbar,false,false,Nashville-style Tune-O-Matic bridge with aluminum stop bar; used on Les Paul Custom and SG Standard
+Gibson,Gibson Wraparound Bridge,Wraparound,false,false,Lightweight aluminum wraparound bridge/tailpiece used on Les Paul Junior/Special and SG Junior/Special
+Epiphone,Epiphone LockTone Tune-o-matic,Tune-o-matic & Stopbar,false,false,Epiphone LockTone locking Tune-O-Matic with stop bar tailpiece; used on Epiphone Les Paul Standard and SG Standard
+Epiphone,Epiphone LockTone Tune-o-matic Trapeze,Tune-o-matic & Stopbar,false,false,Epiphone LockTone Tune-O-Matic with diamond trapeze tailpiece; used on Epiphone Casino
+Gotoh,Gotoh 510TS-FE1,2-point synchronized tremolo,false,false,2-point fulcrum synchronized tremolo with steel block and steel saddles; Stud Lock patent for pivot stability; 10.8mm string spacing
+Gotoh,Gotoh 510T-FE2,Vintage synchronized tremolo,false,false,6-point vintage-style tremolo with FST mechanism preventing string contact with plate; steel saddles; improved return-to-pitch
+Gotoh,Gotoh GE1996T,Locking tremolo (Floyd Rose),false,true,Floyd Rose licensed double-locking tremolo with hardened steel plate and saddles; patented stud lock; available in 33/36/40mm block heights
+Gotoh,Gotoh GE1996T-7,Locking tremolo (Floyd Rose),false,true,Floyd Rose licensed double-locking tremolo for 7-string guitar; steel saddles; 430mm saddle radius; 33/36/40mm block height options
+Gotoh,Gotoh 510UB,Wraparound,false,false,Adjustable wraparound bridge-tailpiece combo with individually intonatable saddles; Stud Lock patent; 52.5mm string spacing
+Gotoh,Gotoh GTC101,String-through hardtail,false,false,Hardtail S-style string-through bridge with plated brass saddles; 52.5mm string spacing; ideal replacement for non-tremolo Strat-style guitars
+Gotoh,Gotoh GTC102,String-through hardtail,false,false,Hardtail ST-style string-through bridge with steel saddles; 52.5mm string spacing; 5-screw mounting for maximum sustain
+Gotoh,Gotoh NS510TS-FE1,2-point synchronized tremolo,false,false,Narrow-spacing 2-point synchronized tremolo with steel block and steel saddles; 10.5mm string spacing for 7-string and narrow-neck guitars
+Gotoh,Gotoh GE103B-T,Tune-o-matic & Stopbar,false,false,Nashville-style Tune-o-matic with large metric posts and pre-notched hard zinc saddles; 12-inch saddle radius; drop-in replacement for Gibson Nashville
+Gotoh,Gotoh GE104B,Tune-o-matic & Stopbar,false,false,ABR-1 style Tune-o-matic with threaded M4 posts; hard zinc saddles; rattle-free design without retainer wire; 400mm saddle radius
+Ibanez,Edge Tremolo,Locking tremolo (non-Floyd),false,true,Original Ibanez double-locking tremolo introduced 1987; used on Prestige and premium RG/S models
+Ibanez,Lo-Pro Edge,Locking tremolo (non-Floyd),false,true,Lower-profile variant of the Edge tremolo designed by Gotoh; introduced 1991
+Ibanez,Edge Zero II,Locking tremolo (non-Floyd),false,true,Ibanez double-locking tremolo with ZPS3Fe tuning stabilizer; used on S and RG Prestige models
+Ibanez,Lo-Pro Edge 7,Locking tremolo (non-Floyd),false,true,7-string version of the Lo-Pro Edge locking tremolo
+Ibanez,Gibraltar Standard II,Hardtail (fixed),false,false,Fixed hardtail bridge used on Prestige RG models; high-mass steel construction
+Ibanez,Gibraltar Standard II-7,Hardtail (fixed),false,false,7-string version of the Gibraltar Standard II fixed bridge
+Ibanez,Mono-rail,Hardtail (fixed),false,false,Individual saddle fixed bridge used on S and RG models; one saddle per string
+Ibanez,Mono-rail 7,Hardtail (fixed),false,false,7-string version of the Mono-rail individual saddle fixed bridge
+Ibanez,Mono-rail 8,Multiscale fixed,false,false,8-string version of the Mono-rail fixed bridge; used on multiscale Axion Label models
+Ibanez,F106,Hardtail (fixed),false,false,Economy fixed bridge used on RGA Standard and AZES models
+Ibanez,T102,Vintage synchronized tremolo,false,false,2-point synchronized tremolo used on SA Standard series
+Ibanez,ART-1,Tune-o-matic & Stopbar,false,false,Tune-o-matic style bridge with stopbar tailpiece used on Artcore AS series
+Gotoh,T1802,2-point synchronized tremolo,false,false,Gotoh 2-point tremolo with titanium saddles; used on AZ Prestige models
+Gotoh,T1502,2-point synchronized tremolo,false,false,Gotoh 2-point tremolo used on AZ Premium models
+Gotoh,T1872S,Hardtail (fixed),false,false,Gotoh 7-string fixed bridge with steel saddles; used on AZ47P1QM Premium 7-string
+Floyd Rose,FR Original Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose Original double-locking tremolo; top-tier Floyd Rose used on Jackson USA Select KV2
+Floyd Rose,FR 1000 Series Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1000 Series double-locking tremolo; mid-level Floyd Rose used on Jackson Pro Series Soloist and King V
+Floyd Rose,FR 1500 Series Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1500 Series double-locking tremolo; used on Jackson American Series Rhoads RR24 and Soloist SL3
+Floyd Rose,FR Special Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose Special double-locking tremolo; used on Jackson X Series SLX DX and Chris Broderick Soloist 6
+Floyd Rose,FR Special 7-String Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose Special 7-string double-locking tremolo; used on Jackson Pro Series Chris Broderick Soloist 7
+Floyd Rose,FR Licensed Jackson Double-Locking Tremolo,Locking tremolo (Floyd Rose),false,true,Jackson-branded Floyd Rose licensed double-locking tremolo; used on JS Series Kelly JS32 and Warrior JS32
+Gotoh,GE1996T Double-Locking Tremolo,Locking tremolo (non-Floyd),false,true,Gotoh GE1996T Series double-locking tremolo; used on MJ Series Soloist SL2
+Gotoh,GE1996T-7 Double-Locking Tremolo,Locking tremolo (non-Floyd),false,true,Gotoh GE1996T-7 Series 7-string double-locking tremolo; used on Pro Plus Chris Broderick Soloist 7
+Hipshot,Hipshot 6 Fixed Bridge,Hardtail (fixed),false,false,Hipshot 6-string fixed hardtail bridge; used on Jackson American Series Soloist SL2MG HT and DK Modern Ash HT6
+Jackson,HT6 String-Through Hardtail,String-through hardtail,false,false,Jackson HT6 string-through-body hardtail bridge; used on Juggernaut HT6
+Jackson,HT7 String-Through Hardtail,String-through hardtail,false,false,Jackson HT7 string-through-body hardtail bridge; used on Juggernaut HT7 and HT7P
+Floyd Rose,Floyd Rose 1000 Series Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1000 Series double-locking tremolo; genuine Floyd Rose used on Baretta / Pacer Vintage / SM-1 / SM-1 H / Nightswan / The 84
+Floyd Rose,Floyd Rose Licensed Tremolo,Locking tremolo (non-Floyd),false,true,Licensed Floyd Rose-style double-locking tremolo; used on Pacer Classic / Striker / Assault 220
+Kramer,Kramer Traditional Tremolo,Vintage synchronized tremolo,false,false,Kramer 6-screw vintage-style synchronized tremolo; used on Baretta Special and Focus VT-211S
+Kramer,Kramer LockTone Tune-O-Matic,Tune-o-matic & Stopbar,false,false,LockTone Tune-O-Matic bridge with locking posts plus Stop Bar tailpiece; used on Charlie Parra Vanguard
+Hipshot,Hipshot Fixed 6,String-through hardtail,false,false,Hipshot 6-string fixed hardtail bridge; used on Regius 6 / Duvell Elite 6 / Duvell BL 6
+Hipshot,Hipshot Fixed 7,String-through hardtail,false,false,Hipshot 7-string fixed hardtail bridge; used on Regius 7 / Duvell Elite 7 / Duvell BL 7
+Hipshot,Hipshot Fixed 8,String-through hardtail,false,false,Hipshot 8-string fixed hardtail bridge; used on Regius 8 / Regius Core Classic 8
+Gotoh,Gotoh 510 6-String Fixed,String-through hardtail,false,false,Gotoh 510 hardtail 6-string bridge; used on Regius Core V24 6
+ABM,ABM Single Saddle 6,Multiscale fixed,false,false,ABM individual saddle 6-string headless bridge; used on Hydra Elite 6
+ABM,ABM Single Saddle 7,Multiscale fixed,false,false,ABM individual saddle 7-string headless bridge; used on Hydra Elite 7 non-multiscale
+ABM,ABM Single Saddle VF 7,Multiscale fixed,false,false,ABM individual saddle 7-string multiscale headless bridge; used on Hydra Elite VF 7
+ABM,ABM Single Saddle VF 6,Multiscale fixed,false,false,ABM individual saddle 6-string multiscale headless bridge; used on Hydra Elite VF 6
+Gotoh,Gotoh 510 Tremolo,2-point synchronized tremolo,false,false,Gotoh 510 2-point tremolo; used on Aquila Elite V24 6 HSS / S variants
+Mayones,Mayones TOM String-Thru,Tune-o-matic & Stopbar,false,false,Recessed tune-o-matic with strings-through-body; used on Setius GTM 6 and GTM 7
+Hipshot,Hipshot Hardtail String-Thru,String-through hardtail,false,false,Hipshot .125 hardtail bridge with string-through-body design — used on Hellraiser C-8 and Reaper
+Hipshot,Hipshot Ibby HM,Hardtail (fixed),false,false,Hipshot Ibby HM top-loading hardtail machined from billet brass — used on Banshee Mach and KM series
+Hipshot,Hipshot Fixed Bridge 7-String,String-through hardtail,false,false,Hipshot 7-string fixed bridge with string-through-body — Aaron Marshall AM-7
+Schecter,Schecter Custom Hardtail String-Thru,String-through hardtail,false,false,Schecter Custom branded hardtail with string-through-body design
+Generic,TonePros T3BT TOM,Tune-o-matic & Stopbar,false,false,TonePros T3BT locking Tune-o-matic with T1Z locking tailpiece — used on Hellraiser C-1/C-7 and V-1/E-1
+Floyd Rose,Floyd Rose 1500 Series,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1500 Series double-locking tremolo — Schecter factory fitment
+Floyd Rose,Floyd Rose Special Hot Rod,Locking tremolo (Floyd Rose),false,true,Floyd Rose Special Hot Rod double-locking tremolo — Schecter exclusive version
+Schecter,Schecter Diamond Vintage Tremolo,2-point synchronized tremolo,false,false,Schecter Diamond 2-point synchronized tremolo based on Gotoh 510 design — Nick Johnston signature
+Gotoh,Gotoh Vintage 2-Point Tremolo,2-point synchronized tremolo,false,false,Gotoh 510-series 2-point synchronized tremolo — Aaron Marshall AM-6
+Strandberg,Strandberg EGS Rev7 Fixed,Multiscale fixed,false,false,Strandberg EGS Rev 7 headless fixed bridge with integrated string locks; used on Boden Original/Standard/Metal/Fusion/Prog NX fixed-bridge models and Salen Jazz NX
+Strandberg,Strandberg EGS Rev7 Tremolo,Multiscale fixed,false,false,Strandberg EGS Pro Rev7 tremolo machined from aircraft-grade aluminum; used on Boden Fusion NX 6 and Prog NX tremolo models
+Wilkinson,Wilkinson VS50,2-point synchronized tremolo,false,false,Classic 2-point pivot knife-edge tremolo with precision machined hardened steel base plate and locked-down stainless steel saddles
+Wilkinson,Wilkinson VSVG,2-point synchronized tremolo,false,false,Vintage-feel 2-point tremolo with 5+1 knife edge system; stagger-drilled block and spring steel bent saddles for classic vintage tone
+Wilkinson,Wilkinson VS100N,2-point synchronized tremolo,false,false,Original 1986 VS100N 2-pivot knife-edge vibrato with half-moon locating pivot for exceptional tuning stability
+Wilkinson,Wilkinson WVP,Vintage synchronized tremolo,false,false,Vintage 6-screw synchronized tremolo with barrel nickel-plated bent steel saddles and stagger-drilled block; balances vintage values and modern stability
+Wilkinson,Wilkinson WVPB,Vintage synchronized tremolo,false,false,Vintage 6-screw synchronized tremolo; brass saddle variant of the WVP offering classic vintage tone
+Wilkinson,Wilkinson WVS50IIK,2-point synchronized tremolo,false,false,Platinum series 2-point tremolo inspired by the VS100N; virtually friction-free knife-edge pivot with total control arm system
+Wilkinson,Wilkinson WT3,String-through hardtail,false,false,Pro series T-style 4-hole hardtail bridge with revolutionary compensated saddle design for precise intonation; preferred by boutique brands
+Wilkinson,Wilkinson WTB,String-through hardtail,false,false,Platinum series Telecaster ashtray hardtail bridge with three compensated brass saddles; supports top-load or string-through-body mounting
+Wilkinson,Wilkinson WTBS,String-through hardtail,false,false,Classic 3-saddle Telecaster hardtail bridge with compensated brass saddles; 54mm string spacing for rich vintage tone
+Wilkinson,Wilkinson GTB,Wraparound,false,false,Adjustable intonated wraparound bridge/tailpiece for Les Paul style guitars; individually adjustable compensated saddles including G and B

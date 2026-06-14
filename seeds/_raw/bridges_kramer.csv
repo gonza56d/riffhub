@@ -1,0 +1,5 @@
+brand,name,bridge_type,has_piezo,is_locking,description
+Floyd Rose,Floyd Rose 1000 Series Tremolo,Locking tremolo (Floyd Rose),false,true,Floyd Rose 1000 Series double-locking tremolo; genuine Floyd Rose used on Baretta / Pacer Vintage / SM-1 / SM-1 H / Nightswan / The 84
+Floyd Rose,Floyd Rose Licensed Tremolo,Locking tremolo (non-Floyd),false,true,Licensed Floyd Rose-style double-locking tremolo; used on Pacer Classic / Striker / Assault 220
+Kramer,Kramer Traditional Tremolo,Vintage synchronized tremolo,false,false,Kramer 6-screw vintage-style synchronized tremolo; used on Baretta Special and Focus VT-211S
+Kramer,Kramer LockTone Tune-O-Matic,Tune-o-matic & Stopbar,false,false,LockTone Tune-O-Matic bridge with locking posts plus Stop Bar tailpiece; used on Charlie Parra Vanguard

@@ -1,0 +1,32 @@
+brand,name,pickup_type,is_active,description
+Seymour Duncan,'59 Model SH-1,Humbucker,false,Vintage-output PAF-inspired humbucker with alnico 5; open detailed sound and sweet top end for rock and blues
+Seymour Duncan,Jazz Model SH-2,Humbucker,false,Classic moderate-output alnico 5 humbucker; bright clear tone with glassy treble and scooped mids ideal for neck position
+Seymour Duncan,JB Model SH-4,Humbucker,false,Iconic high-output humbucker; versatile from creamy cleans through classic rock crunch to searing metal lead tones
+Seymour Duncan,Duncan Custom SH-5,Humbucker,false,Medium-output ceramic humbucker with tight lows and upper-midrange bump; cuts through heavy distortion while retaining clean clarity
+Seymour Duncan,Duncan Distortion SH-6,Humbucker,false,High-output passive ceramic humbucker with rich upper-midrange harmonics; tight mean lows and searing top end for rock and metal
+Seymour Duncan,Invader SH-8,Humbucker,false,Ultra-high-output passive humbucker with three ceramic magnets and oversized pole pieces; thickest deepest low-end of any SD passive pickup
+Seymour Duncan,Full Shred SH-10,Humbucker,false,Bright medium-output alnico 5 humbucker with tight low end and scooped mids; highly articulate and clear for shred playing
+Seymour Duncan,Custom Custom SH-11,Humbucker,false,Medium-hot alnico 2 humbucker with full fat sound; warm lower-midrange growl and sweet singing highs for chords and leads
+Seymour Duncan,Dimebucker SH-13,Humbucker,false,Dimebag Darrell signature ceramic blade humbucker; crunchy pick attack with scooped mids and tight full low-end response
+Seymour Duncan,Alnico II Pro APH-1,Humbucker,false,Slash signature alnico 2 humbucker; warm sweet tone with smooth sustain and spongy lows for classic rock and blues
+Seymour Duncan,Pearly Gates,Humbucker,false,Billy Gibbons 1959 Les Paul inspired alnico 2 humbucker; unique Texas sizzle at the bridge with more midrange than typical PAFs
+Seymour Duncan,Saturday Night Special,Humbucker,false,Alnico 4 humbucker voiced for late-70s arena rock; balanced vintage tonality with vocal-like overdriven leads and full-bodied cleans
+Seymour Duncan,Whole Lotta Humbucker,Humbucker,false,Early-1970s London PAF rewind recipe; vintage-hot alnico 5 output with natural compression and sustain inspired by British rock
+Seymour Duncan,Sentient,Humbucker,false,Versatile vintage-output alnico 5 neck humbucker; articulate with wide harmonic range fitting between the 59 and Jazz for metal
+Seymour Duncan,Nazgul,Humbucker,false,High-output ceramic bridge humbucker for modern metal; insanely tight bass response with searing highs and grinding mids
+Seymour Duncan,Pegasus,Humbucker,false,Medium-output alnico 5 humbucker for progressive metal; warm balanced lush tone with prominent midrange and focused low end
+Seymour Duncan,Black Winter,Humbucker,false,Savagely high-output passive ceramic humbucker with three magnets; extreme clarity in mids and highs with controlled focused low end for extreme metal
+Seymour Duncan,Nazgul 7,Humbucker,false,7-string ceramic bridge humbucker for drop-tuned modern metal; voiced to bring out definition from B and F# strings with tight bass
+Seymour Duncan,Sentient 7,Humbucker,false,7-string alnico 5 neck humbucker; pristine cleans and fluid leads under high gain designed to pair with the Nazgul 7 bridge
+Seymour Duncan,Pegasus 7,Humbucker,false,7-string alnico 5 bridge humbucker; evenly accentuates every note across the fretboard for progressive metal chords and arpeggios
+Seymour Duncan,Blackouts AHB-1,Humbucker,true,Original active humbucker flagship; massive crunch with quiet operation chunky lows balanced mids and clear articulate top end
+Seymour Duncan,SSL-1 Vintage Staggered,Single-coil,false,Vintage-output Strat single-coil with alnico 5 hand-ground staggered poles; authentic 1950s chime bell tone and glassy sparkle
+Seymour Duncan,SSL-4 Quarter Pound,Single-coil,false,High-output Strat single-coil with quarter-inch alnico 5 rods; fat punchy midrange with top-end sparkle and more than twice standard output
+Seymour Duncan,SSL-5 Custom Staggered,Single-coil,false,Medium-output overwound Strat single-coil developed for David Gilmour; bigger fatter chords with singing solos and classic Strat character
+Seymour Duncan,SSL-6 Custom Flat,Single-coil,false,High-output flat-pole Strat single-coil with alnico 5 for flatter fretboards; balanced beefed-up punchy tone with classic sparkle
+Seymour Duncan,Hot Rails SHR-1,Humbucker,false,Single-coil-sized high-output rail humbucker for Strat; ceramic magnet with rich mids and aggressive crunch ideal for rock and metal
+Seymour Duncan,Little '59 SL59-1,Humbucker,false,Single-coil-sized passive humbucker for Strat; warm smooth PAF tone with medium output and scooped mids like a Les Paul in a Strat body
+Seymour Duncan,Cool Rails SCR-1,Humbucker,false,Single-coil-sized medium-output rail humbucker; smooth bluesy tone with bright dynamic highs and slightly scooped midrange
+Seymour Duncan,Phat Cat,P-90,false,Humbucker-sized P-90 with alnico 2 bar magnet; authentic P-90 grit and growl that fits standard humbucker routes without modification
+Seymour Duncan,Antiquity P-90,P-90,false,Vintage-correct early-1950s P-90 recreation with calibrated alnico 2 magnets; gritty vintage growl at bridge and sweet singing quality at neck
+Seymour Duncan,Vintage P-90,P-90,false,Classic 1946 Gibson-style P-90 recreation wound on original Leesona machines; powerful midrange with alnico 5 and higher output than most single-coils

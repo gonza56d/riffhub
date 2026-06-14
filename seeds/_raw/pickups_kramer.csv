@@ -1,0 +1,12 @@
+brand,name,pickup_type,is_active,description
+Kramer,Kramer USA Eruption T Humbucker,Humbucker,false,Kramer USA Eruption T single-humbucker voiced for high-gain shred; used on The 84
+Kramer,Kramer Alnico 5 Classic Humbucker,Humbucker,false,Open-coil Alnico 5 humbucker with double white exposed coils; used on Pacer Classic
+Kramer,Kramer USA Golden Classic Humbucker,Humbucker,false,Kramer USA voiced Golden Classic humbucker; bridge position on Pacer Deluxe
+Kramer,Kramer USA Triton Noiseless Single-Coil,Single-coil,false,Kramer USA Triton noiseless single-coil; middle and neck positions on Pacer Deluxe
+Kramer,Kramer Alnico 5 HB-1 Humbucker,Humbucker,false,Alnico 5 zebra-coil humbucker; bridge position on Striker and Baretta Special
+Kramer,Kramer Alnico 5 SC-1 Single-Coil,Single-coil,false,Alnico 5 single-coil; middle and neck positions on Striker and Focus VT-211S
+Seymour Duncan,Seymour Duncan JB SH-4,Humbucker,false,Seymour Duncan JB humbucker; high-output passive bridge pickup used on Baretta and SM-1 H
+Seymour Duncan,Seymour Duncan JN,Humbucker,false,Seymour Duncan Jazz neck humbucker; paired with JB bridge on Pacer Vintage
+Seymour Duncan,Seymour Duncan Cool Rails,Humbucker,false,Seymour Duncan Cool Rails stacked humbucker-in-single-coil form factor; used on SM-1 middle and neck
+EMG,EMG 57,Humbucker,true,EMG 57 active humbucker; bridge position on Charlie Parra Vanguard
+EMG,EMG 66,Humbucker,true,EMG 66 active humbucker; neck position on Charlie Parra Vanguard

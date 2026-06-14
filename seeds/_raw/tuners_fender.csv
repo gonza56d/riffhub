@@ -1,0 +1,6 @@
+brand,name,is_locking,ratio,tuner_type,description
+Fender,Fender ClassicGear,false,18:1,sealed,Sealed vintage-style ClassicGear tuner with 18:1 ratio; used on Player and Performer series
+Fender,Fender Standard Cast Sealed Staggered,false,,sealed,Fender standard cast/sealed staggered tuner; used on American Professional II series
+Fender,Fender Deluxe Cast Sealed Locking,true,,locking,Deluxe cast/sealed locking tuner with all-short posts; used on American Professional II and Player Plus series
+Fender,Fender Pure Vintage Single Line Fender,false,,vintage,Pure vintage single-line Fender-stamped open-gear tuner; reproduction of 1950s-60s Kluson-style machines
+Fender,Fender Vintage Style No Logo,false,,vintage,Vintage-style open-gear tuner without logo; used on Vintera II series

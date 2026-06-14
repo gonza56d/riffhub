@@ -1,0 +1,11 @@
+brand,name,material,is_locking,description
+Generic,Bone Nut 42mm,Bone,false,42mm bone nut used on E-II models
+Generic,Bone Nut 48mm,Bone,false,48mm bone nut used on 7-string E-II models
+Generic,Locking Nut 42mm,Locking,true,42mm Floyd Rose-style locking nut
+Generic,Locking Nut 43mm,Locking,true,43mm Floyd Rose-style locking nut
+Generic,Locking Nut 48mm,Locking,true,48mm locking nut for 7-string models
+Generic,Graphite Nut 48mm,Graphite,false,48mm graphite nut used on E-II Horizon NT-7 EverTune
+Generic,Molded Nut 42mm,Plastic,false,42mm molded plastic nut used on LTD production models
+Generic,Molded Nut 43mm,Plastic,false,43mm molded plastic nut used on LTD M-series
+Generic,Molded Nut 48mm,Plastic,false,48mm molded plastic nut for 7-string LTD models
+Generic,Molded Nut 54mm,Plastic,false,54mm molded plastic nut for 8-string LTD models

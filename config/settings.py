@@ -66,6 +66,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "moderation.context_processors.moderation_flags",
                 "messaging.context_processors.messaging_flags",
+                "accounts.context_processors.theme",
             ],
         },
     },

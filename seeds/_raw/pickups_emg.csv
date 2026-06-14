@@ -1,0 +1,31 @@
+brand,name,pickup_type,is_active,description
+EMG,81,Humbucker,true,High-output active humbucker with ceramic magnets and close aperture coils delivering intense highs and fluid sustain; the definitive bridge pickup for hard rock and metal
+EMG,85,Humbucker,true,Active humbucker loaded with Alnico V magnets providing muscular growl and smooth lead tones; versatile from blues to extreme metal in bridge or neck
+EMG,57,Humbucker,true,Active bridge humbucker combining Alnico V magnets and steel pole pieces for PAF-quality warmth with active punch and clarity
+EMG,66,Humbucker,true,Active neck humbucker with ceramic pole pieces delivering articulate highs and expansive lows with warm smooth mid-range
+EMG,57/66 Set,Humbucker,true,Matched set pairing the 57 bridge and 66 neck humbuckers for a complete vintage-voiced active pickup system
+EMG,60,Humbucker,true,Active neck humbucker with ceramic magnets and close aperture coils producing boosted mids thick lows and singing highs ideal for leads
+EMG,60A,Humbucker,true,Active humbucker with Alnico magnets and close aperture coils offering warmer bluesy character in neck or bridge positions
+EMG,89,Humbucker,true,Dual-mode active humbucker with Alnico V magnets switchable to single-coil mode via push-pull pot for rich warm humbucking or bright airy Strat tones
+EMG,89R,Humbucker,true,Reversed-coil version of the 89 dual-mode active pickup placing the single-coil sweet spot closer to the neck for bright airy chimey tones
+EMG,81X,Humbucker,true,X-Series version of the 81 with enhanced preamp providing increased dynamic range and headroom while retaining the ceramic-magnet high-output character
+EMG,85X,Humbucker,true,X-Series 85 with Alnico V magnets and improved preamp delivering organic open voice with added headroom and response
+EMG,57-7,Humbucker,true,Seven-string active bridge humbucker with Alnico V magnets and steel pole pieces voiced for the bridge position of 7-string guitars
+EMG,66-7,Humbucker,true,Seven-string active neck humbucker with Alnico V magnets and ceramic pole pieces delivering warm mids and expansive lows on extended range guitars
+EMG,81-7,Humbucker,true,Seven-string version of the 81 active bridge humbucker with ceramic magnets for high-end cut and fluid sustain on 7-string guitars
+EMG,85-7,Humbucker,true,Seven-string version of the 85 active humbucker with Alnico V magnets providing exceptional versatility in neck or bridge on 7-string guitars
+EMG,707,Humbucker,true,Active 7-string humbucker with Alnico V loaded wide aperture coils eliminating muddy low B string tone while maintaining balanced articulate upper register
+EMG,81-8,Humbucker,true,Eight-string version of the 81 active bridge humbucker using ceramic magnets for detailed high-end cut and fluid sustain on 8-string guitars
+EMG,57-8,Humbucker,true,Eight-string active bridge humbucker combining Alnico V magnets and steel pole pieces for vintage warmth with active clarity on 8-string guitars
+EMG,808,Humbucker,true,Active 8-string humbucker with Alnico V loaded wide aperture coils eliminating muddy low F# string while maintaining clarity across the full range
+EMG,Het Set,Humbucker,true,James Hetfield signature active set (JH-N neck + JH-B bridge) blending clarity and punch of passive pickups with legendary EMG active tone
+EMG,Super 77 Set,Humbucker,true,Retro Active open-coil active humbucker set with ceramic magnets capturing high-output vintage rock tones
+EMG,Hot 70 Set,Humbucker,true,Retro Active set with ceramic bridge and Alnico V neck producing high-output late-70s rock tones
+EMG,Fat 55 Set,Humbucker,true,Retro Active open-coil active humbucker set with Alnico magnets for a warm vintage humbucker tone
+EMG,SA,Single-coil,true,Active single-coil with Alnico V bar magnet delivering classic noiseless Strat tone: bright airy with rich bottom end and creamy mid-range warmth
+EMG,SAV,Single-coil,true,Active single-coil with flat Alnico V pole pieces blending vintage Strat quack with modern flat-radius balance and quiet operation
+EMG,SLV,Single-coil,true,Steve Lukather signature active single-coil with over-wound coils and flat Alnico V poles for a meatier tone and uniform appearance
+EMG,SV,Single-coil,true,Vintage-style active single-coil with staggered Alnico V pole pieces reproducing 1959 Strat tone with classic quack and punch
+EMG,SA/SA/81 Set,Single-coil,true,HSS set pairing two SA Alnico V single-coils with an 81 bridge humbucker for smooth articulate neck/middle and aggressive bridge tones
+EMG,H1A,Humbucker,false,Passive HZ humbucker with Alnico V magnets and over-wound coils for warm full mid-range and smooth top end; vintage humbucker character
+EMG,H2A,Humbucker,false,Passive HZ humbucker with vintage wind and Alnico V magnets; bridge version offers fat punchy lows and neck version delivers warm clear cleans
