@@ -24,6 +24,7 @@ services:
     region: oregon            # ← CHANGE (same region as the database)
     plan: starter             # ~$7/mo, always-on. (The free tier spins down — not for prod.)
     branch: master
+    autoDeploy: false         # don't build/deploy on every push — deploy manually from the dashboard
     buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
     preDeployCommand: "python manage.py migrate"   # runs once per deploy, before traffic shifts
     startCommand: "gunicorn config.wsgi:application --bind 0.0.0.0:$PORT"
@@ -67,6 +68,7 @@ services:
     plan: starter
     schedule: "0 * * * *"     # top of every hour (UTC)
     branch: master
+    autoDeploy: false         # don't redeploy the cron on every push
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python manage.py evaluate_pending"
     envVars:
