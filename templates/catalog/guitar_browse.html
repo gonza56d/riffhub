@@ -8,7 +8,7 @@
     <p class="lede">Filter by the specs that actually matter — including facets
       <em>calculated</em> from each guitar's real components (pickup layout,
       tremolo, locking tuners, hum-cancellation, multiscale…).</p>
-    {% if user.is_authenticated %}<a class="btn-primary submit-cta" href="{% url 'catalog:submit_index' %}">+ Submit a guitar</a>{% endif %}
+    {% if user.is_authenticated %}<a class="btn-primary submit-cta" href="{% url 'catalog:submit_index' %}">+ Submit a guitar or gear</a>{% endif %}
     <button type="button" class="filter-toggle"
             @click="filtersOpen = !filtersOpen"
             x-text="filtersOpen ? 'Hide filters' : 'Show filters'">Show filters</button>

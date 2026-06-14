@@ -14,7 +14,7 @@
   </div>
   {% endif %}
   {% else %}
-  <div class="comment-meta"><span class="author">{% include "accounts/_userlink.html" with u=row.comment.author label=row.comment.author %}</span> · {{ row.comment.created_at|date:"M j, Y" }}</div>
+  <div class="comment-meta"><span class="author">{% include "accounts/_userlink.html" with u=row.comment.author label=row.comment.author %}</span> · {% include "_timestamp.html" with dt=row.comment.created_at %}</div>
   <div class="comment-body">{{ row.comment|comment_body }}</div>
   {% if row.comment.video_url %}<p class="video-link"><a href="{{ row.comment.video_url }}" target="_blank" rel="noopener">▶ video</a></p>{% endif %}
   <div class="engage">

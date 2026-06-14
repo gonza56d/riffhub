@@ -27,6 +27,28 @@
         body: "theme=" + next,
       });
     }
+
+    // Render <time class="ts"> values in the viewer's own browser timezone,
+    // with hour + minute. Runs on first load and on HTMX-inserted content
+    // (e.g. a freshly posted reply) so every timestamp localises.
+    function riffhubLocalizeTimes(root) {
+      (root || document).querySelectorAll("time.ts[datetime]").forEach(function (el) {
+        if (el.dataset.localized) return;
+        var d = new Date(el.getAttribute("datetime"));
+        if (isNaN(d.getTime())) return;
+        el.textContent = d.toLocaleString(undefined, {
+          year: "numeric", month: "short", day: "numeric",
+          hour: "numeric", minute: "2-digit",
+        });
+        el.dataset.localized = "1";
+      });
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+      riffhubLocalizeTimes(document);
+    });
+    document.addEventListener("htmx:afterSwap", function (e) {
+      riffhubLocalizeTimes((e.detail && e.detail.target) || e.target || document);
+    });
   </script>
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>

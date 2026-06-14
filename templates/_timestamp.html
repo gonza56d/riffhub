@@ -1,0 +1,4 @@
+{% comment %}Localized timestamp. The server renders date + time in UTC; the
+riffhubLocalizeTimes() script in base.html rewrites every <time class="ts"> to the
+viewer's own browser timezone (with hour + minute). Pass dt=<aware datetime>.
+{% endcomment %}<time class="ts" datetime="{{ dt|date:'c' }}">{{ dt|date:'M j, Y, g:i a' }}</time>

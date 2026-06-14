@@ -21,7 +21,7 @@ comments_total, comment_target_kind, comment_target_pk.
     {% for c in comments_page %}
     <li class="catalog-comment" id="comment-{{ c.pk }}">
       <div class="comment-meta">
-        {% include "accounts/_userlink.html" with u=c.author label=c.author %} · {{ c.created_at|date:"M j, Y" }}
+        {% include "accounts/_userlink.html" with u=c.author label=c.author %} · {% include "_timestamp.html" with dt=c.created_at %}
       </div>
       {% if c.is_deleted %}
       <div class="comment-body deleted-msg">This message was deleted.</div>
@@ -49,7 +49,7 @@ comments_total, comment_target_kind, comment_target_pk.
       {% for r in c.replies.all %}
       <div class="catalog-reply" id="comment-{{ r.pk }}">
         <div class="comment-meta">
-          {% include "accounts/_userlink.html" with u=r.author label=r.author %} · {{ r.created_at|date:"M j, Y" }}
+          {% include "accounts/_userlink.html" with u=r.author label=r.author %} · {% include "_timestamp.html" with dt=r.created_at %}
         </div>
         {% if r.is_deleted %}
         <div class="comment-body deleted-msg">This message was deleted.</div>
